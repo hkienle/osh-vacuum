@@ -1,1 +1,0 @@
-Upload frontend from data folder: pio run --target uploadfs      
