@@ -1,0 +1,53 @@
+.status-led-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-led {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  box-shadow: 
+    0 0 16px rgba(107, 114, 128, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.status-led.connected {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 
+    0 0 24px rgba(16, 185, 129, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.status-led.disconnected {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 
+      0 0 24px rgba(16, 185, 129, 0.6),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 
+      0 0 36px rgba(16, 185, 129, 0.9),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    transform: scale(1.08);
+  }
+}
+
+.status-text {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}

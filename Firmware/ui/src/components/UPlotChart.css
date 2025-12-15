@@ -1,0 +1,36 @@
+.uplot-chart-container {
+  width: 100%;
+  position: relative;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 8px 8px 6px;
+  overflow: hidden;
+}
+
+/* Dark theme styling for uPlot */
+.uplot-chart {
+  background: transparent !important;
+}
+
+.uplot-chart .u-legend {
+  display: none !important;
+}
+
+/* Grid lines - subtle */
+.uplot-chart .u-grid {
+  stroke: rgba(255, 255, 255, 0.08) !important;
+  stroke-width: 1;
+}
+
+/* Hide axes completely */
+.uplot-chart .u-axis {
+  display: none !important;
+}
+
+/* Ensure smooth rendering */
+.uplot-chart canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
