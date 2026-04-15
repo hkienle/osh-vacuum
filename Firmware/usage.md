@@ -1,113 +1,175 @@
-# Bedienung des Hardware-Saugers (ESP32-Steuerung)
+# OSH Vacuum — Usage Guide
 
-Diese Anleitung beschreibt die **Bedienung am Gerät** und über **WLAN/Web** — ohne Build- oder Flash-Schritte. Für Entwicklung und Upload siehe [README.md](README.md).
-
----
-
-## Kurzüberblick
-
-- **Trigger-Taste:** Motor ein (gedrückt halten) / aus (loslassen).
-- **Hoch / Runter:** Leistungsstufe in **20 %-Schritten** (0 %, 20 %, …, 100 %).
-- **Display:** zeigt Spannung, Drehzahl (während der Motor per Trigger läuft), Leistungsbalken und Batterie-Anzeige.
-- **LED-Leiste:** zeigt nach dem Start u. a. die gewählte Stufe; Farbe wechselt je nach Motorzustand.
-- **WLAN:** Gerät verbindet sich zuerst mit dem konfigurierten Netz; schlägt das fehl, startet es einen **eigenen Hotspot**.
-- **Weboberfläche:** Steuerung und Live-Daten im Browser unter der Geräte-IP.
-- **Info-Modus (Display):** **Hoch + Runter** etwa **3 Sekunden gleichzeitig halten** → Zusatzseiten mit Akku, WLAN und Systemdaten.
+Step-by-step guide for operating the device, reading status info, and changing settings. For build and flash instructions → [Setup.md](Setup.md).
 
 ---
 
-## Tasten
+## Powering on
 
-| Taste | Funktion im normalen Betrieb |
-|--------|------------------------------|
-| **Trigger** | Motor läuft, solange die Taste gedrückt ist. Loslassen stoppt den Motor (unabhängig von der Web-UI, solange der Trigger die Priorität hat — siehe unten). |
-| **Hoch** | Leistung um eine Stufe erhöhen (+20 %), maximal 100 %. |
-| **Runter** | Leistung um eine Stufe verringern (−20 %), minimal 0 %. |
+After power-on, the device attempts to connect to the configured WiFi network:
 
-**Hinweis:** Wenn **Hoch und Runter zugleich** gedrückt sind, wird **keine** Stufe geändert (damit der Info-Modus zuverlässig erreichbar ist).
+- **Connection successful** → LEDs turn **solid blue**, display shows the main screen.
+- **Connection failed** → Device starts its own **hotspot** (LEDs turn **solid orange**).
 
----
+The serial log (115200 baud) prints a `[BOOT]` line with mode and IP — useful without a display:
 
-## LED-Leiste (5 RGB-LEDs)
-
-- Beim **Einschalten / WLAN-Aufbau:** typischerweise **pulsierendes Weiß** (Suche/Verbindung).
-- **Mit WLAN verbunden (Router-Modus):** **Blau**, statisch.
-- **Hotspot-Modus (Access Point):** **Orange**, statisch.
-- Etwa **2 Sekunden nach dem Start:** Wechsel in die **Stufenanzeige** (Anzahl leuchtender LEDs entspricht der groben Stufe in 20 %-Schritten).
-- **Trigger gedrückt (Motor aktiv):** Stufenanzeige in **Rot**; **ohne** Trigger in **Blau**.
-- Bei **0 %** pulsiert typischerweise eine LED langsam (Leerlauf-Stufe).
+```
+[BOOT] Mode=STA IP=192.168.1.42 Hostname=osh-vac
+```
 
 ---
 
-## Display (0,91" oder 1,5", je nach Konfiguration)
+## Buttons
 
-### Hauptansicht
-
-- **Oben:** Pack-Spannung in Volt **oder** — solange der **Trigger gedrückt** ist und die Drehzahl gültig ist — die **Drehzahl** (bzw. Platzhalter, wenn noch keine Messung da ist).
-- **Balken:** aktuelle **Leistungsvorgabe** (0–100 %).
-- **Batterie-Symbol:** grober **Ladezustand in %** (nur sinnvoll, wenn der Motor **nicht** läuft; während des Laufs wird oft `--%` und eine andere Füll-Animation gezeigt).
-
-### Info-Modus (Zusatzseiten)
-
-1. **Hoch** und **Runter** **gleichzeitig** etwa **3 Sekunden** halten, bis die Ansicht wechselt.
-2. Mit **Hoch** / **Runter** zwischen **drei Seiten** wechseln (zyklisch):
-   - **Akku:** Serien-Zellenzahl (Konfiguration), SOC (sofern angezeigt), Pack-Spannung.
-   - **WLAN:** ob **Station (Router)** oder **Hotspot**, **IP-Adresse**, **Hostname**, **Netzwerkname** (SSID).
-   - **System:** Laufzeit (Uptime), freier Heap-Speicher.
-3. Mit **einem Druck auf den Trigger** wieder zur **Hauptansicht** zurück. **Im Info-Modus startet der Trigger den Motor nicht** — er beendet nur den Menümodus.
+| Button | Function |
+|--------|----------|
+| **TRIGGER** | Start / stop motor (behaviour depends on trigger mode) |
+| **UP** | Increase speed |
+| **DOWN** | Decrease speed |
+| **UP + DOWN** held ≥ 1.5 s | Open / close the dev menu |
 
 ---
 
-## WLAN und Zugriff im Browser
+## Running the motor
 
-### Router-Modus (Station)
+The device supports two trigger modes. The active mode is shown on page 12 of the dev menu.
 
-- Das Gerät nutzt die im Firmware-Quellcode hinterlegten **WLAN-Zugangsdaten** (siehe Modul `wifi`).
-- Im Browser: **`http://<IP-Adresse>`** (Port 80) für die Weboberfläche.
-- Optional: **`http://<DEVICE_HOSTNAME>.local`** (Hostname Standard: `osh-vac` — anpassbar in `src/settings/settings_config.h`, Eintrag `DEVICE_HOSTNAME`; Vorlage: `settings_config.example.h`), sofern mDNS im Netz funktioniert.
+### Mode 1: Hold (default)
 
-### Hotspot-Modus (Access Point)
+| Action | Result |
+|--------|--------|
+| Hold TRIGGER ≥ 1.25 s | Motor starts |
+| Press TRIGGER briefly (motor running) | Motor stops |
 
-- Wenn die Verbindung zum Router **nicht** zustande kommt, startet ein **eigener Hotspot** (Standard-SSID und Passwort stehen im `wifi`-Modul, siehe README / Quellcode).
-- Die Weboberfläche erreichen Sie dann typischerweise unter der im Display (Info-Seite WLAN) oder am **seriellen Log** angezeigten **AP-IP** (häufig ein **192.168.4.x**-Adressbereich).
+### Mode 2: Double-Press
 
-### Serielle Zusammenfassung nach dem Start
-
-- Nach dem Boot erscheint eine Zeile mit **`[BOOT]`**, **Modus** (STA oder AP) und **IP** — praktisch, wenn kein Display angeschlossen ist (USB-Serial, 115200 Baud).
-
-### OTA-Update (Firmware über PlatformIO / ArduinoOTA)
-
-- Voraussetzung: Gerät im gleichen Netz wie der PC, WLAN läuft (STA oder Sie nutzen die AP-IP).
-- Build: `pio run` (im Ordner `Firmware/`).
-- Wireless-Upload: `pio run -e esp32-s3-ota -t upload --upload-port <Hostname>.local` oder mit **Geräte-IP** statt mDNS.
-- **Passwort und Hostname:** `OTA_HTTP_PASSWORD` und `DEVICE_HOSTNAME` in `src/settings/settings_config.h` müssen zur Umgebung **`esp32-s3-ota`** in `platformio.ini` passen (`--auth=…` = gleiches Passwort; `upload_port` = `<Hostname>.local` oder IP). Details und Tabelle: [README.md](README.md) → *OTA (ArduinoOTA / wireless upload)*.
-- Nur nutzen, wenn Sie wissen, welches Image Sie einspielen — fehlerhafte Firmware kann ein erneutes Flashen per USB nötig machen.
+| Action | Result |
+|--------|--------|
+| Press and hold TRIGGER | Motor runs while held — stops on release (momentary) |
+| Tap TRIGGER twice quickly (< 300 ms apart) | Motor latches ON |
+| Press TRIGGER (while latched) | Motor stops |
 
 ---
 
-## Weboberfläche und Live-Daten
+## Setting the speed
 
-- **HTTP:** Port **80** — Bedienung und Diagramme.
-- **WebSocket:** Port **81** — liefert gebündelt z. B. Temperatur, Batteriespannung, Drehzahl, Stufe und Motorstatus (ein JSON-Objekt pro Intervall).
-
-Details zum JSON-Format stehen in [README.md](README.md) im Abschnitt zur Web-Oberfläche.
-
-**Hinweis:** Die **Web-UI** kann Motor und Stufe setzen. Der **physische Trigger** hat beim **Drücken** Vorrang (Motor an); beim **Loslassen** wird der Motor gestoppt, sobald keine andere Logik dem widerspricht — für den Alltag: zuerst Trigger loslassen, dann gezielt über die Web-UI arbeiten, wenn Sie nur remote steuern möchten.
+- **UP** / **DOWN** adjust the speed in configurable steps (default: 20%).
+- With 20% steps the levels are: 0% → 20% → 40% → 60% → 80% → 100%.
+- The speed setpoint is preserved after a motor stop and after waking from sleep.
+- The **web interface** allows continuous speed control (0–100%).
 
 ---
 
-## Sicherheit und Betrieb
+## LEDs
 
-- Hohe Drehzahlen und bewegte Teile: **Gerät nur mit Schutz** und nach Herstellervorgaben betreiben.
-- **Akku und Hochvolt:** Kurzschluss und falsche Polarität vermeiden; nur passende Zellchemie und Schutzschaltungen verwenden.
-- **OTA und Zugangsdaten:** Die dokumentierten Login-Daten sind **Standardwerte** — in exponierten Netzen sollten Sie Firmware/Secrets anpassen (Entwickler-Hinweis).
+| State | LEDs |
+|-------|------|
+| Booting / connecting to WiFi | Pulsing white |
+| WiFi connected (router) | Solid blue |
+| Hotspot mode | Solid orange |
+| Motor off, speed = 0% | 1 LED pulsing slowly (blue) |
+| Motor off, speed > 0% | Speed bar — blue (1 LED ≈ 20%) |
+| Motor active | Speed bar — red |
 
 ---
 
-## Wo finde ich mehr?
+## Display — main screen
 
-| Thema | Dokument |
-|--------|-----------|
-| Bauen, Flashen, Frontend, Projektstruktur | [README.md](README.md) |
-| NVS-Einstellungen (Display-Typ, Zellenzahl) | [README.md](README.md) → Konfiguration / `settings_config.example.h` → lokale `settings_config.h` |
-| OTA (Wireless-Flash, Passwort/Hostname) | [README.md](README.md) → *OTA (ArduinoOTA / wireless upload)* |
+| Element | Description |
+|---------|-------------|
+| **Speed bar** | Current speed setpoint (0–100%) as a horizontal bar |
+| **Top line** | Configurable: Speed %, pack voltage (V), RPM, or motor temperature (°C) — set on page 10 of the dev menu |
+| **Battery icon** | State of charge in % — shows `--` while the motor is running |
+
+**Battery icon fill:**
+
+| SOC | Display |
+|-----|---------|
+| 80–100% | All bars filled |
+| 30–80% | Two bars |
+| 15–30% | One bar |
+| 0–15% | One bar blinking |
+| Motor running | `--` |
+
+---
+
+## Dev menu — status & settings
+
+**Open:** hold UP + DOWN simultaneously for ≥ 1.5 seconds.  
+**Navigate:** UP / DOWN cycle through 13 pages.  
+**Change a setting (pages 5–12):** press TRIGGER to step through the allowed values — saved to NVS immediately.  
+**Close:** hold UP + DOWN again for ≥ 1.5 seconds (release both buttons first, then hold again).
+
+> The motor does not run while the dev menu is open.
+
+### Status pages (read-only)
+
+| Page | Shows |
+|------|-------|
+| 0 | Battery: series cell count, SOC %, pack voltage |
+| 1 | WiFi: mode (STA/AP), IP address, SSID |
+| 2 | WiFi: hostname, signal strength (RSSI) |
+| 3 | System: uptime, free heap |
+| 4 | Additional system info |
+
+### Settings pages (press TRIGGER to change)
+
+| Page | Setting | Allowed values |
+|------|---------|----------------|
+| 5 | **Motor auto-off** — stops the motor after X minutes of continuous run | 0 (off), 1, 2, 5, 10, 30 min |
+| 6 | **Temperature limit** — motor stops if NTC exceeds this value | 0 (off), 30–70 °C (step 5 °C) |
+| 7 | **Speed step** — how many % each UP/DOWN press changes | 1, 5, 10, 20, 25% |
+| 8 | **Minimum PWM duty** — PWM floor when motor is running | 1–30% |
+| 9 | **Battery series cells** — cell count for SOC calculation | 1–14 |
+| 10 | **Top-line display value** — what the main screen shows while motor runs | Speed%, Voltage (V), RPM, Motor Temp (°C) |
+| 11 | **Sleep timer** — inactivity timeout before entering light sleep | 1, 2, 5, 10, 30 min |
+| 12 | **Trigger mode** | Hold, Double-Press |
+
+---
+
+## WiFi & web interface
+
+### Finding the device IP
+
+- **Display:** dev menu → page 1 shows IP address and SSID.
+- **Serial:** `[BOOT]` line after startup (USB-serial, 115200 baud).
+
+### Opening the web interface
+
+- **By IP:** `http://192.168.1.42` (port 80; use the IP from above).
+- **By hostname:** `http://osh-vac.local` (if mDNS works on your network; hostname visible on page 2 of the dev menu).
+- **In hotspot mode:** connect to the `OSH_VAC` network first, then typically `http://192.168.4.1`.
+
+The web interface shows live sensor data (temperature, voltage, RPM, speed) and allows motor control and speed adjustment.
+
+---
+
+## Auto-sleep
+
+The device enters **light sleep** automatically when all of the following are true for the configured sleep timer duration (default: 2 minutes):
+- No button activity
+- Motor not running
+- No OTA update in progress
+
+Before sleeping: motor stopped, LEDs off, display off.  
+**Wake:** press any button. The speed setpoint is preserved.
+
+Setting the sleep timer to 0 (page 11) disables auto-sleep entirely.
+
+---
+
+## Safety features
+
+| Feature | Setting | Behaviour |
+|---------|---------|-----------|
+| **Auto-off** | Page 5 — Motor auto-off | Motor stops after X minutes of continuous run |
+| **Temperature limit** | Page 6 — Temperature limit | Motor stops when NTC temperature ≥ limit |
+| **Minimum PWM** | Page 8 — Minimum PWM duty | Prevents motor stall at low speed settings |
+
+---
+
+## Safety notes
+
+- High RPM and moving parts: only operate the device with proper guarding and per the manufacturer's specifications.
+- Battery: avoid short circuits and reverse polarity; use appropriate cell chemistry and protection circuits.
+- OTA and credentials: replace the default passwords in any network accessible to others.
