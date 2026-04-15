@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { ControlPanel } from './components/ControlPanel';
+import { BatteryTestModal } from './components/BatteryTestModal';
 import './App.css';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [testModalOpen, setTestModalOpen] = useState(false);
 
   return (
     <div className="app">
@@ -21,6 +23,13 @@ function App() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
+          <button
+            className="battery-test-toggle"
+            onClick={() => setTestModalOpen(true)}
+            aria-label="Open battery test modal"
+          >
+            Battery Test
+          </button>
           <h1 className="app-title">OSH Vacuum Controller</h1>
         </header>
         <main className="app-main">
@@ -28,6 +37,7 @@ function App() {
         </main>
       </div>
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <BatteryTestModal isOpen={testModalOpen} onClose={() => setTestModalOpen(false)} />
     </div>
   );
 }

@@ -7,11 +7,18 @@
 #define DOWN_PIN 40
 #define MOSFET_PIN 7
 
+/** Trigger long-press to start motor (ms). “Hold.*” on display uses thirds of this. */
+constexpr unsigned long TRIGGER_START_HOLD_MS = 1250;
+/** UP+DOWN together to open info pages (ms). */
+constexpr unsigned long INFO_MODE_HOLD_MS = 1500;
+
 // Initialize button module
 void initButtons();
 
 // Update button states (call this in loop())
 void updateButtons();
+// True if any button edge was seen since last clear.
+bool hadButtonActivityAndClear();
 
 // Get current speed setting (0-100%)
 uint8_t getSpeed();
@@ -25,6 +32,13 @@ bool isTriggerPressed();
 // Motor state management (unified for physical and web control)
 bool isMotorActive();
 void setMotorState(bool active); // true = motor_start, false = motor_stop
+
+// Display info mode: UP+DOWN long-press toggles menu on/off. UP/DOWN cycle pages (0–4 info, 5–12 settings).
+// TRIGGER on settings pages cycles value and saves NVS; on info pages TRIGGER does nothing.
+bool isDisplayInfoMode();
+uint8_t getDisplayInfoPage();  // 0–4 info, 5–12 settings (see firmware docs)
+// Reset runtime button/motor mode state while keeping the saved speed setting.
+void resetButtonRuntimeStateKeepSpeed();
 
 #endif // BUTTON_H
 

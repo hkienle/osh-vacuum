@@ -4,6 +4,7 @@ export interface WebSocketMessage {
   rpm?: number;
   temp?: number;
   battery?: number;
+  battery_soc?: number;
   temperature?: number; // For backward compatibility
   voltage?: number; // For backward compatibility
   speed?: number; // Speed setting (0-100%)
@@ -102,39 +103,25 @@ export function useWebSocket(): UseWebSocketReturn {
 
       ws.onmessage = (event) => {
         try {
-          const data: WebSocketMessage = JSON.parse(event.data);
-          // Normalize field names: map battery -> voltage, temp -> temperature
-          const normalizedData: WebSocketMessage = {
-            ...data,
-            temperature: data.temp ?? data.temperature,
-            voltage: data.battery ?? data.voltage,
-          };
-          // Merge with existing lastMessage to preserve all fields
-          // Important: Always update motor_active and speed when present (even if false/0)
+          const data = JSON.parse(event.data) as WebSocketMessage;
+          // Firmware sends one JSON object per tick: temp, battery, rpm, speed, motor_active
           setLastMessage((prev) => {
-            const updated: WebSocketMessage = {
-              ...prev,
-              // Preserve normalized fields
-              temperature: normalizedData.temperature ?? prev?.temperature,
-              voltage: normalizedData.voltage ?? prev?.voltage,
-              rpm: normalizedData.rpm ?? prev?.rpm,
-            };
-            
-            // Always update motor control fields when present in the message (check if key exists in original data)
-            // This ensures false/0 values are properly updated
+            const next: WebSocketMessage = { ...prev, ...data };
+            next.temperature = data.temp ?? data.temperature ?? prev?.temperature;
+            next.voltage = data.battery ?? data.voltage ?? prev?.voltage;
+            if ('rpm' in data) {
+              next.rpm = data.rpm;
+            }
             if ('motor_active' in data) {
-              updated.motor_active = data.motor_active;
-            } else if (prev) {
-              updated.motor_active = prev.motor_active;
+              next.motor_active = data.motor_active;
             }
-            
             if ('speed' in data && data.speed !== undefined) {
-              updated.speed = data.speed;
-            } else if (prev) {
-              updated.speed = prev.speed;
+              next.speed = data.speed;
             }
-            
-            return updated;
+            if ('battery_soc' in data && data.battery_soc !== undefined) {
+              next.battery_soc = data.battery_soc;
+            }
+            return next;
           });
           addConsoleMessage(`Received: ${event.data}`);
         } catch (error) {

@@ -27,7 +27,7 @@ static float lastBatteryVoltage = 0.0f;
 static float lastBatteryVoltageRaw = 0.0f;
 static bool batteryReady = false;
 static unsigned long lastReadTime = 0;
-const unsigned long READ_INTERVAL = 250; // Read every 250ms
+const unsigned long READ_INTERVAL = 100;  // Read every 100ms
 
 void initBattery() {
   pinMode(VBAT_PIN, INPUT);
@@ -42,7 +42,7 @@ void initBattery() {
 void updateBattery() {
   unsigned long currentTime = millis();
   
-  // Only read every 250ms
+  // Only read every READ_INTERVAL ms
   if (currentTime - lastReadTime < READ_INTERVAL) {
     return;
   }

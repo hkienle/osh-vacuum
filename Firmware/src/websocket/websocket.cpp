@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <string.h>
 #include "websocket.h"
+#include "wifi/wifi.h"
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 #include "motor_pwm/motor_pwm.h"
@@ -14,11 +15,6 @@ WebSocketsServer webSocket = WebSocketsServer(WEBSOCKET_PORT);
 // State
 static bool serverRunning = false;
 static WebSocketCommandCallback commandCallback = nullptr;
-
-// Check if WiFi is ready (connected or in AP mode)
-static bool isWiFiReady() {
-  return (WiFi.status() == WL_CONNECTED) || (WiFi.getMode() == WIFI_AP);
-}
 
 // WebSocket event handler
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -129,7 +125,7 @@ void initWebSocket() {
 
 void updateWebSocket() {
   // Check if WiFi is ready and server is not running
-  if (!serverRunning && isWiFiReady()) {
+  if (!serverRunning && isWiFiStackReady()) {
     // Start WebSocket server
     webSocket.begin();
     webSocket.onEvent(webSocketEvent);

@@ -1,1 +1,4 @@
 .DS_Store
+
+# Lokale Firmware-Secrets / persönliche Defaults (Vorlage: settings_config.example.h)
+Firmware/src/settings/settings_config.h

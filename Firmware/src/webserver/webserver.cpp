@@ -1,17 +1,7 @@
 #include <Arduino.h>
 #include "webserver.h"
-#include <WebServer.h>
-
-// Define HTTP constants if not already defined (must be before ESPAsyncWebServer.h)
-#ifndef HTTP_ANY
-#define HTTP_ANY     0
-#define HTTP_GET     1
-#define HTTP_POST    2
-#define HTTP_PUT     3
-#define HTTP_PATCH   4
-#define HTTP_DELETE  5
-#define HTTP_OPTIONS 6
-#endif
+#include "wifi/wifi.h"
+#include "settings/settings_config.h"
 
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
@@ -24,13 +14,6 @@ AsyncWebServer httpServer(HTTP_PORT);
 
 // State
 static bool httpServerRunning = false;
-
-// Check if WiFi is ready (connected or in AP mode)
-static bool isWiFiReady() {
-  bool connected = (WiFi.status() == WL_CONNECTED);
-  bool apMode = (WiFi.getMode() == WIFI_AP || WiFi.getMode() == WIFI_AP_STA);
-  return connected || apMode;
-}
 
 void initWebServer() {
   // Initialize LittleFS
@@ -53,7 +36,7 @@ void initWebServer() {
 
 void updateWebServer() {
   // Check if WiFi is ready and server is not running
-  if (!httpServerRunning && isWiFiReady()) {
+  if (!httpServerRunning && isWiFiStackReady()) {
     Serial.println("[WebServer] WiFi is ready, starting server...");
     // Serve index.html for root path - register with HTTP_GET explicitly
     httpServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -111,8 +94,7 @@ void updateWebServer() {
       Serial.printf("[WebServer] 404 - Not found: %s\n", path.c_str());
       request->send(404, "text/plain", "Not found");
     });
-    
-    
+
     httpServer.begin();
     httpServerRunning = true;
     
@@ -125,7 +107,7 @@ void updateWebServer() {
     
     Serial.printf("[WebServer] Server started on http://%d.%d.%d.%d:%d\n", 
                   ip[0], ip[1], ip[2], ip[3], HTTP_PORT);
-    Serial.println("[WebServer] You can also try: http://osh-vac.local");
+    Serial.printf("[WebServer] You can also try: http://%s.local\n", SettingsConfig::DEVICE_HOSTNAME);
   } else if (!httpServerRunning) {
     // Debug: print why server isn't starting
     static unsigned long lastDebugTime = 0;
@@ -137,7 +119,7 @@ void updateWebServer() {
       lastDebugTime = millis();
     }
   }
-  
+
   // AsyncWebServer handles requests automatically
 }
 

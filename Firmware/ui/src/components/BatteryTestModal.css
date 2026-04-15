@@ -1,0 +1,303 @@
+.battery-test-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.battery-test-modal {
+  width: min(1200px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.battery-test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.battery-test-header h2 {
+  margin: 0;
+}
+
+.battery-test-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.battery-test-body {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.battery-test-body.setup-mode {
+  grid-template-columns: 1fr 1.4fr;
+}
+
+.battery-test-body.run-mode {
+  grid-template-columns: 1fr;
+}
+
+.battery-test-config-card,
+.battery-test-live-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.battery-test-body.run-mode .battery-test-live-card {
+  min-height: 70vh;
+}
+
+.battery-test-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.battery-test-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.battery-test-grid input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(2, 6, 23, 0.5);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 8px 10px;
+}
+
+.battery-test-slider-field span {
+  font-weight: 600;
+}
+
+.battery-test-slider-field input[type='range'] {
+  padding: 0;
+}
+
+.battery-test-grid small {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.battery-test-actions {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.battery-test-live-actions {
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.battery-test-actions button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.battery-test-start {
+  background: #10b981;
+  color: white;
+}
+
+.battery-test-stop {
+  background: #ef4444;
+  color: white;
+}
+
+.battery-test-pause {
+  background: #f59e0b;
+  color: white;
+}
+
+.battery-test-resume {
+  background: #22c55e;
+  color: white;
+}
+
+.battery-test-export {
+  background: #3b82f6;
+  color: white;
+}
+
+.battery-test-reset {
+  background: #64748b;
+  color: white;
+}
+
+.battery-test-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.battery-test-warning {
+  margin: 12px 0 0;
+  color: #fca5a5;
+}
+
+.battery-test-end-conditions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.battery-test-end-conditions label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+}
+
+.battery-test-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.battery-test-temp-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  user-select: none;
+}
+
+.battery-test-temp-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: #f472b6;
+}
+
+.battery-test-live-telemetry {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(2, 6, 23, 0.45);
+}
+
+.battery-test-live-telemetry-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.battery-test-live-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.battery-test-live-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  font-variant-numeric: tabular-nums;
+}
+
+.battery-test-final-screen {
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(30, 41, 59, 0.55);
+}
+
+.battery-test-final-screen h4 {
+  margin: 0 0 8px;
+  color: #93c5fd;
+}
+
+.battery-test-final-screen p {
+  margin: 4px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.battery-test-chart {
+  width: 100%;
+  height: 280px;
+}
+
+.battery-test-body.run-mode .battery-test-chart {
+  height: min(68vh, 640px);
+}
+
+.battery-test-csv-details {
+  margin-top: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.battery-test-csv-details summary {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.battery-test-csv-textarea {
+  margin-top: 10px;
+  width: 100%;
+  min-height: 160px;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(2, 6, 23, 0.6);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 12px;
+}
+
+@media (max-width: 1000px) {
+  .battery-test-body {
+    grid-template-columns: 1fr;
+  }
+}

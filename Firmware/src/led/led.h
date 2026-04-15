@@ -32,6 +32,8 @@ void setLEDSpeedDisplay(uint8_t speedPercent, bool isActive);
 
 // Check if we should switch to speed display mode (after 2 seconds)
 void checkSpeedDisplayMode(unsigned long bootTime);
+// Immediately turn all LEDs off and push to strip.
+void turnOffLEDsNow();
 
 #endif // LED_H
 
