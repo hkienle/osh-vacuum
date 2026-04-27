@@ -1,5 +1,5 @@
 import type { Part } from './types';
-import { BOM_META, sectionFromPath } from './bom-meta';
+import { BOM_META, inferPlaceholderPn, sectionFromPath, validatePartNumberSchema } from './bom-meta';
 
 const REPO_TREE = 'https://api.github.com/repos/hkienle/osh-vacuum/git/trees/hardware-v1?recursive=1';
 const RAW_BASE  = 'https://raw.githubusercontent.com/hkienle/osh-vacuum/hardware-v1/';
@@ -58,10 +58,18 @@ export function buildPartsFromFiles(files: GithubFile[]): Part[] {
     const partName = m ? m[1].toLowerCase() : base.toLowerCase();
     const fileRev  = normalizeRev(m?.[2] ?? null);
     const meta     = BOM_META[partName] ?? {};
+    const pn       = meta.pn ?? inferPlaceholderPn(partName) ?? partName;
+    const schema   = validatePartNumberSchema(partName, pn);
     const { key, label } = sectionFromPath(f.path);
 
+    if (!schema.ok) {
+      console.warn(
+        `[PN schema mismatch] ${f.name}: expected ${schema.expected}, found ${pn}`
+      );
+    }
+
     return {
-      pn:          meta.pn   ?? partName,
+      pn,
       name:        partName,
       qty:         meta.qty  ?? 1,
       mass:        meta.mass ?? '-',

@@ -31,6 +31,7 @@ export function renderPrint(
     const s = state[p.pn];
     if (!s) continue;
     const rev = p.rev ?? revFromFilename(p.filename);
+    const pnClass = /X/i.test(p.pn) ? 'p-pn p-pn-ph' : 'p-pn';
 
     if (p.sec !== null && p.sec !== lastSec) {
       lastSec = p.sec;
@@ -44,7 +45,7 @@ export function renderPrint(
     if (p.warn) tr.className = 'p-wr';
     tr.innerHTML = `
       <td style="padding:7px 4px 7px 6px"><span class="p-cb"></span></td>
-      <td class="p-pn">${esc(p.pn)}</td>
+      <td class="${pnClass}">${esc(p.pn)}</td>
       <td class="p-nm">
         ${esc(p.name)}
         ${rev    ? `<span class="p-tag p-tr">${esc(rev)}</span>` : ''}

@@ -43,7 +43,75 @@ export const BOM_META: Record<string, BomEntry> = {
   'lid-insert-backhandle-right':           { pn:'VAC-310-02', qty:1, mass:'0.047 kg', time:'1:33' },
   'lid-insert-handle-button':              { pn:'VAC-310-03', qty:1, mass:'0.002 kg', time:'0:38' },
   'nozzle-flat-d35-w150':                  { pn:'VAC-700-06', qty:1, mass:'0.087 kg' },
+  'dustbin-cyclone-mesh': { pn:'VAC-2XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'dustbin-stickadapter-xiaomi-top': { pn:'VAC-2XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'lid-insert-buckethandle-left': { pn:'VAC-3XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'lid-insert-buckethandle-right': { pn:'VAC-3XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'lid-insert-hmi-clamp': { pn:'VAC-3XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d32-w100': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d32-w150': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d32-w200': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d32-w280': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d35-w100': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d35-w200': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d35-w280': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d40-w100': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d40-w150': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d40-w200': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+  'nozzle-flat-d40-w280': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
 };
+
+/**
+ * Part-number family lookup by filename prefix (first token before '-').
+ *
+ * Examples:
+ * - core-*    -> VAC-1XX-XX
+ * - dustbin-* -> VAC-2XX-XX
+ * - lid-*     -> VAC-3XX-XX
+ * - nozzle-*  -> VAC-7XX-XX
+ *
+ * This table is the single source of truth for schema checks.
+ */
+export interface PartNumberFamily {
+  filenamePrefix: string;
+  expectedHundreds: string;
+  label: string;
+}
+
+export const PART_NUMBER_FAMILY_LOOKUP: PartNumberFamily[] = [
+  { filenamePrefix: 'core',    expectedHundreds: '1', label: 'VAC-1XX-XX' },
+  { filenamePrefix: 'dustbin', expectedHundreds: '2', label: 'VAC-2XX-XX' },
+  { filenamePrefix: 'lid',     expectedHundreds: '3', label: 'VAC-3XX-XX' },
+  { filenamePrefix: 'nozzle',  expectedHundreds: '7', label: 'VAC-7XX-XX' },
+];
+
+export interface PartNumberSchemaCheck {
+  ok: boolean;
+  expected: string | null;
+  found: string | null;
+}
+
+/**
+ * Validate PN family against filename prefix.
+ * Returns ok=true if no rule exists for the prefix (unknown family).
+ */
+export function validatePartNumberSchema(partName: string, pn: string): PartNumberSchemaCheck {
+  const prefix = partName.split('-')[0]?.toLowerCase() ?? '';
+  const rule   = PART_NUMBER_FAMILY_LOOKUP.find(r => r.filenamePrefix === prefix);
+  if (!rule) return { ok: true, expected: null, found: null };
+
+  const m = pn.match(/^VAC-(\d)\d{2}-\d{2}$/i);
+  const found = m?.[1] ?? null;
+  const ok = found === rule.expectedHundreds;
+  return { ok, expected: rule.label, found: found ? `VAC-${found}XX-XX` : null };
+}
+
+/** Infer a placeholder PN family from filename prefix (e.g. dustbin-* -> VAC-2XX-XX). */
+export function inferPlaceholderPn(partName: string): string | null {
+  const prefix = partName.split('-')[0]?.toLowerCase() ?? '';
+  const rule   = PART_NUMBER_FAMILY_LOOKUP.find(r => r.filenamePrefix === prefix);
+  return rule?.label ?? null;
+}
 
 // ── Section / folder helpers ────────────────────────────────────────────────
 

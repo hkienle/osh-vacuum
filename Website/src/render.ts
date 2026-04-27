@@ -15,20 +15,21 @@ function dlPill(p: Part, status: string): string {
   const fn   = esc(p.filename);
   const href = esc(p.downloadUrl);
   if (status === 'available')
-    return `<a class="dl av" href="${href}" download="${fn}" data-action="download">${ICON_DL}${fn}</a>`;
+    return `<a class="dl av" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
   if (status === 'downloaded')
-    return `<a class="dl dl2" href="${href}" download="${fn}" data-action="download">${ICON_CK}${fn}</a>`;
-  return `<a class="dl pr" href="${href}" download="${fn}" data-action="download">${ICON_CK}${fn}</a>`;
+    return `<a class="dl dl2" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
+  return `<a class="dl pr" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
 }
 
 function cardInner(p: Part, s: AppState[string]): string {
   const cbChecked = s.status === 'printed';
   const rev       = p.rev ?? revFromFilename(p.filename);
+  const pnClass   = /X/i.test(p.pn) ? 'pn pn-ph' : 'pn';
 
   return `
 <div class="part-row rgrid${s.expanded ? ' xopen' : ''}" data-action="toggle">
   <div class="sdot"></div>
-  <div class="pn">${esc(p.pn)}</div>
+  <div class="${pnClass}">${esc(p.pn)}</div>
   <div class="nm">
     <span class="nm-txt" title="${esc(p.name)}">${esc(p.name)}</span>
     ${rev    ? `<span class="bdg bdg-rev">${esc(rev)}</span>` : ''}

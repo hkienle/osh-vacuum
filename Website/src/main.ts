@@ -2,6 +2,7 @@ import './style.css';
 
 import type { AppState } from './types';
 import { el } from './utils';
+import { inferPlaceholderPn } from './bom-meta';
 import { fetchStepFiles, buildPartsFromFiles } from './github';
 import { loadSaved, saveToStorage, buildState, defaultPartState } from './state';
 import {
@@ -54,6 +55,26 @@ function buildFeedbackMailto(pn: string, part: Part | undefined, s: PartState): 
 }
 
 function save(): void { saveToStorage(parts, state); }
+
+function migrateCachedPn(partsIn: Part[], stateIn: AppState | undefined): { partsOut: Part[]; stateOut: AppState } {
+  const stateOut: AppState = { ...(stateIn ?? {}) };
+  const partsOut = partsIn.map((p) => {
+    // Keep exact numeric PNs and existing placeholders as-is.
+    if (/^VAC-[0-9X]{3}-[0-9X]{2}$/i.test(p.pn)) return p;
+
+    const placeholder = inferPlaceholderPn(p.name);
+    if (!placeholder || placeholder === p.pn) return p;
+
+    // Move cached state to the new placeholder PN key if needed.
+    if (stateOut[p.pn] && !stateOut[placeholder]) {
+      stateOut[placeholder] = stateOut[p.pn];
+    }
+    delete stateOut[p.pn];
+
+    return { ...p, pn: placeholder };
+  });
+  return { partsOut, stateOut };
+}
 
 function setRepo(status: 'loading' | 'ok' | 'err', label: string): void {
   el('rdot').className   = `rdot ${status}`;
@@ -163,8 +184,10 @@ initModal();
 (function init(): void {
   const saved = loadSaved();
   if (saved?._parts?.length) {
-    parts = saved._parts;
-    state = buildState(parts, saved._state);
+    const migrated = migrateCachedPn(saved._parts, saved._state);
+    parts = migrated.partsOut;
+    state = buildState(parts, migrated.stateOut);
+    save();
     renderWorkshop(wsContainer, parts, state);
     updateProgSub(parts.length);
   } else {
