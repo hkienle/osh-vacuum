@@ -30,7 +30,7 @@ export function renderPrint(
   for (const p of parts) {
     const s = state[p.pn];
     if (!s) continue;
-    const rev = p.rev ?? revFromFilename(p.filename);
+    const rev = p.rev ?? (p.filename ? revFromFilename(p.filename) : null);
     const pnClass = /X/i.test(p.pn) ? 'p-pn p-pn-ph' : 'p-pn';
 
     if (p.sec !== null && p.sec !== lastSec) {

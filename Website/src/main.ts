@@ -21,11 +21,15 @@ import { initModal } from './modal';
 let parts: Part[]    = [];
 let state: AppState  = {};
 let cfgOpen          = false;
+let maxMassKg: number | null = null;
+let maxTimeMin: number | null = null;
 
 // ── DOM refs ────────────────────────────────────────────────────────────────
 
 const wsContainer = el('ws-parts');
 const formUrlEl   = el<'input'>('form-url');
+const fltMassEl   = el<'input'>('flt-mass');
+const fltTimeEl   = el<'input'>('flt-time');
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -55,6 +59,40 @@ function buildFeedbackMailto(pn: string, part: Part | undefined, s: PartState): 
 }
 
 function save(): void { saveToStorage(parts, state); }
+
+function parseMassKg(mass: string): number | null {
+  const m = mass.match(/([\d.]+)\s*kg/i);
+  if (!m) return null;
+  const v = Number(m[1]);
+  return Number.isFinite(v) ? v : null;
+}
+
+function parseTimeMinutes(time: string): number | null {
+  const m = time.match(/^(\d{1,2}):(\d{2})$/);
+  if (!m) return null;
+  const h = Number(m[1]);
+  const min = Number(m[2]);
+  if (!Number.isFinite(h) || !Number.isFinite(min)) return null;
+  return h * 60 + min;
+}
+
+function getFilteredParts(): Part[] {
+  return parts.filter((p) => {
+    if (maxMassKg != null) {
+      const kg = parseMassKg(p.mass);
+      if (kg == null || kg > maxMassKg) return false;
+    }
+    if (maxTimeMin != null) {
+      const mins = parseTimeMinutes(p.time);
+      if (mins == null || mins > maxTimeMin) return false;
+    }
+    return true;
+  });
+}
+
+function renderFilteredWorkshop(): void {
+  renderWorkshop(wsContainer, getFilteredParts(), state);
+}
 
 function migrateCachedPn(partsIn: Part[], stateIn: AppState | undefined): { partsOut: Part[]; stateOut: AppState } {
   const stateOut: AppState = { ...(stateIn ?? {}) };
@@ -93,7 +131,7 @@ async function fetchRepo(): Promise<void> {
     save();
     setRepo('ok', `${parts.length} files`);
     updateProgSub(parts.length);
-    renderWorkshop(wsContainer, parts, state);
+    renderFilteredWorkshop();
   } catch (err) {
     setRepo('err', `GitHub: ${(err as Error).message}`);
   }
@@ -117,7 +155,7 @@ initWorkshopListeners(wsContainer, {
     s.status = 'downloaded';
     save();
     refreshCard(pn, parts, state);
-    updateStats(parts, state);
+    updateStats(getFilteredParts(), state);
   },
 
   onPrint(pn, checked) {
@@ -126,7 +164,7 @@ initWorkshopListeners(wsContainer, {
     s.status = checked ? 'printed' : 'available';
     save();
     refreshCard(pn, parts, state);
-    updateStats(parts, state);
+    updateStats(getFilteredParts(), state);
   },
 
   onFieldUpdate(pn, field, value) {
@@ -148,19 +186,19 @@ initWorkshopListeners(wsContainer, {
 
 el('btn-expand').addEventListener('click', () => {
   parts.forEach(p => { if (state[p.pn]) state[p.pn].expanded = true; });
-  renderWorkshop(wsContainer, parts, state);
+  renderFilteredWorkshop();
 });
 
 el('btn-collapse').addEventListener('click', () => {
   parts.forEach(p => { if (state[p.pn]) state[p.pn].expanded = false; });
-  renderWorkshop(wsContainer, parts, state);
+  renderFilteredWorkshop();
 });
 
 el('btn-reset').addEventListener('click', () => {
   if (!confirm('Reset check states? File links are kept.')) return;
   parts.forEach(p => { state[p.pn] = defaultPartState(); });
   save();
-  renderWorkshop(wsContainer, parts, state);
+  renderFilteredWorkshop();
 });
 
 el('btn-form-url').addEventListener('click', () => {
@@ -171,8 +209,25 @@ el('btn-form-url').addEventListener('click', () => {
 // ── Print button ─────────────────────────────────────────────────────────────
 
 el('btn-print').addEventListener('click', () => {
-  renderPrint(el('pt-tbody'), el('pt-date'), el('pt-meta'), parts, state, getFormUrl);
+  renderPrint(el('pt-tbody'), el('pt-date'), el('pt-meta'), getFilteredParts(), state, getFormUrl);
   setTimeout(() => window.print(), 200);
+});
+
+fltMassEl.addEventListener('input', () => {
+  const raw = fltMassEl.value.trim();
+  if (!raw) {
+    maxMassKg = null;
+  } else {
+    const v = Number(raw);
+    maxMassKg = Number.isFinite(v) ? v : null;
+  }
+  renderFilteredWorkshop();
+});
+
+fltTimeEl.addEventListener('input', () => {
+  const raw = fltTimeEl.value.trim();
+  maxTimeMin = raw ? parseTimeMinutes(raw) : null;
+  renderFilteredWorkshop();
 });
 
 // ── Modal ────────────────────────────────────────────────────────────────────
@@ -188,7 +243,7 @@ initModal();
     parts = migrated.partsOut;
     state = buildState(parts, migrated.stateOut);
     save();
-    renderWorkshop(wsContainer, parts, state);
+    renderFilteredWorkshop();
     updateProgSub(parts.length);
   } else {
     wsContainer.innerHTML =

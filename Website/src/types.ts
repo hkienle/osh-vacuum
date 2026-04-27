@@ -8,8 +8,8 @@ export interface Part {
   rev:         string | null; // revision badge, e.g. "v1.2" when relevant
   warn:        string | null; // optional printing advice shown in detail panel
   sec:         string | null; // section header label; null = same section as previous row
-  filename:    string;        // actual .step filename in the repo
-  downloadUrl: string;        // direct raw download URL
+  filename:    string | null; // actual .step filename in the repo (null for purchased parts)
+  downloadUrl: string | null; // direct raw download URL (null for purchased parts)
 }
 
 export type PartStatus = 'available' | 'downloaded' | 'printed';

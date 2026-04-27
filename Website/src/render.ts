@@ -12,6 +12,9 @@ function revFromFilename(filename: string): string | null {
 }
 
 function dlPill(p: Part, status: string): string {
+  if (!p.downloadUrl || !p.filename) {
+    return `<span class="dl">Purchased Part</span>`;
+  }
   const fn   = esc(p.filename);
   const href = esc(p.downloadUrl);
   if (status === 'available')
@@ -23,7 +26,7 @@ function dlPill(p: Part, status: string): string {
 
 function cardInner(p: Part, s: AppState[string]): string {
   const cbChecked = s.status === 'printed';
-  const rev       = p.rev ?? revFromFilename(p.filename);
+  const rev       = p.rev ?? (p.filename ? revFromFilename(p.filename) : null);
   const pnClass   = /X/i.test(p.pn) ? 'pn pn-ph' : 'pn';
 
   return `
@@ -85,7 +88,7 @@ export function renderWorkshop(container: HTMLElement, parts: Part[], state: App
     if (p.sec !== null && p.sec !== lastSec) {
       lastSec = p.sec;
       const h = document.createElement('div');
-      h.className  = 'sec-lbl';
+      h.className  = p.sec === 'Purchased Parts' ? 'sec-lbl sec-lbl-major' : 'sec-lbl';
       h.textContent = p.sec;
       container.appendChild(h);
     }

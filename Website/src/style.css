@@ -52,6 +52,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:12px;l
 /* TOOLBAR */
 .toolbar{padding:8px 24px;border-bottom:1px solid var(--bd);background:var(--s1);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .tsep{flex:1}
+.flt-inp{max-width:140px}
 .cfg-bar{overflow:hidden;max-height:0;transition:max-height .3s,padding .3s;background:var(--s1);border-bottom:1px solid var(--bd);padding:0 24px}
 .cfg-bar.open{max-height:90px;padding:12px 24px}
 .cfg-lbl{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.14em;margin-bottom:6px}
@@ -67,6 +68,16 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:12px;l
 /* PARTS */
 .parts{padding:0 24px 60px}
 .sec-lbl{font-size:9px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.16em;padding:14px 8px 4px;border-bottom:1px solid var(--bd2);margin-bottom:2px}
+.sec-lbl.sec-lbl-major{
+  font-size:14px;
+  font-weight:600;
+  color:var(--tx);
+  text-transform:none;
+  letter-spacing:0;
+  padding:20px 8px 8px;
+  border-bottom:1px solid var(--bd);
+  margin:8px 0 6px;
+}
 .part{border:1px solid var(--bd);border-radius:4px;margin-bottom:3px;overflow:hidden;transition:border-color .15s}
 .part:hover{border-color:var(--bd2)}
 .part-row{padding:8px 12px 8px 24px;cursor:pointer;user-select:none}

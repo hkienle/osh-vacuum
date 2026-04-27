@@ -14,6 +14,7 @@ export interface BomEntry {
   time?: string;   // estimated print time hh:mm
   rev?:  string;   // revision badge (only shown when noteworthy)
   warn?: string;   // printing advice shown in detail panel and print view
+  purchased?: boolean; // show in Purchased Parts section even without STEP file
 }
 
 export const BOM_META: Record<string, BomEntry> = {
@@ -59,6 +60,11 @@ export const BOM_META: Record<string, BomEntry> = {
   'nozzle-flat-d40-w150': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
   'nozzle-flat-d40-w200': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
   'nozzle-flat-d40-w280': { pn:'VAC-7XX-XX', qty:1 }, // TODO: set exact PN + metadata
+
+  // Purchased parts (no STEP files yet) - still rendered in checklist.
+  'purchased-hepa-filter': { pn:'VAC-8XX-XX', qty:1, purchased:true }, // TODO: set exact PN + metadata
+  'purchased-spring-latch': { pn:'VAC-8XX-XX', qty:1, purchased:true }, // TODO: set exact PN + metadata
+  'purchased-fastener-set': { pn:'VAC-8XX-XX', qty:1, purchased:true }, // TODO: set exact PN + metadata
 };
 
 /**
