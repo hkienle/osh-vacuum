@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAC V1.x — Print Checklist</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/checklist-BBROYNKk.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/checklist-BmJJY6ul.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">VAC <span>V1.x</span></div>
+  <div class="vsep">|</div>
+  <div class="repo-badge">
+    <span class="rdot" id="rdot"></span>
+    <span id="rlbl">Connecting to GitHub...</span>
+  </div>
+  <button class="btn" id="btn-form-url">Form URL</button>
+  <button class="btn btn-ac" id="btn-print">Print / PDF</button>
+</div>
+
+<!-- WORKSHOP -->
+<div class="mode-ws" id="mode-ws">
+  <div class="prog-hdr">
+    <div class="prog-top">
+      <div>
+        <div class="prog-title">BOM V1.x &mdash; Printed Parts</div>
+        <div class="prog-sub" id="prog-sub">Loading files&hellip;</div>
+      </div>
+      <div class="stats">
+        <div class="st"><span class="v v-bl" id="sv-a">0</span><span class="l">Files Ready</span></div>
+        <div class="st"><span class="v v-ac" id="sv-d">0</span><span class="l">Downloaded</span></div>
+        <div class="st"><span class="v v-gn" id="sv-p">0</span><span class="l">Printed</span></div>
+      </div>
+    </div>
+    <div class="bars">
+      <div class="bar-w"><div class="bar-lbl">Files</div>      <div class="bar"><div class="bar-f bl" id="bf-a"></div></div></div>
+      <div class="bar-w"><div class="bar-lbl">Downloaded</div> <div class="bar"><div class="bar-f ac" id="bf-d"></div></div></div>
+      <div class="bar-w"><div class="bar-lbl">Printed</div>    <div class="bar"><div class="bar-f gn" id="bf-p"></div></div></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn" id="btn-expand">Expand All</button>
+    <button class="btn" id="btn-collapse">Collapse All</button>
+    <div class="tsep"></div>
+    <button class="btn btn-reset" id="btn-reset">Reset All</button>
+  </div>
+
+  <div class="cfg-bar" id="cfg-bar">
+    <div class="cfg-lbl">Feedback Form URL</div>
+    <div class="cfg-row">
+      <input class="cfg-inp" id="form-url" type="url" placeholder="https://your-form.example.com/feedback">
+    </div>
+    <div class="cfg-hint">QR encodes: {url}?partnumber=VAC-XXX-XX&amp;date=...&amp;material=...&amp;printer=...</div>
+  </div>
+
+  <div class="rgrid col-hdr">
+    <span></span><span>Part No.</span><span>Name</span>
+    <span style="text-align:center">Qty</span>
+    <span style="text-align:right">Mass</span>
+    <span style="text-align:right">Time</span>
+    <span>Status / File</span>
+    <span style="text-align:center">Done</span>
+  </div>
+  <div class="parts" id="ws-parts"></div>
+</div>
+
+<!-- PRINT VIEW (only rendered during window.print()) -->
+<div class="mode-pt" id="mode-pt">
+  <input type="hidden" id="pt-url">
+  <div class="pdoc">
+    <div class="pdoc-hdr">
+      <div>
+        <div class="p-ey">OSH Vacuum Cleaner</div>
+        <div class="p-tt">BOM V1.x &mdash; Print Checklist</div>
+        <div class="p-me" id="pt-meta"><span>PLA</span></div>
+      </div>
+      <div class="p-in">
+        <strong>Date:</strong> _____ / _____ / _________<br>
+        <strong>Operator:</strong> ________________________<br>
+        <strong>Revision:</strong> V1.x (core &rarr; v1.2)
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:22px"></th><th style="width:90px">Part No.</th><th>Name</th>
+          <th class="c" style="width:26px">Qty</th>
+          <th class="r" style="width:62px">Mass</th>
+          <th class="r" style="width:56px">Time</th>
+          <th style="width:84px">Material</th><th style="width:74px">Color</th>
+          <th style="width:108px">Notes</th>
+          <th class="c" style="width:70px">Feedback</th>
+        </tr>
+      </thead>
+      <tbody id="pt-tbody"></tbody>
+    </table>
+    <div class="pdoc-ftr">
+      <span>VAC-PRINT-CL v1.0 &middot; Scan QR to submit feedback with part number pre-filled</span>
+      <span><strong>Printed:</strong> <span id="pt-date"></span></span>
+    </div>
+  </div>
+</div>
+
+<!-- QR MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div>
+        <div class="modal-ttl">Feedback QR Code</div>
+        <div class="modal-pn" id="m-pn"></div>
+        <div class="modal-nm" id="m-nm"></div>
+      </div>
+      <button class="modal-x" id="modal-x-btn">&#10005;</button>
+    </div>
+    <div class="qr-wrap" id="m-qr"></div>
+    <div class="modal-url" id="m-url"></div>
+    <div class="modal-note">Scan to submit feedback. Material and Printer are read from the expanded panel fields.</div>
+  </div>
+</div>
+
+</body>
+</html>

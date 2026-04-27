@@ -55,6 +55,28 @@ The firmware provides:
 2. **Firmware**: Follow the [firmware build and upload instructions](Firmware/README.md)
 3. **Frontend**: Build and upload the web interface as described in the firmware README
 
+## Checklist Website
+
+The printable parts checklist is located in `Website/` and uses Vite + TypeScript.
+
+Start the checklist website:
+
+```bash
+cd Website
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite (usually `http://localhost:5173`).
+
+Build for production:
+
+```bash
+cd Website
+npm run build
+npm run preview
+```
+
 ## Status
 
 **Current Phase**: Benchtop Prototype
