@@ -3,7 +3,7 @@ import { el } from './utils';
 import { inferPlaceholderPn } from './bom-meta';
 import { fetchStepFiles, buildPartsFromFiles } from './github';
 import { loadSaved, saveToStorage, buildState, defaultPartState } from './state';
-import { renderWorkshop, refreshCard, updateStats, updateProgSub, initWorkshopListeners, } from './render';
+import { renderWorkshop, refreshCard, updateStats, updateProgSub, initWorkshopListeners, syncFieldSuggestionDatalists, } from './render';
 import { renderPrint } from './print';
 import { initModal } from './modal';
 // ── App-level state ─────────────────────────────────────────────────────────
@@ -150,6 +150,7 @@ initWorkshopListeners(wsContainer, {
             return;
         s[field] = value;
         save();
+        syncFieldSuggestionDatalists(wsContainer, parts, state);
     },
     onFeedback(pn) {
         const s = state[pn];

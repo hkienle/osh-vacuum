@@ -15,6 +15,26 @@ export function el(id) {
         throw new Error(`Element #${id} not found`);
     return node;
 }
+/** Save a remote file via fetch+blob so `download` works for cross-origin URLs (e.g. raw.githubusercontent.com). */
+export async function downloadUrlToFile(url, filename) {
+    const res = await fetch(url);
+    if (!res.ok)
+        throw new Error(`HTTP ${res.status}`);
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    try {
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        a.rel = 'noopener';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+    finally {
+        URL.revokeObjectURL(objectUrl);
+    }
+}
 // Inline SVG icons
 export const ICON_DL = `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
