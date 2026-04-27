@@ -3,6 +3,14 @@ import { esc, el, ICON_DL, ICON_CK, ICON_MAIL } from './utils';
 
 // ── Card HTML helpers ───────────────────────────────────────────────────────
 
+function revFromFilename(filename: string): string | null {
+  const base = filename.replace(/\.step$/i, '');
+  const m = base.match(/_(v[\d.]+)$/i);
+  if (!m?.[1]) return null;
+  const rev = m[1];
+  return /^v\d+$/i.test(rev) ? `${rev}.0` : rev;
+}
+
 function dlPill(p: Part, status: string): string {
   const fn   = esc(p.filename);
   const href = esc(p.downloadUrl);
@@ -15,6 +23,7 @@ function dlPill(p: Part, status: string): string {
 
 function cardInner(p: Part, s: AppState[string]): string {
   const cbChecked = s.status === 'printed';
+  const rev       = p.rev ?? revFromFilename(p.filename);
 
   return `
 <div class="part-row rgrid${s.expanded ? ' xopen' : ''}" data-action="toggle">
@@ -22,7 +31,7 @@ function cardInner(p: Part, s: AppState[string]): string {
   <div class="pn">${esc(p.pn)}</div>
   <div class="nm">
     <span class="nm-txt" title="${esc(p.name)}">${esc(p.name)}</span>
-    ${p.rev  ? `<span class="bdg bdg-rev">${esc(p.rev)}</span>` : ''}
+    ${rev    ? `<span class="bdg bdg-rev">${esc(rev)}</span>` : ''}
     ${p.warn ? `<span class="bdg bdg-warn">ATTN</span>` : ''}
   </div>
   <div class="qty">${p.qty > 1 ? `${p.qty}&times;` : p.qty}</div>

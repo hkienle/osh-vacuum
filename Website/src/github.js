@@ -17,6 +17,14 @@ export async function fetchStepFiles() {
         downloadUrl: RAW_BASE + i.path.split('/').map(encodeURIComponent).join('/'),
     }));
 }
+function normalizeRev(rev) {
+    if (!rev)
+        return null;
+    // Show explicit patch level for v1-style filenames.
+    if (/^v\d+$/i.test(rev))
+        return `${rev}.0`;
+    return rev;
+}
 /**
  * Convert the raw file list into a sorted Part array.
  * Section headers are derived from folder paths; BOM_META provides optional enrichment.
@@ -26,7 +34,7 @@ export function buildPartsFromFiles(files) {
         const base = f.name.replace(/\.step$/i, '');
         const m = base.match(/^OSH_Vac_(.+?)(?:_(v[\d.]+))?$/i);
         const partName = m ? m[1].toLowerCase() : base.toLowerCase();
-        const fileRev = m?.[2] ?? null;
+        const fileRev = normalizeRev(m?.[2] ?? null);
         const meta = BOM_META[partName] ?? {};
         const { key, label } = sectionFromPath(f.path);
         return {
@@ -35,7 +43,7 @@ export function buildPartsFromFiles(files) {
             qty: meta.qty ?? 1,
             mass: meta.mass ?? '-',
             time: meta.time ?? '-',
-            rev: meta.rev ?? (fileRev && fileRev !== 'v1' ? fileRev : null),
+            rev: fileRev,
             warn: meta.warn ?? null,
             sec: null,
             filename: f.name,

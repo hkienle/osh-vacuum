@@ -1,5 +1,13 @@
 import { esc } from './utils';
 import QRCode from 'qrcode';
+function revFromFilename(filename) {
+    const base = filename.replace(/\.step$/i, '');
+    const m = base.match(/_(v[\d.]+)$/i);
+    if (!m?.[1])
+        return null;
+    const rev = m[1];
+    return /^v\d+$/i.test(rev) ? `${rev}.0` : rev;
+}
 /** Render the printable document view and generate QR codes asynchronously. */
 export function renderPrint(tbody, dateEl, metaEl, parts, state, getFormUrl) {
     dateEl.textContent = new Date().toLocaleDateString('de-DE', {
@@ -12,6 +20,7 @@ export function renderPrint(tbody, dateEl, metaEl, parts, state, getFormUrl) {
         const s = state[p.pn];
         if (!s)
             continue;
+        const rev = p.rev ?? revFromFilename(p.filename);
         if (p.sec !== null && p.sec !== lastSec) {
             lastSec = p.sec;
             const sr = document.createElement('tr');
@@ -27,7 +36,7 @@ export function renderPrint(tbody, dateEl, metaEl, parts, state, getFormUrl) {
       <td class="p-pn">${esc(p.pn)}</td>
       <td class="p-nm">
         ${esc(p.name)}
-        ${p.rev ? `<span class="p-tag p-tr">${esc(p.rev)}</span>` : ''}
+        ${rev ? `<span class="p-tag p-tr">${esc(rev)}</span>` : ''}
         ${p.warn ? `<span class="p-tag p-tw">ATTN</span>` : ''}
         ${s.status === 'printed' ? `<span class="p-tag p-tok">Printed</span>` : ''}
       </td>
