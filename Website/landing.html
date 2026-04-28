@@ -11,7 +11,7 @@
       --border: #2a2a2a;
       --text: #f2f2f2;
       --muted: #a3a3a3;
-      --accent: #f06a00;
+      --ring: #a1a1aa;
     }
 
     * { box-sizing: border-box; }
@@ -21,19 +21,62 @@
       min-height: 100vh;
       display: grid;
       place-items: center;
-      background: var(--bg);
+      background: #000;
       color: var(--text);
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       padding: 20px;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .bg-3d {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: #000;
+    }
+
+    .bg-3d canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 80% at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.92) 100%);
+    }
+
+    .bg-floor {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom,
+          rgba(0,0,0,0) 0%,
+          rgba(0,0,0,0) 30%,
+          rgba(0,0,0,0.45) 60%,
+          rgba(0,0,0,0.80) 85%,
+          rgba(0,0,0,0.92) 100%);
+      mix-blend-mode: multiply;
     }
 
     .card {
       width: 100%;
       max-width: 540px;
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: rgba(18, 18, 18, 0.46);
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 12px;
       padding: 28px;
+      backdrop-filter: blur(16px) saturate(130%);
+      -webkit-backdrop-filter: blur(16px) saturate(130%);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2);
     }
 
     .kicker {
@@ -64,14 +107,29 @@
     }
 
     a.btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
-      color: #111;
-      background: var(--accent);
+      color: #18181b;
+      background: #fafafa;
+      border: 1px solid rgba(255,255,255,0.2);
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 500;
       padding: 10px 14px;
       font-size: 14px;
+      transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+    }
+
+    a.btn:hover {
+      background: #f4f4f5;
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    a.btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(161,161,170,0.28);
     }
 
     .newsletter {
@@ -105,18 +163,31 @@
     }
 
     input[type="email"]:focus {
-      border-color: var(--accent);
+      border-color: var(--ring);
+      box-shadow: 0 0 0 2px rgba(161,161,170,0.18);
     }
 
     button {
-      border: 1px solid var(--accent);
-      background: var(--accent);
-      color: #111;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: #fafafa;
+      color: #18181b;
       border-radius: 8px;
       padding: 10px 14px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
+      transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+    }
+
+    button:hover {
+      background: #f4f4f5;
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(161,161,170,0.28);
     }
 
     .hint {
@@ -134,6 +205,10 @@
   </style>
 </head>
 <body>
+  <div class="bg-3d" id="bg-3d"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-floor"></div>
+
   <main class="card">
     <div class="kicker">Open Source Project</div>
     <h1>OSH Vacuum</h1>
@@ -143,7 +218,10 @@
 
     <div class="actions">
       <a class="btn" href="https://github.com/hkienle/osh-vacuum" target="_blank" rel="noopener noreferrer">
-        View on GitHub
+        GitHub
+      </a>
+      <a class="btn" href="https://hackmd.io/@team-intuity/build-oshvac-v1-hmk" target="_blank" rel="noopener noreferrer">
+        HackMD Project Documentation
       </a>
     </div>
 
@@ -159,6 +237,127 @@
       <div id="newsletter-status" class="status">Thanks! Your email was captured locally.</div>
     </section>
   </main>
+
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three@0.167.1';
+    import { OrbitControls } from 'https://esm.sh/three@0.167.1/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from 'https://esm.sh/three@0.167.1/examples/jsm/loaders/GLTFLoader.js';
+
+    const mount = document.getElementById('bg-3d');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+
+    const camera = new THREE.PerspectiveCamera(22, window.innerWidth / window.innerHeight, 0.01, 100);
+    camera.position.set(2.25, 1.6, 2.55);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.75;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    mount.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.enableZoom = false;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.4;
+    controls.target.set(0, 0.45, 0);
+
+    const key = new THREE.DirectionalLight(0xffffff, 1.65);
+    key.position.set(1.15, 1.95, 2.45);
+    key.target.position.set(0, 0.95, 0);
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.bias = -0.00008;
+    key.shadow.normalBias = 0.025;
+    key.shadow.radius = 1.2;
+    key.shadow.camera.left = -0.75;
+    key.shadow.camera.right = 0.75;
+    key.shadow.camera.top = 0.75;
+    key.shadow.camera.bottom = -0.75;
+    key.shadow.camera.near = 0.4;
+    key.shadow.camera.far = 4.2;
+    scene.add(key);
+    scene.add(key.target);
+
+    const fill = new THREE.DirectionalLight(0xffe9cf, 0.28);
+    fill.position.set(-2.4, 1.05, 1.1);
+    fill.target.position.set(0, 0.35, 0);
+    scene.add(fill);
+    scene.add(fill.target);
+
+    const rim = new THREE.DirectionalLight(0xb4cbff, 0.62);
+    rim.position.set(-1.8, 2.1, -2.8);
+    rim.target.position.set(0, 0.75, -0.25);
+    scene.add(rim);
+    scene.add(rim.target);
+
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(8, 8),
+      new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.42 })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -0.02;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    const root = new THREE.Group();
+    scene.add(root);
+
+    const loader = new GLTFLoader();
+    loader.load('/MainAssembly.gltf', (gltf) => {
+      const model = gltf.scene;
+
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+
+      model.position.sub(center);
+      model.position.y -= box.min.y;
+      model.position.y -= 4;
+      const largest = Math.max(size.x, size.y, size.z) || 1;
+      const scale = 3.5 / largest;
+      model.scale.setScalar(scale);
+
+      model.rotation.x = Math.PI / 2;
+      model.rotation.y = Math.PI;
+
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = false;
+        }
+      });
+
+      root.add(model);
+      model.updateMatrixWorld(true);
+      const modelCenter = new THREE.Box3().setFromObject(model).getCenter(new THREE.Vector3());
+      controls.target.copy(modelCenter);
+      controls.update();
+    }, undefined, (error) => {
+      console.error("Failed to load MainAssembly.gltf", error);
+    });
+
+    function animate() {
+      controls.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+  </script>
 
   <script>
     const form = document.getElementById('newsletter-form');
