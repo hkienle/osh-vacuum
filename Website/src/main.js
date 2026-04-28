@@ -3,11 +3,7 @@ import { el } from './utils';
 import { inferPlaceholderPn } from './bom-meta';
 import { fetchStepFiles, buildPartsFromFiles } from './github';
 import { loadSaved, saveToStorage, buildState, defaultPartState } from './state';
-<<<<<<< HEAD
-import { renderWorkshop, refreshCard, updateStats, updateProgSub, initWorkshopListeners, } from './render';
-=======
 import { renderWorkshop, refreshCard, updateStats, updateProgSub, initWorkshopListeners, syncFieldSuggestionDatalists, } from './render';
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
 import { renderPrint } from './print';
 import { initModal } from './modal';
 // ── App-level state ─────────────────────────────────────────────────────────
@@ -154,10 +150,7 @@ initWorkshopListeners(wsContainer, {
             return;
         s[field] = value;
         save();
-<<<<<<< HEAD
-=======
         syncFieldSuggestionDatalists(wsContainer, parts, state);
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
     },
     onFeedback(pn) {
         const s = state[pn];

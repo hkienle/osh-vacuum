@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { esc, el, ICON_DL, ICON_CK, ICON_MAIL } from './utils';
-// ── Card HTML helpers ───────────────────────────────────────────────────────
-=======
 import { esc, el, ICON_DL, ICON_CK, ICON_MAIL, downloadUrlToFile } from './utils';
 // ── Card HTML helpers ───────────────────────────────────────────────────────
 const SUG_TITLE = 'Values used on other checklist items. Type or open the list to pick one.';
@@ -82,7 +78,6 @@ function patchFieldDatalist(card, field, listId, values) {
     inp.setAttribute('list', listId);
     inp.setAttribute('title', SUG_TITLE);
 }
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
 function revFromFilename(filename) {
     const base = filename.replace(/\.step$/i, '');
     const m = base.match(/_(v[\d.]+)$/i);
@@ -98,17 +93,6 @@ function dlPill(p, status) {
     const fn = esc(p.filename);
     const href = esc(p.downloadUrl);
     if (status === 'available')
-<<<<<<< HEAD
-        return `<a class="dl av" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
-    if (status === 'downloaded')
-        return `<a class="dl dl2" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
-    return `<a class="dl pr" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
-}
-function cardInner(p, s) {
-    const cbChecked = s.status === 'printed';
-    const rev = p.rev ?? (p.filename ? revFromFilename(p.filename) : null);
-    const pnClass = /X/i.test(p.pn) ? 'pn pn-ph' : 'pn';
-=======
         return `<a class="dl av" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
     if (status === 'downloaded')
         return `<a class="dl dl2" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
@@ -125,7 +109,6 @@ function cardInner(p, s, sug) {
     const listMat = sug.material.length ? ` list="${idMat}" title="${esc(SUG_TITLE)}"` : '';
     const listCol = sug.color.length ? ` list="${idCol}" title="${esc(SUG_TITLE)}"` : '';
     const listPrn = sug.printer.length ? ` list="${idPrn}" title="${esc(SUG_TITLE)}"` : '';
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
     return `
 <div class="part-row rgrid${s.expanded ? ' xopen' : ''}" data-action="toggle">
   <div class="sdot"></div>
@@ -145,18 +128,6 @@ function cardInner(p, s, sug) {
 </div>
 <div class="detail${s.expanded ? ' open' : ''}">
   <div class="fld">
-<<<<<<< HEAD
-    <label class="fld-lbl">Material Used</label>
-    <input class="fld-inp" value="${esc(s.material)}" placeholder="PLA, PETG, ASA…" data-field="material">
-  </div>
-  <div class="fld">
-    <label class="fld-lbl">Color</label>
-    <input class="fld-inp" value="${esc(s.color)}" placeholder="e.g. Black, RAL 9005" data-field="color">
-  </div>
-  <div class="fld">
-    <label class="fld-lbl">Printer</label>
-    <input class="fld-inp" value="${esc(s.printer)}" placeholder="e.g. Bambu X1C" data-field="printer">
-=======
     <label class="fld-lbl">Material Used <span class="fld-sug-hint">(filament)</span></label>
     <input class="fld-inp" value="${esc(s.material)}" placeholder="PLA, PETG, ASA…" data-field="material"${listMat}>
   </div>
@@ -167,7 +138,6 @@ function cardInner(p, s, sug) {
   <div class="fld">
     <label class="fld-lbl">Printer</label>
     <input class="fld-inp" value="${esc(s.printer)}" placeholder="e.g. Bambu X1C" data-field="printer"${listPrn}>
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
   </div>
   <div class="fld">
     <label class="fld-lbl">Date Printed</label>
@@ -178,12 +148,9 @@ function cardInner(p, s, sug) {
     <textarea class="fld-ta" placeholder="Infill %, layer height, issues…" data-field="notes">${esc(s.notes)}</textarea>
   </div>
   ${p.warn ? `<div class="warn-box"><div class="warn-ttl">Printing Advice</div>${esc(p.warn)}</div>` : ''}
-<<<<<<< HEAD
-=======
   ${datalistHtml(idMat, sug.material)}
   ${datalistHtml(idCol, sug.color)}
   ${datalistHtml(idPrn, sug.printer)}
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
   <div class="qr-row">
     <button class="qr-open-btn" data-action="feedback">${ICON_MAIL} Send Feedback</button>
   </div>
@@ -208,11 +175,7 @@ export function renderWorkshop(container, parts, state) {
         const card = document.createElement('div');
         card.className = `part st-${s.status}`;
         card.dataset.pn = p.pn;
-<<<<<<< HEAD
-        card.innerHTML = cardInner(p, s);
-=======
         card.innerHTML = cardInner(p, s, collectFieldSuggestions(state, parts, p.pn));
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
         container.appendChild(card);
     }
     updateStats(parts, state);
@@ -227,11 +190,7 @@ export function refreshCard(pn, parts, state) {
     if (!p || !s)
         return;
     card.className = `part st-${s.status}`;
-<<<<<<< HEAD
-    card.innerHTML = cardInner(p, s);
-=======
     card.innerHTML = cardInner(p, s, collectFieldSuggestions(state, parts, pn));
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
 }
 /** Update the three stat counters and progress bars. */
 export function updateStats(parts, state) {
@@ -267,10 +226,6 @@ export function initWorkshopListeners(container, cb) {
             cb.onToggle(pn);
         }
         else if (action === 'download') {
-<<<<<<< HEAD
-            // slight delay so the browser initiates the download before we mutate state
-            setTimeout(() => cb.onDownload(pn), 300);
-=======
             const link = target.closest('a[data-action="download"]');
             if (!link)
                 return;
@@ -284,7 +239,6 @@ export function initWorkshopListeners(container, cb) {
                 const msg = err instanceof Error ? err.message : String(err);
                 alert(`Could not download file: ${msg}`);
             });
->>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
         }
         else if (action === 'feedback') {
             cb.onFeedback(pn);
