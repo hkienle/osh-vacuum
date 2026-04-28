@@ -1,5 +1,88 @@
+<<<<<<< HEAD
 import { esc, el, ICON_DL, ICON_CK, ICON_MAIL } from './utils';
 // ── Card HTML helpers ───────────────────────────────────────────────────────
+=======
+import { esc, el, ICON_DL, ICON_CK, ICON_MAIL, downloadUrlToFile } from './utils';
+// ── Card HTML helpers ───────────────────────────────────────────────────────
+const SUG_TITLE = 'Values used on other checklist items. Type or open the list to pick one.';
+function safePnId(pn) {
+    return pn.replace(/[^a-zA-Z0-9_-]/g, '_');
+}
+function collectFieldSuggestions(state, parts, excludePn) {
+    const mats = new Set();
+    const colors = new Set();
+    const printers = new Set();
+    const cmp = (a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' });
+    for (const q of parts) {
+        if (q.pn === excludePn)
+            continue;
+        const st = state[q.pn];
+        if (!st)
+            continue;
+        const m = st.material.trim();
+        const c = st.color.trim();
+        const pr = st.printer.trim();
+        if (m)
+            mats.add(m);
+        if (c)
+            colors.add(c);
+        if (pr)
+            printers.add(pr);
+    }
+    return {
+        material: [...mats].sort(cmp),
+        color: [...colors].sort(cmp),
+        printer: [...printers].sort(cmp),
+    };
+}
+function datalistHtml(id, values) {
+    if (!values.length)
+        return '';
+    const opts = values.map((v) => `<option value="${esc(v)}"></option>`).join('');
+    return `<datalist id="${esc(id)}">${opts}</datalist>`;
+}
+/**
+ * After a field changes, refresh all &lt;datalist&gt; option sets so suggestions
+ * stay in sync without re-rendering the full list (keeps input focus).
+ */
+export function syncFieldSuggestionDatalists(container, parts, state) {
+    for (const p of parts) {
+        const card = Array.from(container.querySelectorAll('.part[data-pn]')).find((c) => c.dataset.pn === p.pn);
+        if (!card)
+            continue;
+        const sid = safePnId(p.pn);
+        const sug = collectFieldSuggestions(state, parts, p.pn);
+        patchFieldDatalist(card, 'material', `sug-m-${sid}`, sug.material);
+        patchFieldDatalist(card, 'color', `sug-c-${sid}`, sug.color);
+        patchFieldDatalist(card, 'printer', `sug-p-${sid}`, sug.printer);
+    }
+}
+function patchFieldDatalist(card, field, listId, values) {
+    const inp = card.querySelector(`input.fld-inp[data-field="${field}"]`);
+    if (!inp)
+        return;
+    if (values.length === 0) {
+        inp.removeAttribute('list');
+        inp.removeAttribute('title');
+        document.getElementById(listId)?.remove();
+        return;
+    }
+    let dl = document.getElementById(listId);
+    if (!dl) {
+        dl = document.createElement('datalist');
+        dl.id = listId;
+        const detail = card.querySelector('.detail');
+        const qr = card.querySelector('.qr-row');
+        if (detail && qr)
+            detail.insertBefore(dl, qr);
+        else
+            detail?.appendChild(dl);
+    }
+    dl.innerHTML = values.map((v) => `<option value="${esc(v)}"></option>`).join('');
+    inp.setAttribute('list', listId);
+    inp.setAttribute('title', SUG_TITLE);
+}
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
 function revFromFilename(filename) {
     const base = filename.replace(/\.step$/i, '');
     const m = base.match(/_(v[\d.]+)$/i);
@@ -15,6 +98,7 @@ function dlPill(p, status) {
     const fn = esc(p.filename);
     const href = esc(p.downloadUrl);
     if (status === 'available')
+<<<<<<< HEAD
         return `<a class="dl av" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
     if (status === 'downloaded')
         return `<a class="dl dl2" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
@@ -24,6 +108,24 @@ function cardInner(p, s) {
     const cbChecked = s.status === 'printed';
     const rev = p.rev ?? (p.filename ? revFromFilename(p.filename) : null);
     const pnClass = /X/i.test(p.pn) ? 'pn pn-ph' : 'pn';
+=======
+        return `<a class="dl av" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
+    if (status === 'downloaded')
+        return `<a class="dl dl2" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
+    return `<a class="dl pr" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
+}
+function cardInner(p, s, sug) {
+    const cbChecked = s.status === 'printed';
+    const rev = p.rev ?? (p.filename ? revFromFilename(p.filename) : null);
+    const pnClass = /X/i.test(p.pn) ? 'pn pn-ph' : 'pn';
+    const sid = safePnId(p.pn);
+    const idMat = `sug-m-${sid}`;
+    const idCol = `sug-c-${sid}`;
+    const idPrn = `sug-p-${sid}`;
+    const listMat = sug.material.length ? ` list="${idMat}" title="${esc(SUG_TITLE)}"` : '';
+    const listCol = sug.color.length ? ` list="${idCol}" title="${esc(SUG_TITLE)}"` : '';
+    const listPrn = sug.printer.length ? ` list="${idPrn}" title="${esc(SUG_TITLE)}"` : '';
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
     return `
 <div class="part-row rgrid${s.expanded ? ' xopen' : ''}" data-action="toggle">
   <div class="sdot"></div>
@@ -43,6 +145,7 @@ function cardInner(p, s) {
 </div>
 <div class="detail${s.expanded ? ' open' : ''}">
   <div class="fld">
+<<<<<<< HEAD
     <label class="fld-lbl">Material Used</label>
     <input class="fld-inp" value="${esc(s.material)}" placeholder="PLA, PETG, ASA…" data-field="material">
   </div>
@@ -53,6 +156,18 @@ function cardInner(p, s) {
   <div class="fld">
     <label class="fld-lbl">Printer</label>
     <input class="fld-inp" value="${esc(s.printer)}" placeholder="e.g. Bambu X1C" data-field="printer">
+=======
+    <label class="fld-lbl">Material Used <span class="fld-sug-hint">(filament)</span></label>
+    <input class="fld-inp" value="${esc(s.material)}" placeholder="PLA, PETG, ASA…" data-field="material"${listMat}>
+  </div>
+  <div class="fld">
+    <label class="fld-lbl">Color <span class="fld-sug-hint">(filament)</span></label>
+    <input class="fld-inp" value="${esc(s.color)}" placeholder="e.g. Black, RAL 9005" data-field="color"${listCol}>
+  </div>
+  <div class="fld">
+    <label class="fld-lbl">Printer</label>
+    <input class="fld-inp" value="${esc(s.printer)}" placeholder="e.g. Bambu X1C" data-field="printer"${listPrn}>
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
   </div>
   <div class="fld">
     <label class="fld-lbl">Date Printed</label>
@@ -63,6 +178,12 @@ function cardInner(p, s) {
     <textarea class="fld-ta" placeholder="Infill %, layer height, issues…" data-field="notes">${esc(s.notes)}</textarea>
   </div>
   ${p.warn ? `<div class="warn-box"><div class="warn-ttl">Printing Advice</div>${esc(p.warn)}</div>` : ''}
+<<<<<<< HEAD
+=======
+  ${datalistHtml(idMat, sug.material)}
+  ${datalistHtml(idCol, sug.color)}
+  ${datalistHtml(idPrn, sug.printer)}
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
   <div class="qr-row">
     <button class="qr-open-btn" data-action="feedback">${ICON_MAIL} Send Feedback</button>
   </div>
@@ -87,7 +208,11 @@ export function renderWorkshop(container, parts, state) {
         const card = document.createElement('div');
         card.className = `part st-${s.status}`;
         card.dataset.pn = p.pn;
+<<<<<<< HEAD
         card.innerHTML = cardInner(p, s);
+=======
+        card.innerHTML = cardInner(p, s, collectFieldSuggestions(state, parts, p.pn));
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
         container.appendChild(card);
     }
     updateStats(parts, state);
@@ -102,7 +227,11 @@ export function refreshCard(pn, parts, state) {
     if (!p || !s)
         return;
     card.className = `part st-${s.status}`;
+<<<<<<< HEAD
     card.innerHTML = cardInner(p, s);
+=======
+    card.innerHTML = cardInner(p, s, collectFieldSuggestions(state, parts, pn));
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
 }
 /** Update the three stat counters and progress bars. */
 export function updateStats(parts, state) {
@@ -138,8 +267,24 @@ export function initWorkshopListeners(container, cb) {
             cb.onToggle(pn);
         }
         else if (action === 'download') {
+<<<<<<< HEAD
             // slight delay so the browser initiates the download before we mutate state
             setTimeout(() => cb.onDownload(pn), 300);
+=======
+            const link = target.closest('a[data-action="download"]');
+            if (!link)
+                return;
+            e.preventDefault();
+            const url = link.href;
+            const filename = link.download || 'part.step';
+            void downloadUrlToFile(url, filename)
+                .then(() => cb.onDownload(pn))
+                .catch((err) => {
+                console.error(err);
+                const msg = err instanceof Error ? err.message : String(err);
+                alert(`Could not download file: ${msg}`);
+            });
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
         }
         else if (action === 'feedback') {
             cb.onFeedback(pn);

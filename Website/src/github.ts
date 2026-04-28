@@ -17,8 +17,17 @@ interface GithubFile {
 
 /** Fetch all .step files under VAC_Printed_Parts from the GitHub Trees API. */
 export async function fetchStepFiles(): Promise<GithubFile[]> {
-  const res  = await fetch(REPO_TREE);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetch(REPO_TREE);
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`;
+    try {
+      const errBody = (await res.json()) as { message?: string };
+      if (errBody.message) detail += `: ${errBody.message}`;
+    } catch {
+      /* ignore non-JSON error bodies */
+    }
+    throw new Error(detail);
+  }
   const data: { tree: TreeItem[] } = await res.json();
 
   return data.tree

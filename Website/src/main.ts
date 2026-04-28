@@ -11,6 +11,7 @@ import {
   updateStats,
   updateProgSub,
   initWorkshopListeners,
+  syncFieldSuggestionDatalists,
 } from './render';
 import { renderPrint }  from './print';
 import type { Part, PartState } from './types';
@@ -172,6 +173,7 @@ initWorkshopListeners(wsContainer, {
     if (!s) return;
     (s as unknown as Record<string, unknown>)[field] = value;
     save();
+    syncFieldSuggestionDatalists(wsContainer, parts, state);
   },
 
   onFeedback(pn) {

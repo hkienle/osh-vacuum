@@ -4,8 +4,23 @@ const RAW_BASE = 'https://raw.githubusercontent.com/hkienle/osh-vacuum/hardware-
 /** Fetch all .step files under VAC_Printed_Parts from the GitHub Trees API. */
 export async function fetchStepFiles() {
     const res = await fetch(REPO_TREE);
+<<<<<<< HEAD
     if (!res.ok)
         throw new Error(`HTTP ${res.status}`);
+=======
+    if (!res.ok) {
+        let detail = `HTTP ${res.status}`;
+        try {
+            const errBody = (await res.json());
+            if (errBody.message)
+                detail += `: ${errBody.message}`;
+        }
+        catch {
+            /* ignore non-JSON error bodies */
+        }
+        throw new Error(detail);
+    }
+>>>>>>> 59d52ee2a284374524f0f9c5e570e07d8757497d
     const data = await res.json();
     return data.tree
         .filter(i => i.type === 'blob' &&

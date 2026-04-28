@@ -1,7 +1,108 @@
 import type { Part, AppState } from './types';
-import { esc, el, ICON_DL, ICON_CK, ICON_MAIL } from './utils';
+import { esc, el, ICON_DL, ICON_CK, ICON_MAIL, downloadUrlToFile } from './utils';
 
 // ── Card HTML helpers ───────────────────────────────────────────────────────
+
+const SUG_TITLE =
+  'Values used on other checklist items. Type or open the list to pick one.';
+
+/** Unique trimmed values from other checklist rows (excluding one part), sorted. */
+interface FieldSuggestions {
+  material: string[];
+  color: string[];
+  printer: string[];
+}
+
+function safePnId(pn: string): string {
+  return pn.replace(/[^a-zA-Z0-9_-]/g, '_');
+}
+
+function collectFieldSuggestions(
+  state: AppState,
+  parts: Part[],
+  excludePn: string,
+): FieldSuggestions {
+  const mats = new Set<string>();
+  const colors = new Set<string>();
+  const printers = new Set<string>();
+  const cmp = (a: string, b: string) => a.localeCompare(b, undefined, { sensitivity: 'base' });
+
+  for (const q of parts) {
+    if (q.pn === excludePn) continue;
+    const st = state[q.pn];
+    if (!st) continue;
+    const m = st.material.trim();
+    const c = st.color.trim();
+    const pr = st.printer.trim();
+    if (m) mats.add(m);
+    if (c) colors.add(c);
+    if (pr) printers.add(pr);
+  }
+
+  return {
+    material: [...mats].sort(cmp),
+    color: [...colors].sort(cmp),
+    printer: [...printers].sort(cmp),
+  };
+}
+
+function datalistHtml(id: string, values: string[]): string {
+  if (!values.length) return '';
+  const opts = values.map((v) => `<option value="${esc(v)}"></option>`).join('');
+  return `<datalist id="${esc(id)}">${opts}</datalist>`;
+}
+
+/**
+ * After a field changes, refresh all &lt;datalist&gt; option sets so suggestions
+ * stay in sync without re-rendering the full list (keeps input focus).
+ */
+export function syncFieldSuggestionDatalists(
+  container: HTMLElement,
+  parts: Part[],
+  state: AppState,
+): void {
+  for (const p of parts) {
+    const card = Array.from(container.querySelectorAll<HTMLElement>('.part[data-pn]')).find(
+      (c) => c.dataset.pn === p.pn,
+    );
+    if (!card) continue;
+    const sid = safePnId(p.pn);
+    const sug = collectFieldSuggestions(state, parts, p.pn);
+    patchFieldDatalist(card, 'material', `sug-m-${sid}`, sug.material);
+    patchFieldDatalist(card, 'color', `sug-c-${sid}`, sug.color);
+    patchFieldDatalist(card, 'printer', `sug-p-${sid}`, sug.printer);
+  }
+}
+
+function patchFieldDatalist(
+  card: HTMLElement,
+  field: 'material' | 'color' | 'printer',
+  listId: string,
+  values: string[],
+): void {
+  const inp = card.querySelector<HTMLInputElement>(`input.fld-inp[data-field="${field}"]`);
+  if (!inp) return;
+
+  if (values.length === 0) {
+    inp.removeAttribute('list');
+    inp.removeAttribute('title');
+    document.getElementById(listId)?.remove();
+    return;
+  }
+
+  let dl = document.getElementById(listId);
+  if (!dl) {
+    dl = document.createElement('datalist');
+    dl.id = listId;
+    const detail = card.querySelector('.detail');
+    const qr = card.querySelector('.qr-row');
+    if (detail && qr) detail.insertBefore(dl, qr);
+    else detail?.appendChild(dl);
+  }
+  dl.innerHTML = values.map((v) => `<option value="${esc(v)}"></option>`).join('');
+  inp.setAttribute('list', listId);
+  inp.setAttribute('title', SUG_TITLE);
+}
 
 function revFromFilename(filename: string): string | null {
   const base = filename.replace(/\.step$/i, '');
@@ -18,16 +119,23 @@ function dlPill(p: Part, status: string): string {
   const fn   = esc(p.filename);
   const href = esc(p.downloadUrl);
   if (status === 'available')
-    return `<a class="dl av" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
+    return `<a class="dl av" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_DL}${fn}</a>`;
   if (status === 'downloaded')
-    return `<a class="dl dl2" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
-  return `<a class="dl pr" href="${href}" download="${fn}" target="_blank" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
+    return `<a class="dl dl2" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
+  return `<a class="dl pr" href="${href}" download="${fn}" rel="noopener noreferrer" data-action="download">${ICON_CK}${fn}</a>`;
 }
 
-function cardInner(p: Part, s: AppState[string]): string {
+function cardInner(p: Part, s: AppState[string], sug: FieldSuggestions): string {
   const cbChecked = s.status === 'printed';
   const rev       = p.rev ?? (p.filename ? revFromFilename(p.filename) : null);
   const pnClass   = /X/i.test(p.pn) ? 'pn pn-ph' : 'pn';
+  const sid       = safePnId(p.pn);
+  const idMat     = `sug-m-${sid}`;
+  const idCol     = `sug-c-${sid}`;
+  const idPrn     = `sug-p-${sid}`;
+  const listMat = sug.material.length ? ` list="${idMat}" title="${esc(SUG_TITLE)}"` : '';
+  const listCol = sug.color.length ? ` list="${idCol}" title="${esc(SUG_TITLE)}"` : '';
+  const listPrn = sug.printer.length ? ` list="${idPrn}" title="${esc(SUG_TITLE)}"` : '';
 
   return `
 <div class="part-row rgrid${s.expanded ? ' xopen' : ''}" data-action="toggle">
@@ -48,16 +156,16 @@ function cardInner(p: Part, s: AppState[string]): string {
 </div>
 <div class="detail${s.expanded ? ' open' : ''}">
   <div class="fld">
-    <label class="fld-lbl">Material Used</label>
-    <input class="fld-inp" value="${esc(s.material)}" placeholder="PLA, PETG, ASA…" data-field="material">
+    <label class="fld-lbl">Material Used <span class="fld-sug-hint">(filament)</span></label>
+    <input class="fld-inp" value="${esc(s.material)}" placeholder="PLA, PETG, ASA…" data-field="material"${listMat}>
   </div>
   <div class="fld">
-    <label class="fld-lbl">Color</label>
-    <input class="fld-inp" value="${esc(s.color)}" placeholder="e.g. Black, RAL 9005" data-field="color">
+    <label class="fld-lbl">Color <span class="fld-sug-hint">(filament)</span></label>
+    <input class="fld-inp" value="${esc(s.color)}" placeholder="e.g. Black, RAL 9005" data-field="color"${listCol}>
   </div>
   <div class="fld">
     <label class="fld-lbl">Printer</label>
-    <input class="fld-inp" value="${esc(s.printer)}" placeholder="e.g. Bambu X1C" data-field="printer">
+    <input class="fld-inp" value="${esc(s.printer)}" placeholder="e.g. Bambu X1C" data-field="printer"${listPrn}>
   </div>
   <div class="fld">
     <label class="fld-lbl">Date Printed</label>
@@ -68,6 +176,9 @@ function cardInner(p: Part, s: AppState[string]): string {
     <textarea class="fld-ta" placeholder="Infill %, layer height, issues…" data-field="notes">${esc(s.notes)}</textarea>
   </div>
   ${p.warn ? `<div class="warn-box"><div class="warn-ttl">Printing Advice</div>${esc(p.warn)}</div>` : ''}
+  ${datalistHtml(idMat, sug.material)}
+  ${datalistHtml(idCol, sug.color)}
+  ${datalistHtml(idPrn, sug.printer)}
   <div class="qr-row">
     <button class="qr-open-btn" data-action="feedback">${ICON_MAIL} Send Feedback</button>
   </div>
@@ -96,7 +207,7 @@ export function renderWorkshop(container: HTMLElement, parts: Part[], state: App
     const card = document.createElement('div');
     card.className  = `part st-${s.status}`;
     card.dataset.pn = p.pn;
-    card.innerHTML  = cardInner(p, s);
+    card.innerHTML  = cardInner(p, s, collectFieldSuggestions(state, parts, p.pn));
     container.appendChild(card);
   }
 
@@ -111,7 +222,7 @@ export function refreshCard(pn: string, parts: Part[], state: AppState): void {
   const s = state[pn];
   if (!p || !s) return;
   card.className = `part st-${s.status}`;
-  card.innerHTML = cardInner(p, s);
+  card.innerHTML = cardInner(p, s, collectFieldSuggestions(state, parts, pn));
 }
 
 /** Update the three stat counters and progress bars. */
@@ -160,8 +271,18 @@ export function initWorkshopListeners(container: HTMLElement, cb: WorkshopCallba
     if (action === 'toggle' && !target.closest('a, input, button, textarea, label')) {
       cb.onToggle(pn);
     } else if (action === 'download') {
-      // slight delay so the browser initiates the download before we mutate state
-      setTimeout(() => cb.onDownload(pn), 300);
+      const link = target.closest<HTMLAnchorElement>('a[data-action="download"]');
+      if (!link) return;
+      e.preventDefault();
+      const url = link.href;
+      const filename = link.download || 'part.step';
+      void downloadUrlToFile(url, filename)
+        .then(() => cb.onDownload(pn))
+        .catch((err: unknown) => {
+          console.error(err);
+          const msg = err instanceof Error ? err.message : String(err);
+          alert(`Could not download file: ${msg}`);
+        });
     } else if (action === 'feedback') {
       cb.onFeedback(pn);
     }

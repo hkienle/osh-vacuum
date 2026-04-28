@@ -130,6 +130,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:12px;l
 .detail.open{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px}
 .fld{display:flex;flex-direction:column;gap:4px}
 .fld-lbl{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.12em}
+.fld-sug-hint{font-weight:400;color:var(--mt2);font-size:9px;text-transform:none;letter-spacing:0}
 .fld-inp,.fld-ta{background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:var(--fn);font-size:11px;padding:5px 8px;border-radius:3px;outline:none;width:100%;transition:border-color .15s}
 .fld-inp:focus,.fld-ta:focus{border-color:var(--ac)}
 .fld-ta{resize:vertical;min-height:48px}
