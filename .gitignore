@@ -2,3 +2,8 @@
 
 # Lokale Firmware-Secrets / persönliche Defaults (Vorlage: settings_config.example.h)
 Firmware/src/settings/settings_config.h
+
+# PlatformIO auto-generated VSCode files (contain local paths)
+Firmware/.vscode/c_cpp_properties.json
+Firmware/.vscode/launch.json
+Firmware/compile_commands.json
