@@ -121,11 +121,11 @@ void printNetworkSummaryToSerial(const char* tag) {
 }
 
 void setupWiFi() {
-  // Set LED to pulse white at half brightness during WiFi setup
-  setLEDColor(128, 128, 128); // White at half brightness
-  setLEDPattern(LED_PULSE);
-  setLEDSpeed(2000); // 2 second pulse cycle for smooth animation
-  
+  // Keep strip off until enableLEDBarDisplay() boot glow (no pulse/STA/AP colors during setup).
+  setLEDColor(0, 0, 0);
+  setLEDPattern(LED_OFF);
+  updateLED();
+
   Serial.println("Attempting to connect to WiFi...");
   Serial.print("SSID: ");
   Serial.println(wifi_ssid);
@@ -140,8 +140,8 @@ void setupWiFi() {
   bool connected = false;
   
   while (millis() - startTime < 10000) { // 10 second timeout
-    updateLED(); // Update LED continuously for smooth pulse
-    
+    yield();
+
     if (WiFi.status() == WL_CONNECTED) {
       connected = true;
       break;
@@ -153,10 +153,9 @@ void setupWiFi() {
       lastDotTime = millis();
     }
     
-    // No delay needed - updateLED() handles timing, and WiFi.status() is non-blocking
   }
   Serial.println();
-  
+
   if (connected || WiFi.status() == WL_CONNECTED) {
     Serial.println("WiFi connected successfully!");
     Serial.print("IP address: ");
@@ -168,10 +167,6 @@ void setupWiFi() {
     } else {
       Serial.println("Error starting mDNS");
     }
-    
-    // Set LED to solid blue when connected to WiFi
-    setLEDColor(0, 0, 255); // Blue
-    setLEDPattern(LED_STATIC);
   } else {
     Serial.println("WiFi connection failed. Starting Access Point...");
     
@@ -185,14 +180,13 @@ void setupWiFi() {
       Serial.println(ap_ssid);
       Serial.print("IP address: ");
       Serial.println(WiFi.softAPIP());
-      
-      // Set LED to solid orange when in AP mode
-      setLEDColor(255, 140, 0); // Orange
-      setLEDPattern(LED_STATIC);
     } else {
       Serial.println("Failed to start WiFi AP!");
-      // Keep LED as is if AP failed
     }
   }
+
+  setLEDColor(0, 0, 0);
+  setLEDPattern(LED_OFF);
+  updateLED();
 }
 

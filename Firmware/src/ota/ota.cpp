@@ -4,6 +4,7 @@
 #include <ArduinoOTA.h>
 
 #include "display/display.h"
+#include "led/led.h"
 #include "settings/settings_config.h"
 #include "wifi/wifi.h"
 
@@ -40,6 +41,7 @@ void updateOTA() {
       otaProgressPercent = 0;
       otaOverlayUntilMs = 0;
       updateDisplayOtaScreen(0);
+      ledNotifyOtaProgressFromCallback(true, 0);
       Serial.println("[OTA] Start");
     });
     ArduinoOTA.onEnd([]() {
@@ -47,6 +49,7 @@ void updateOTA() {
       otaUpdateActive = true;
       otaOverlayUntilMs = millis() + 1000UL;
       updateDisplayOtaScreen(100);
+      ledNotifyOtaProgressFromCallback(true, 100);
       Serial.println("\n[OTA] End");
       delay(200);
       ESP.restart();
@@ -57,12 +60,14 @@ void updateOTA() {
       otaOverlayUntilMs = 0;
       otaProgressPercent = static_cast<uint8_t>(pct > 100U ? 100U : pct);
       updateDisplayOtaScreen(otaProgressPercent);
+      ledNotifyOtaProgressFromCallback(true, otaProgressPercent);
       Serial.printf("[OTA] Progress: %u%%\r", pct);
     });
     ArduinoOTA.onError([](ota_error_t error) {
       otaUpdateActive = false;
       otaProgressPercent = 0;
       otaOverlayUntilMs = 0;
+      ledNotifyOtaProgressFromCallback(false, 0);
       Serial.printf("[OTA] Error[%u]\n", static_cast<unsigned>(error));
     });
 

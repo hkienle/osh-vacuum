@@ -312,7 +312,7 @@ void printRight15(const char* s, int16_t y, uint8_t textSize) {
   display.print(s);
 }
 
-void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t seriesCells, uint8_t motorDisp, uint8_t triggerMode) {
+void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t maxDuty, uint8_t seriesCells, uint8_t motorDisp, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme) {
   char buf[48];
   display.clearDisplay();
   display.setTextColor(SSD1327_WHITE);
@@ -361,7 +361,16 @@ void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8
       display.setCursor(6, kSubY);
       display.print("Motor PWM Floor");
       break;
-    case 9: {
+    case 9:
+      display.setTextSize(2);
+      drawBoldText15("Maximum Duty", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%u%%", static_cast<unsigned>(maxDuty));
+      printRight15(buf, kTitleY, 3);
+      display.setTextSize(2);
+      display.setCursor(6, kSubY);
+      display.print("At speed 100%");
+      break;
+    case 10: {
       display.setTextSize(2);
       drawBoldText15("Battery Cells", 6, kTitleY);
       snprintf(buf, sizeof(buf), "%uS", static_cast<unsigned>(seriesCells));
@@ -373,9 +382,27 @@ void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8
       display.print(buf);
       break;
     }
-    case 10:
+    case 11:
       display.setTextSize(2);
-      drawBoldText15("Live-Data", 6, kTitleY);
+      drawBoldText15("Sleep Timer", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%um", static_cast<unsigned>(sleepTimer));
+      printRight15(buf, kTitleY, 3);
+      display.setTextSize(2);
+      display.setCursor(6, kSubY);
+      display.print("UI + Controller");
+      break;
+    case 12:
+      display.setTextSize(2);
+      drawBoldText15("Trigger Mode", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(triggerMode) + 1U);
+      printRight15(buf, kTitleY, 3);
+      display.setTextSize(2);
+      display.setCursor(6, kSubY);
+      display.print(triggerMode == 0 ? "Hold" : "Double-Press");
+      break;
+    case 13:
+      display.setTextSize(2);
+      drawBoldText15("Live-Display", 6, kTitleY);
       snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(motorDisp) + 1U);
       printRight15(buf, kTitleY, 3);
       display.setTextSize(2);
@@ -400,23 +427,98 @@ void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8
         display.print(modeName);
       }
       break;
-    case 11:
+    case 14:
       display.setTextSize(2);
-      drawBoldText15("Sleep Timer", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%um", static_cast<unsigned>(sleepTimer));
+      drawBoldText15("LED (Idle)", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(ledIdleDisplayMode) + 1U);
       printRight15(buf, kTitleY, 3);
       display.setTextSize(2);
       display.setCursor(6, kSubY);
-      display.print("UI + Controller");
+      {
+        const char* idleName = "SOC";
+        switch (ledIdleDisplayMode) {
+          case 1:
+            idleName = "Speed";
+            break;
+          case 2:
+            idleName = "RPM";
+            break;
+          default:
+            idleName = "SOC";
+            break;
+        }
+        display.print(idleName);
+      }
       break;
-    case 12:
+    case 15:
       display.setTextSize(2);
-      drawBoldText15("Trigger Mode", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(triggerMode) + 1U);
+      drawBoldText15("LED (Motor On)", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(ledDisplayMode) + 1U);
       printRight15(buf, kTitleY, 3);
       display.setTextSize(2);
       display.setCursor(6, kSubY);
-      display.print(triggerMode == 0 ? "Hold" : "Double-Press");
+      {
+        const char* ledName = "SOC";
+        switch (ledDisplayMode) {
+          case 0:
+            ledName = "SOC";
+            break;
+          case 1:
+            ledName = "RPM";
+            break;
+          case 2:
+            ledName = "Speed";
+            break;
+          default:
+            ledName = "Temp";
+            break;
+        }
+        display.print(ledName);
+      }
+      break;
+    case 16:
+      display.setTextSize(2);
+      drawBoldText15("Off-Led", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%u%%", static_cast<unsigned>(ledDimPercent));
+      printRight15(buf, kTitleY, 3);
+      display.setTextSize(2);
+      display.setCursor(6, kSubY);
+      display.print("Brightness");
+      break;
+    case 17:
+      display.setTextSize(2);
+      drawBoldText15("LED Theme", 6, kTitleY);
+      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(ledTheme));
+      printRight15(buf, kTitleY, 3);
+      display.setTextSize(2);
+      display.setCursor(6, kSubY);
+      {
+        const char* themeName = "Off";
+        switch (ledTheme) {
+          case 1:
+            themeName = "White";
+            break;
+          case 2:
+            themeName = "Blue";
+            break;
+          case 3:
+            themeName = "Green";
+            break;
+          case 4:
+            themeName = "Pink";
+            break;
+          case 5:
+            themeName = "Orange";
+            break;
+          case 6:
+            themeName = "Yellow";
+            break;
+          default:
+            themeName = "Off";
+            break;
+        }
+        display.print(themeName);
+      }
       break;
     default:
       break;
@@ -424,7 +526,7 @@ void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8
   display.display();
 }
 
-void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t seriesCells, float batteryVoltage, int8_t socPercent, bool motorActive, float motorTempC, bool motorTemperatureReady, float mcuTempC, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t motorDisp, uint8_t triggerMode) {
+void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t seriesCells, float batteryVoltage, int8_t socPercent, bool motorActive, float motorTempC, bool motorTemperatureReady, float mcuTempC, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t maxDuty, uint8_t motorDisp, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme, uint32_t maxStatsRpm, bool maxStatsHasRpm, float maxStatsVoltageV, bool maxStatsHasVoltage, float maxStatsMotorTempC, bool maxStatsHasMotorTemp) {
   display.clearDisplay();
   display.setTextColor(SSD1327_WHITE);
 
@@ -435,6 +537,35 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
 
   switch (page) {
     case 0:
+      display.setTextSize(2);
+      drawBoldText15("Maximum Stats", 10, 8);
+      display.setTextSize(1);
+      display.setCursor(8, 34);
+      if (maxStatsHasRpm) {
+        snprintf(buf, sizeof(buf), "RPM: %lu", static_cast<unsigned long>(maxStatsRpm));
+      } else {
+        snprintf(buf, sizeof(buf), "RPM: --");
+      }
+      display.print(buf);
+      display.setCursor(8, 48);
+      if (maxStatsHasVoltage) {
+        snprintf(buf, sizeof(buf), "Volt.: %.2fV", static_cast<double>(maxStatsVoltageV));
+      } else {
+        snprintf(buf, sizeof(buf), "Volt.: --");
+      }
+      display.print(buf);
+      display.setCursor(8, 62);
+      if (maxStatsHasMotorTemp) {
+        snprintf(buf, sizeof(buf), "Temp.: %.1fC", static_cast<double>(maxStatsMotorTempC));
+      } else {
+        snprintf(buf, sizeof(buf), "Temp.: --");
+      }
+      display.print(buf);
+      display.setCursor(8, 76);
+      display.print("Hold trig 2s: clear");
+      break;
+
+    case 1:
       display.setTextSize(2);
       drawBoldText15("Battery Info", 14, 8);
       display.setTextSize(1);
@@ -456,7 +587,7 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
       }
       break;
 
-    case 1: {
+    case 2: {
       const bool apMode = getWiFiLinkRole() == WiFiLinkRole::AccessPoint;
       display.setTextSize(2);
       drawBoldText15("WiFi Info", 26, 8);
@@ -488,7 +619,7 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
       break;
     }
 
-    case 2:
+    case 3:
       display.setTextSize(2);
       drawBoldText15("BLE-Info", 28, 8);
       display.setTextSize(1);
@@ -500,7 +631,7 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
       display.print("Visible: No");
       break;
 
-    case 3:
+    case 4:
       display.setTextSize(2);
       drawBoldText15("Sensor Info", 18, 8);
       display.setTextSize(1);
@@ -520,7 +651,7 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
       display.print(buf);
       break;
 
-    case 4: {
+    case 5: {
       const uint32_t uptimeHours = uptimeSec / 3600U;
       const uint32_t uptimeMin = (uptimeSec % 3600U) / 60U;
       display.setTextSize(2);
@@ -539,7 +670,6 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
       break;
     }
 
-    case 5:
     case 6:
     case 7:
     case 8:
@@ -547,7 +677,13 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
     case 10:
     case 11:
     case 12:
-      drawSettingsPage15(page, autoOff, sleepTimer, tempLim, spdStep, minDuty, seriesCells, motorDisp, triggerMode);
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+      drawSettingsPage15(static_cast<uint8_t>(page - 1U), autoOff, sleepTimer, tempLim, spdStep, minDuty, maxDuty, seriesCells, motorDisp, triggerMode, ledIdleDisplayMode, ledDisplayMode, ledDimPercent, ledTheme);
       return;
 
     default:
@@ -557,6 +693,9 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
 }
 
 void drawOtaScreen15(uint8_t percent) {
+  constexpr uint16_t kOtaUiBlueGray = 0xBU;
+  const uint8_t pct = percent > 100 ? 100 : percent;
+
   constexpr int16_t barX = 4;
   constexpr int16_t barY = 100;
   constexpr int16_t barW = 120;
@@ -567,13 +706,13 @@ void drawOtaScreen15(uint8_t percent) {
   constexpr int16_t innerW = barW - 6;
 
   display.clearDisplay();
-  display.setTextColor(SSD1327_WHITE);
+  display.setTextColor(kOtaUiBlueGray);
   display.setTextSize(2);
   display.setCursor(6, 4);
   display.print("Update");
   display.setTextSize(3);
   char pctBuf[16];
-  snprintf(pctBuf, sizeof(pctBuf), "%u%%", static_cast<unsigned>(percent));
+  snprintf(pctBuf, sizeof(pctBuf), "%u%%", static_cast<unsigned>(pct));
   int16_t x1 = 0;
   int16_t y1 = 0;
   uint16_t w = 0;
@@ -581,10 +720,10 @@ void drawOtaScreen15(uint8_t percent) {
   display.getTextBounds(pctBuf, 0, 0, &x1, &y1, &w, &h);
   display.setCursor(122 - static_cast<int16_t>(w), 0);
   display.print(pctBuf);
-  display.drawRect(barX, barY, barW, barH, SSD1327_WHITE);
-  const int16_t fillW = (innerW * static_cast<int16_t>(percent)) / 100;
+  display.drawRect(barX, barY, barW, barH, kOtaUiBlueGray);
+  const int16_t fillW = (innerW * static_cast<int16_t>(pct)) / 100;
   if (fillW > 0) {
-    display.fillRect(innerX, innerY, fillW, innerH, SSD1327_WHITE);
+    display.fillRect(innerX, innerY, fillW, innerH, kOtaUiBlueGray);
   }
   display.display();
 }
@@ -628,7 +767,7 @@ void initDisplayWaveshare15I2C() {
   displayInitialized = true;
 }
 
-void updateDisplayWaveshare15I2C(uint8_t speedPercent, float batteryVoltage, float temperatureC, bool motorTemperatureReady, float mcuTempC, float rpm, bool triggerHeld, bool rpmReady, int8_t batterySocPercent, bool motorActive, bool displayInfoMode, uint8_t displayInfoPage, uint32_t uptimeSeconds, uint32_t freeHeapBytes, uint8_t batterySeriesCells, uint8_t autoOffMinutes, uint8_t sleepTimerMinutes, uint8_t tempLimitC, uint8_t speedStepPercent, uint8_t minDutyPercent, uint8_t motorDisplayMode, uint8_t triggerMode, bool otaActive, uint8_t otaProgressPercent) {
+void updateDisplayWaveshare15I2C(uint8_t speedPercent, float batteryVoltage, float temperatureC, bool motorTemperatureReady, float mcuTempC, float rpm, bool triggerHeld, bool rpmReady, int8_t batterySocPercent, bool motorActive, bool displayInfoMode, uint8_t displayInfoPage, uint32_t uptimeSeconds, uint32_t freeHeapBytes, uint8_t batterySeriesCells, uint8_t autoOffMinutes, uint8_t sleepTimerMinutes, uint8_t tempLimitC, uint8_t speedStepPercent, uint8_t minDutyPercent, uint8_t maxDutyPercent, uint8_t motorDisplayMode, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme, uint32_t maxStatsRpm, bool maxStatsHasRpm, float maxStatsVoltageV, bool maxStatsHasVoltage, float maxStatsMotorTempC, bool maxStatsHasMotorTemp, bool otaActive, uint8_t otaProgressPercent) {
   if (!displayInitialized || !displayAvailable) {
     return;
   }
@@ -663,7 +802,7 @@ void updateDisplayWaveshare15I2C(uint8_t speedPercent, float batteryVoltage, flo
   }
 
   if (displayInfoMode) {
-    drawInfoPage15(displayInfoPage, uptimeSeconds, freeHeapBytes, batterySeriesCells, batteryVoltage, batterySocPercent, motorActive, temperatureC, motorTemperatureReady, mcuTempC, autoOffMinutes, sleepTimerMinutes, tempLimitC, speedStepPercent, minDutyPercent, motorDisplayMode, triggerMode);
+    drawInfoPage15(displayInfoPage, uptimeSeconds, freeHeapBytes, batterySeriesCells, batteryVoltage, batterySocPercent, motorActive, temperatureC, motorTemperatureReady, mcuTempC, autoOffMinutes, sleepTimerMinutes, tempLimitC, speedStepPercent, minDutyPercent, maxDutyPercent, motorDisplayMode, triggerMode, ledIdleDisplayMode, ledDisplayMode, ledDimPercent, ledTheme, maxStatsRpm, maxStatsHasRpm, maxStatsVoltageV, maxStatsHasVoltage, maxStatsMotorTempC, maxStatsHasMotorTemp);
     wasInfoMode15 = true;
     return;
   }

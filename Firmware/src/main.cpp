@@ -16,21 +16,21 @@
 #include "display/display.h"
 #include "mcu_temp/mcu_temp.h"
 #include "power/power.h"
+#include "maximum_stats/maximum_stats.h"
 
 long nextBroadcastTime = 0;
 int broadcastInterval = 250;
-unsigned long bootTime = 0;
 void setup() {
-  Serial.begin(115200);
-  delay(1000);  // Blocking wait only in setup() (Serial/USB attach)
-
-  bootTime = millis();
-
   // Pull IO7 low (will be controlled by button module)
   pinMode(7, OUTPUT);
   digitalWrite(7, LOW);
 
+  // Black out WS2812 as early as possible (before USB wait) so they stay off until boot glow.
   initLED();
+
+  Serial.begin(115200);
+  delay(1000);  // Blocking wait only in setup() (Serial/USB attach)
+
   initButtons();
   initTemperature();
   initBattery();
@@ -42,6 +42,7 @@ void setup() {
   initWebSocket();
   initSettings();
   loadRuntimeSettings();
+  initMaximumStats();
   initBatterySOC(getRuntimeSettings().batterySeriesCells);
   initDisplay(getRuntimeSettings());
   initMcuTemperature();
@@ -52,6 +53,7 @@ void setup() {
   }
 
   printNetworkSummaryToSerial();
+  enableLEDBarDisplay(static_cast<uint8_t>(getRuntimeSettings().ledTheme));
 }
 
 void loop() {
@@ -60,21 +62,15 @@ void loop() {
   // Update buttons (handles speed changes and trigger state)
   updateButtons();
   
-  // Check if we should switch to speed display mode (after 2 seconds)
-  checkSpeedDisplayMode(bootTime);
-  
-  // Update LED speed display if in speed display mode
-  if (millis() - bootTime >= 2000) {
-    setLEDSpeedDisplay(getSpeed(), isMotorActive());
-  }
-  
   if (isMotorActive()) {
     const uint8_t speed = getSpeed();
     const uint8_t minP = getRuntimeSettings().minDutyPercent;
+    const uint8_t maxP = clampMaxDutyPercent(getRuntimeSettings().maxDutyPercent, minP);
     int pwmDuty = 0;
     if (speed > 0) {
       const int minDuty = static_cast<int>((minP * 255) / 100);
-      pwmDuty = minDuty + (static_cast<int>(speed) * (255 - minDuty)) / 100;
+      const int maxDuty = static_cast<int>((maxP * 255) / 100);
+      pwmDuty = minDuty + (static_cast<int>(speed) * (maxDuty - minDuty)) / 100;
     }
     setMotorDuty(pwmDuty);
     startMotor();
@@ -87,13 +83,43 @@ void loop() {
     motorRunStartMs = 0;
   }
   
-  updateLED();
   updateTemperature();
   updateMcuTemperature();
   updateBattery();
   updateBatterySOC();
   updateTachometer();
   updateOTA();
+
+  maximumStatsOnMotorLoop(
+      isMotorActive(),
+      getRPM(),
+      isRPMReady(),
+      getBatteryVoltage(),
+      getTemperature(),
+      isTemperatureReady());
+
+  {
+    const RuntimeSettings& rsLed = getRuntimeSettings();
+    const MaximumStatsForDisplay mxLed = maximumStatsGetForDisplay();
+    updateLEDBarGraph(
+        getBatterySOC(),
+        getRPM(),
+        isRPMReady(),
+        mxLed.maxRpm,
+        mxLed.hasMaxRpm,
+        getSpeed(),
+        getTemperature(),
+        isTemperatureReady(),
+        rsLed.tempLimitC,
+        isMotorActive(),
+        static_cast<uint8_t>(rsLed.ledIdleDisplayMode),
+        static_cast<uint8_t>(rsLed.ledDisplayMode),
+        rsLed.ledDimPercent,
+        static_cast<uint8_t>(rsLed.ledTheme),
+        isOtaUpdateActive(),
+        getOtaProgressPercent());
+  }
+  updateLED();
 
   if (isMotorActive()) {
     const uint8_t autoOffMin = getRuntimeSettings().autoOffMinutes;
@@ -111,6 +137,7 @@ void loop() {
     if (lim > 0 && isTemperatureReady() && getTemperature() > static_cast<float>(lim)) {
       setMotorState(false);
       motorRunStartMs = 0;
+      triggerThermalOffBlink();
       Serial.printf("[Main] Motor stopped: NTC > %u C\n", static_cast<unsigned>(lim));
     }
   }
@@ -120,6 +147,7 @@ void loop() {
     return;
   }
   const RuntimeSettings& rs = getRuntimeSettings();
+  const MaximumStatsForDisplay mx = maximumStatsGetForDisplay();
   DisplayTelemetry telemetry {
     getSpeed(),
     getBatteryVoltage(),
@@ -143,8 +171,19 @@ void loop() {
     rs.tempLimitC,
     rs.speedStepPercent,
     rs.minDutyPercent,
+    rs.maxDutyPercent,
     static_cast<uint8_t>(rs.motorDisplayMode),
     static_cast<uint8_t>(rs.triggerMode),
+    static_cast<uint8_t>(rs.ledIdleDisplayMode),
+    static_cast<uint8_t>(rs.ledDisplayMode),
+    rs.ledDimPercent,
+    static_cast<uint8_t>(rs.ledTheme),
+    mx.maxRpm,
+    mx.hasMaxRpm,
+    mx.maxVoltageV,
+    mx.hasMaxVoltage,
+    mx.maxMotorTempC,
+    mx.hasMaxMotorTemp,
   };
   updateDisplay(telemetry);
   updateMotor();  // Check heartbeat timeout

@@ -13,8 +13,13 @@ constexpr char KEY_SLEEP_TMR[] = "sleep_tmr";
 constexpr char KEY_TEMP_LIM[] = "temp_lim";
 constexpr char KEY_SPD_STEP[] = "spd_step";
 constexpr char KEY_MIN_DUTY[] = "min_duty";
+constexpr char KEY_MAX_DUTY[] = "max_duty";
 constexpr char KEY_MTR_DISP[] = "mtr_disp";
 constexpr char KEY_TRIG_MODE[] = "trig_mode";
+constexpr char KEY_LED_DISP[] = "led_disp";
+constexpr char KEY_LED_IDLE[] = "led_idle";
+constexpr char KEY_LED_DIM[] = "led_dim";
+constexpr char KEY_LED_THEME[] = "led_theme";
 constexpr char DISPLAY_091[] = "0.91-I2C-Waveshare";
 constexpr char DISPLAY_15[] = "1.5-I2C-Waveshare";
 constexpr char DISPLAY_NONE[] = "none";
@@ -69,7 +74,62 @@ TriggerMode clampTriggerMode(uint8_t v) {
   }
   return static_cast<TriggerMode>(SettingsConfig::DEFAULT_TRIGGER_MODE);
 }
+
+LedDisplayMode clampLedDisp(uint8_t v) {
+  if (v <= static_cast<uint8_t>(LedDisplayMode::Temp)) {
+    return static_cast<LedDisplayMode>(v);
+  }
+  return static_cast<LedDisplayMode>(SettingsConfig::DEFAULT_LED_DISPLAY_MODE);
+}
+
+LedIdleDisplayMode clampLedIdle(uint8_t v) {
+  if (v <= static_cast<uint8_t>(LedIdleDisplayMode::Rpm)) {
+    return static_cast<LedIdleDisplayMode>(v);
+  }
+  return static_cast<LedIdleDisplayMode>(SettingsConfig::DEFAULT_LED_IDLE_DISPLAY_MODE);
+}
+
+uint8_t clampLedDimPercent(uint8_t v) {
+  if (v <= 10) {
+    return v;
+  }
+  if (v >= 15 && v <= 50 && (v - 15) % 5 == 0) {
+    return v;
+  }
+  return SettingsConfig::DEFAULT_LED_DIM_PERCENT;
+}
+
+LedTheme clampLedTheme(uint8_t v) {
+  if (v <= static_cast<uint8_t>(LedTheme::Yellow)) {
+    return static_cast<LedTheme>(v);
+  }
+  return static_cast<LedTheme>(SettingsConfig::DEFAULT_LED_THEME);
+}
 }  // namespace
+
+uint8_t maxDutyPercentLowerBound(uint8_t minDutyPercent) {
+  uint8_t m = minDutyPercent;
+  if (!(m == 0 || (m >= 1 && m <= 30))) {
+    m = SettingsConfig::DEFAULT_MIN_DUTY_PERCENT;
+  }
+  uint8_t lo = 50;
+  const unsigned need = static_cast<unsigned>(m) + 1U;
+  if (need > static_cast<unsigned>(lo)) {
+    lo = static_cast<uint8_t>(need > 100U ? 100U : need);
+  }
+  return lo;
+}
+
+uint8_t clampMaxDutyPercent(uint8_t maxDutyPercent, uint8_t minDutyPercent) {
+  const uint8_t lo = maxDutyPercentLowerBound(minDutyPercent);
+  if (maxDutyPercent < lo) {
+    return lo;
+  }
+  if (maxDutyPercent > 100) {
+    return 100;
+  }
+  return maxDutyPercent;
+}
 
 void initSettings() {}
 
@@ -111,8 +171,13 @@ RuntimeSettings& loadRuntimeSettings() {
   s_rt.tempLimitC = SettingsConfig::DEFAULT_TEMP_LIMIT_C;
   s_rt.speedStepPercent = SettingsConfig::DEFAULT_SPEED_STEP_PERCENT;
   s_rt.minDutyPercent = SettingsConfig::DEFAULT_MIN_DUTY_PERCENT;
+  s_rt.maxDutyPercent = SettingsConfig::DEFAULT_MAX_DUTY_PERCENT;
   s_rt.motorDisplayMode = clampMotorDisp(SettingsConfig::DEFAULT_MOTOR_DISPLAY_MODE);
   s_rt.triggerMode = clampTriggerMode(SettingsConfig::DEFAULT_TRIGGER_MODE);
+  s_rt.ledIdleDisplayMode = clampLedIdle(SettingsConfig::DEFAULT_LED_IDLE_DISPLAY_MODE);
+  s_rt.ledDisplayMode = clampLedDisp(SettingsConfig::DEFAULT_LED_DISPLAY_MODE);
+  s_rt.ledDimPercent = clampLedDimPercent(SettingsConfig::DEFAULT_LED_DIM_PERCENT);
+  s_rt.ledTheme = clampLedTheme(SettingsConfig::DEFAULT_LED_THEME);
 
   Preferences prefs;
   if (!prefs.begin(SETTINGS_NAMESPACE, true)) {
@@ -136,8 +201,13 @@ RuntimeSettings& loadRuntimeSettings() {
   s_rt.tempLimitC = clampTempLim(prefs.getUChar(KEY_TEMP_LIM, s_rt.tempLimitC));
   s_rt.speedStepPercent = clampSpeedStep(prefs.getUChar(KEY_SPD_STEP, s_rt.speedStepPercent));
   s_rt.minDutyPercent = clampMinDuty(prefs.getUChar(KEY_MIN_DUTY, s_rt.minDutyPercent));
+  s_rt.maxDutyPercent = clampMaxDutyPercent(prefs.getUChar(KEY_MAX_DUTY, s_rt.maxDutyPercent), s_rt.minDutyPercent);
   s_rt.motorDisplayMode = clampMotorDisp(prefs.getUChar(KEY_MTR_DISP, static_cast<uint8_t>(s_rt.motorDisplayMode)));
   s_rt.triggerMode = clampTriggerMode(prefs.getUChar(KEY_TRIG_MODE, static_cast<uint8_t>(s_rt.triggerMode)));
+  s_rt.ledIdleDisplayMode = clampLedIdle(prefs.getUChar(KEY_LED_IDLE, static_cast<uint8_t>(s_rt.ledIdleDisplayMode)));
+  s_rt.ledDisplayMode = clampLedDisp(prefs.getUChar(KEY_LED_DISP, static_cast<uint8_t>(s_rt.ledDisplayMode)));
+  s_rt.ledDimPercent = clampLedDimPercent(prefs.getUChar(KEY_LED_DIM, s_rt.ledDimPercent));
+  s_rt.ledTheme = clampLedTheme(prefs.getUChar(KEY_LED_THEME, static_cast<uint8_t>(s_rt.ledTheme)));
 
   prefs.end();
   return s_rt;
@@ -160,11 +230,23 @@ bool saveRuntimeSettings(const RuntimeSettings& settings) {
   const bool okSleep = prefs.putUChar(KEY_SLEEP_TMR, clampSleepTimer(settings.sleepTimerMinutes)) > 0;
   const bool okTemp = prefs.putUChar(KEY_TEMP_LIM, clampTempLim(settings.tempLimitC)) > 0;
   const bool okStep = prefs.putUChar(KEY_SPD_STEP, clampSpeedStep(settings.speedStepPercent)) > 0;
-  const bool okMin = prefs.putUChar(KEY_MIN_DUTY, clampMinDuty(settings.minDutyPercent)) > 0;
+  const uint8_t minClamped = clampMinDuty(settings.minDutyPercent);
+  const bool okMin = prefs.putUChar(KEY_MIN_DUTY, minClamped) > 0;
+  const uint8_t maxClamped = clampMaxDutyPercent(settings.maxDutyPercent, minClamped);
+  const bool okMaxDuty = prefs.putUChar(KEY_MAX_DUTY, maxClamped) > 0;
   const uint8_t md = static_cast<uint8_t>(clampMotorDisp(static_cast<uint8_t>(settings.motorDisplayMode)));
   const bool okDisp = prefs.putUChar(KEY_MTR_DISP, md) > 0;
   const uint8_t tm = static_cast<uint8_t>(clampTriggerMode(static_cast<uint8_t>(settings.triggerMode)));
   const bool okTrigMode = prefs.putUChar(KEY_TRIG_MODE, tm) > 0;
+  const uint8_t li = static_cast<uint8_t>(clampLedIdle(static_cast<uint8_t>(settings.ledIdleDisplayMode)));
+  const bool okLedIdle = prefs.putUChar(KEY_LED_IDLE, li) > 0;
+  const uint8_t ld = static_cast<uint8_t>(clampLedDisp(static_cast<uint8_t>(settings.ledDisplayMode)));
+  const bool okLedDisp = prefs.putUChar(KEY_LED_DISP, ld) > 0;
+  const uint8_t dim = clampLedDimPercent(settings.ledDimPercent);
+  const bool okLedDim = prefs.putUChar(KEY_LED_DIM, dim) > 0;
+  const uint8_t th = static_cast<uint8_t>(clampLedTheme(static_cast<uint8_t>(settings.ledTheme)));
+  const bool okLedTheme = prefs.putUChar(KEY_LED_THEME, th) > 0;
   prefs.end();
-  return okDisplay && okCells && okAuto && okSleep && okTemp && okStep && okMin && okDisp && okTrigMode;
+  return okDisplay && okCells && okAuto && okSleep && okTemp && okStep && okMin && okMaxDuty && okDisp && okTrigMode &&
+         okLedIdle && okLedDisp && okLedDim && okLedTheme;
 }

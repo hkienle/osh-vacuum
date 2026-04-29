@@ -22,6 +22,32 @@ enum class TriggerMode : uint8_t {
   DoublePress = 1,
 };
 
+/** Motor-on LED bar (5 LEDs): SOC, RPM, speed %, or motor NTC temp. */
+enum class LedDisplayMode : uint8_t {
+  Soc = 0,
+  Rpm = 1,
+  Speed = 2,
+  Temp = 3,
+};
+
+/** Idle (motor off) LED bar: SOC, speed setting, or RPM. */
+enum class LedIdleDisplayMode : uint8_t {
+  Soc = 0,
+  Speed = 1,
+  Rpm = 2,
+};
+
+/** Bar / OTA accent color (lit segments); Off hides colored lit segments. */
+enum class LedTheme : uint8_t {
+  Off = 0,
+  White = 1,
+  Blue = 2,
+  Green = 3,
+  Pink = 4,
+  Orange = 5,
+  Yellow = 6,
+};
+
 struct RuntimeSettings {
   DisplayType displayType = DisplayType::Waveshare091I2C;
   uint8_t batterySeriesCells = 5;  // Series cell count for pack voltage -> SOC mapping (1–32 NVS; UI cycles 1–14S)
@@ -35,8 +61,15 @@ struct RuntimeSettings {
   uint8_t speedStepPercent = 20;
   /** Minimum PWM floor as % of 255 when motor runs (0,5,…,30). */
   uint8_t minDutyPercent = 0;
+  /** Maximum PWM at speed 100 %: 50–100 % in 1 % steps, always > minDutyPercent. */
+  uint8_t maxDutyPercent = 100;
   MotorDisplayMode motorDisplayMode = MotorDisplayMode::Rpm;
   TriggerMode triggerMode = TriggerMode::Hold;
+  LedIdleDisplayMode ledIdleDisplayMode = LedIdleDisplayMode::Soc;
+  LedDisplayMode ledDisplayMode = LedDisplayMode::Soc;
+  /** Inactive bar segments: 0–10 % in 1 % steps, then 15–50 % in 5 % steps. */
+  uint8_t ledDimPercent = 0;
+  LedTheme ledTheme = LedTheme::White;
 };
 
 // Initialize settings subsystem.
@@ -54,5 +87,10 @@ RuntimeSettings& getRuntimeSettings();
 // Parse/stringify display type identifiers.
 DisplayType parseDisplayType(const char* value);
 const char* displayTypeToString(DisplayType type);
+
+/** Lowest allowed max-duty % for a given minimum duty (>= 50 and >= min+1). */
+uint8_t maxDutyPercentLowerBound(uint8_t minDutyPercent);
+/** Clamp max duty to 50–100 % and strictly above min duty. */
+uint8_t clampMaxDutyPercent(uint8_t maxDutyPercent, uint8_t minDutyPercent);
 
 #endif  // SETTINGS_H
