@@ -25,6 +25,7 @@
 //   spd_step      … Speed-Taster-Schritt: 5, 10, 20, 25
 //   min_duty      … Mindest-PWM % bei laufendem Motor (0,5,…,30)
 //   mtr_disp      … Hauptanzeige bei Motor an: 0=Speed 1=Volt 2=RPM 3=MOT-Temp
+//   mtr_type      … 0=Generic (PWM), 1=Xiaomi G
 //
 // Netzwerk & OTA (unten) sind reine Compile-Zeit-Werte — nicht im NVS.
 //
@@ -65,6 +66,7 @@ constexpr uint8_t DEFAULT_SPEED_STEP_PERCENT = 20;    // 5, 10, 20, or 25
 constexpr uint8_t DEFAULT_MIN_DUTY_PERCENT = 0;     // 0–30, step 5
 constexpr uint8_t DEFAULT_MOTOR_DISPLAY_MODE = 2;   // 0=Speed 1=Volt 2=RPM 3=MOT-Temp
 constexpr uint8_t DEFAULT_TRIGGER_MODE = 0;         // 0=Hold 1=Double-Press
+constexpr uint8_t DEFAULT_MOTOR_TYPE = 0;           // 0=Generic (PWM), 1=Xiaomi G
 
 // -----------------------------------------------------------------------------
 // STANDBY_TIMEOUT_MS  —  Inaktivitätszeit bis Light-Sleep

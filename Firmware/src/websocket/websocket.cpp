@@ -4,7 +4,7 @@
 #include "wifi/wifi.h"
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
-#include "motor_pwm/motor_pwm.h"
+#include "motor/motor.h"
 #include "button/button.h"
 
 #define WEBSOCKET_PORT 81

@@ -15,7 +15,7 @@ struct DisplayTelemetry {
   int8_t batterySocPercent;  // 0-100, or -1 if unavailable
   bool motorActive;
   bool displayInfoMode;
-  uint8_t displayInfoPage;  // 0–5 info, 6–18 settings
+  uint8_t displayInfoPage;  // 0–5 info; 6+ settings (see devMenuTotalPageCount)
   uint32_t uptimeSeconds;
   uint32_t freeHeapBytes;
   uint8_t batterySeriesCells;
@@ -36,6 +36,7 @@ struct DisplayTelemetry {
   uint8_t ledDisplayMode;
   uint8_t ledDimPercent;
   uint8_t ledTheme;
+  uint8_t motorType;
 
   uint32_t maxStatsRpm;
   bool maxStatsHasRpm;

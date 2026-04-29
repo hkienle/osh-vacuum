@@ -8,11 +8,12 @@
 #include "battery_soc/battery_soc.h"
 #include "tachometer/tachometer.h"
 #include "websocket/websocket.h"
-#include "motor_pwm/motor_pwm.h"
+#include "motor/motor.h"
 #include "webserver/webserver.h"
 #include "ota/ota.h"
 #include "button/button.h"
 #include "settings/settings.h"
+#include "settings/dev_menu.h"
 #include "display/display.h"
 #include "mcu_temp/mcu_temp.h"
 #include "power/power.h"
@@ -35,13 +36,14 @@ void setup() {
   initTemperature();
   initBattery();
   initTachometer();
-  initMotorPWM();
   initWebServer();
   initOTA();
   setupWiFi();
   initWebSocket();
   initSettings();
   loadRuntimeSettings();
+  initMotor(getRuntimeSettings().motorType);
+  devMenuRebuildVisible();
   initMaximumStats();
   initBatterySOC(getRuntimeSettings().batterySeriesCells);
   initDisplay(getRuntimeSettings());
@@ -64,15 +66,7 @@ void loop() {
   
   if (isMotorActive()) {
     const uint8_t speed = getSpeed();
-    const uint8_t minP = getRuntimeSettings().minDutyPercent;
-    const uint8_t maxP = clampMaxDutyPercent(getRuntimeSettings().maxDutyPercent, minP);
-    int pwmDuty = 0;
-    if (speed > 0) {
-      const int minDuty = static_cast<int>((minP * 255) / 100);
-      const int maxDuty = static_cast<int>((maxP * 255) / 100);
-      pwmDuty = minDuty + (static_cast<int>(speed) * (maxDuty - minDuty)) / 100;
-    }
-    setMotorDuty(pwmDuty);
+    setMotorSpeedPercent(speed);
     startMotor();
     if (motorRunStartMs == 0) {
       motorRunStartMs = millis();
@@ -92,8 +86,8 @@ void loop() {
 
   maximumStatsOnMotorLoop(
       isMotorActive(),
-      getRPM(),
-      isRPMReady(),
+      motorGetRpm(),
+      motorIsRpmReady(),
       getBatteryVoltage(),
       getTemperature(),
       isTemperatureReady());
@@ -103,8 +97,8 @@ void loop() {
     const MaximumStatsForDisplay mxLed = maximumStatsGetForDisplay();
     updateLEDBarGraph(
         getBatterySOC(),
-        getRPM(),
-        isRPMReady(),
+        motorGetRpm(),
+        motorIsRpmReady(),
         mxLed.maxRpm,
         mxLed.hasMaxRpm,
         getSpeed(),
@@ -154,9 +148,9 @@ void loop() {
     getTemperature(),
     isTemperatureReady(),
     getMcuTemperatureC(),
-    getRPM(),
+    motorGetRpm(),
     isTriggerPressed(),
-    isRPMReady(),
+    motorIsRpmReady(),
     getBatterySOC(),
     isMotorActive(),
     isDisplayInfoMode(),
@@ -178,6 +172,7 @@ void loop() {
     static_cast<uint8_t>(rs.ledDisplayMode),
     rs.ledDimPercent,
     static_cast<uint8_t>(rs.ledTheme),
+    static_cast<uint8_t>(rs.motorType),
     mx.maxRpm,
     mx.hasMaxRpm,
     mx.maxVoltageV,
@@ -193,7 +188,7 @@ void loop() {
   if(millis() > nextBroadcastTime) {  
     const uint8_t speedPercent = getSpeed();
     const float batteryVoltage = getBatteryVoltage();
-    const float rpmValue = getRPM();
+    const float rpmValue = motorGetRpm();
     const bool motorActive = isMotorActive();
 
     char serialLine[160];

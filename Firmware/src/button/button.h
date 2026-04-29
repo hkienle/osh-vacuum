@@ -36,7 +36,7 @@ void setMotorState(bool active); // true = motor_start, false = motor_stop
 // Display info mode: UP+DOWN long-press toggles menu on/off. UP/DOWN cycle pages (0–5 info, 6–18 settings).
 // TRIGGER on settings pages cycles value and saves NVS; on info pages TRIGGER does nothing.
 bool isDisplayInfoMode();
-uint8_t getDisplayInfoPage();  // 0–5 info, 6–18 settings (see firmware docs)
+uint8_t getDisplayInfoPage();  // 0–5 info pages, 6+ settings (see devMenuTotalPageCount)
 // Reset runtime button/motor mode state while keeping the saved speed setting.
 void resetButtonRuntimeStateKeepSpeed();
 

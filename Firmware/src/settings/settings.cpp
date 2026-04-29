@@ -20,6 +20,7 @@ constexpr char KEY_LED_DISP[] = "led_disp";
 constexpr char KEY_LED_IDLE[] = "led_idle";
 constexpr char KEY_LED_DIM[] = "led_dim";
 constexpr char KEY_LED_THEME[] = "led_theme";
+constexpr char KEY_MTR_TYPE[] = "mtr_type";
 constexpr char DISPLAY_091[] = "0.91-I2C-Waveshare";
 constexpr char DISPLAY_15[] = "1.5-I2C-Waveshare";
 constexpr char DISPLAY_NONE[] = "none";
@@ -48,7 +49,7 @@ uint8_t clampSleepTimer(uint8_t v) {
 }
 
 uint8_t clampSpeedStep(uint8_t v) {
-  if (v == 5 || v == 10 || v == 20 || v == 25) {
+  if (v == 1 || v == 5 || v == 10 || v == 20 || v == 25) {
     return v;
   }
   return SettingsConfig::DEFAULT_SPEED_STEP_PERCENT;
@@ -104,6 +105,13 @@ LedTheme clampLedTheme(uint8_t v) {
     return static_cast<LedTheme>(v);
   }
   return static_cast<LedTheme>(SettingsConfig::DEFAULT_LED_THEME);
+}
+
+MotorType clampMotorType(uint8_t v) {
+  if (v <= static_cast<uint8_t>(MotorType::XiaomiG)) {
+    return static_cast<MotorType>(v);
+  }
+  return static_cast<MotorType>(SettingsConfig::DEFAULT_MOTOR_TYPE);
 }
 }  // namespace
 
@@ -163,6 +171,30 @@ const char* displayTypeToString(DisplayType type) {
   }
 }
 
+MotorType parseMotorType(uint8_t v) {
+  return clampMotorType(v);
+}
+
+const char* motorTypeToString(MotorType type) {
+  switch (type) {
+    case MotorType::XiaomiG:
+      return "xiaomi-g";
+    case MotorType::GenericPwm:
+    default:
+      return "generic-pwm";
+  }
+}
+
+const char* motorTypeDisplayName(MotorType type) {
+  switch (type) {
+    case MotorType::XiaomiG:
+      return "Xiaomi G";
+    case MotorType::GenericPwm:
+    default:
+      return "Generic (PWM)";
+  }
+}
+
 RuntimeSettings& loadRuntimeSettings() {
   s_rt.displayType = parseDisplayType(SettingsConfig::DEFAULT_DISPLAY_TYPE);
   s_rt.batterySeriesCells = SettingsConfig::DEFAULT_BATTERY_SERIES_CELLS;
@@ -178,6 +210,7 @@ RuntimeSettings& loadRuntimeSettings() {
   s_rt.ledDisplayMode = clampLedDisp(SettingsConfig::DEFAULT_LED_DISPLAY_MODE);
   s_rt.ledDimPercent = clampLedDimPercent(SettingsConfig::DEFAULT_LED_DIM_PERCENT);
   s_rt.ledTheme = clampLedTheme(SettingsConfig::DEFAULT_LED_THEME);
+  s_rt.motorType = clampMotorType(SettingsConfig::DEFAULT_MOTOR_TYPE);
 
   Preferences prefs;
   if (!prefs.begin(SETTINGS_NAMESPACE, true)) {
@@ -208,6 +241,7 @@ RuntimeSettings& loadRuntimeSettings() {
   s_rt.ledDisplayMode = clampLedDisp(prefs.getUChar(KEY_LED_DISP, static_cast<uint8_t>(s_rt.ledDisplayMode)));
   s_rt.ledDimPercent = clampLedDimPercent(prefs.getUChar(KEY_LED_DIM, s_rt.ledDimPercent));
   s_rt.ledTheme = clampLedTheme(prefs.getUChar(KEY_LED_THEME, static_cast<uint8_t>(s_rt.ledTheme)));
+  s_rt.motorType = clampMotorType(prefs.getUChar(KEY_MTR_TYPE, static_cast<uint8_t>(s_rt.motorType)));
 
   prefs.end();
   return s_rt;
@@ -246,7 +280,9 @@ bool saveRuntimeSettings(const RuntimeSettings& settings) {
   const bool okLedDim = prefs.putUChar(KEY_LED_DIM, dim) > 0;
   const uint8_t th = static_cast<uint8_t>(clampLedTheme(static_cast<uint8_t>(settings.ledTheme)));
   const bool okLedTheme = prefs.putUChar(KEY_LED_THEME, th) > 0;
+  const uint8_t mt = static_cast<uint8_t>(clampMotorType(static_cast<uint8_t>(settings.motorType)));
+  const bool okMotorType = prefs.putUChar(KEY_MTR_TYPE, mt) > 0;
   prefs.end();
   return okDisplay && okCells && okAuto && okSleep && okTemp && okStep && okMin && okMaxDuty && okDisp && okTrigMode &&
-         okLedIdle && okLedDisp && okLedDim && okLedTheme;
+         okLedIdle && okLedDisp && okLedDim && okLedTheme && okMotorType;
 }

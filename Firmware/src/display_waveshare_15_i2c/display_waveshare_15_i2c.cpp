@@ -1,5 +1,6 @@
 #include "display_waveshare_15_i2c.h"
 #include "../button/button.h"
+#include "../settings/dev_menu.h"
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1327.h>
@@ -292,14 +293,6 @@ void drawBoldText15(const char* text, int16_t x, int16_t y) {
   display.print(text);
 }
 
-void formatAutoOff15(char* buf, size_t len, uint8_t minutes) {
-  if (minutes == 0) {
-    snprintf(buf, len, "OFF");
-  } else {
-    snprintf(buf, len, "%u min", static_cast<unsigned>(minutes));
-  }
-}
-
 void printRight15(const char* s, int16_t y, uint8_t textSize) {
   display.setTextSize(textSize);
   display.setTextColor(SSD1327_WHITE);
@@ -312,221 +305,46 @@ void printRight15(const char* s, int16_t y, uint8_t textSize) {
   display.print(s);
 }
 
-void drawSettingsPage15(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t maxDuty, uint8_t seriesCells, uint8_t motorDisp, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme) {
-  char buf[48];
+void drawDevSettingPage15(const DevSettingDescriptor& d) {
+  char val[48];
+  char sub[48];
   display.clearDisplay();
   display.setTextColor(SSD1327_WHITE);
   constexpr int16_t kTitleY = 4;
-  /** Below large right value (textSize 3 ~24px tall from kTitleY). */
   constexpr int16_t kSubY = 36;
-
-  switch (page) {
-    case 5:
-      display.setTextSize(2);
-      drawBoldText15("Auto-Off", 6, kTitleY);
-      formatAutoOff15(buf, sizeof(buf), autoOff);
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("Motor Shutdown");
-      break;
-    case 6:
-      display.setTextSize(2);
-      drawBoldText15("Temp. Shutdown", 6, kTitleY);
-      if (tempLim == 0) {
-        printRight15("OFF", kTitleY, 3);
-      } else {
-        snprintf(buf, sizeof(buf), "%uC", static_cast<unsigned>(tempLim));
-        printRight15(buf, kTitleY, 3);
-      }
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("Motor NTC");
-      break;
-    case 7:
-      display.setTextSize(2);
-      drawBoldText15("Speed Steps", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u%%", static_cast<unsigned>(spdStep));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("Increase by ...");
-      break;
-    case 8:
-      display.setTextSize(2);
-      drawBoldText15("Minimum Duty", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u%%", static_cast<unsigned>(minDuty));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("Motor PWM Floor");
-      break;
-    case 9:
-      display.setTextSize(2);
-      drawBoldText15("Maximum Duty", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u%%", static_cast<unsigned>(maxDuty));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("At speed 100%");
-      break;
-    case 10: {
-      display.setTextSize(2);
-      drawBoldText15("Battery Cells", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%uS", static_cast<unsigned>(seriesCells));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      const float packMax = static_cast<float>(seriesCells) * 4.2f;
-      snprintf(buf, sizeof(buf), "Max V: %.1fV", packMax);
-      display.print(buf);
-      break;
-    }
-    case 11:
-      display.setTextSize(2);
-      drawBoldText15("Sleep Timer", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%um", static_cast<unsigned>(sleepTimer));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("UI + Controller");
-      break;
-    case 12:
-      display.setTextSize(2);
-      drawBoldText15("Trigger Mode", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(triggerMode) + 1U);
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print(triggerMode == 0 ? "Hold" : "Double-Press");
-      break;
-    case 13:
-      display.setTextSize(2);
-      drawBoldText15("Live-Display", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(motorDisp) + 1U);
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("Show: ");
-      {
-        const char* modeName = "RPM";
-        switch (motorDisp) {
-          case 0:
-            modeName = "Speed";
-            break;
-          case 1:
-            modeName = "Voltage";
-            break;
-          case 2:
-            modeName = "RPM";
-            break;
-          default:
-            modeName = "MOT Temp";
-            break;
-        }
-        display.print(modeName);
-      }
-      break;
-    case 14:
-      display.setTextSize(2);
-      drawBoldText15("LED (Idle)", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(ledIdleDisplayMode) + 1U);
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      {
-        const char* idleName = "SOC";
-        switch (ledIdleDisplayMode) {
-          case 1:
-            idleName = "Speed";
-            break;
-          case 2:
-            idleName = "RPM";
-            break;
-          default:
-            idleName = "SOC";
-            break;
-        }
-        display.print(idleName);
-      }
-      break;
-    case 15:
-      display.setTextSize(2);
-      drawBoldText15("LED (Motor On)", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(ledDisplayMode) + 1U);
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      {
-        const char* ledName = "SOC";
-        switch (ledDisplayMode) {
-          case 0:
-            ledName = "SOC";
-            break;
-          case 1:
-            ledName = "RPM";
-            break;
-          case 2:
-            ledName = "Speed";
-            break;
-          default:
-            ledName = "Temp";
-            break;
-        }
-        display.print(ledName);
-      }
-      break;
-    case 16:
-      display.setTextSize(2);
-      drawBoldText15("Off-Led", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u%%", static_cast<unsigned>(ledDimPercent));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      display.print("Brightness");
-      break;
-    case 17:
-      display.setTextSize(2);
-      drawBoldText15("LED Theme", 6, kTitleY);
-      snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(ledTheme));
-      printRight15(buf, kTitleY, 3);
-      display.setTextSize(2);
-      display.setCursor(6, kSubY);
-      {
-        const char* themeName = "Off";
-        switch (ledTheme) {
-          case 1:
-            themeName = "White";
-            break;
-          case 2:
-            themeName = "Blue";
-            break;
-          case 3:
-            themeName = "Green";
-            break;
-          case 4:
-            themeName = "Pink";
-            break;
-          case 5:
-            themeName = "Orange";
-            break;
-          case 6:
-            themeName = "Yellow";
-            break;
-          default:
-            themeName = "Off";
-            break;
-        }
-        display.print(themeName);
-      }
-      break;
-    default:
-      break;
+  display.setTextSize(2);
+  drawBoldText15(d.title, 6, kTitleY);
+  if (d.formatValue) {
+    d.formatValue(val, sizeof(val));
+  } else {
+    val[0] = '\0';
+  }
+  printRight15(val, kTitleY, 3);
+  display.setTextSize(2);
+  display.setCursor(6, kSubY);
+  if (d.formatSubline) {
+    d.formatSubline(sub, sizeof(sub));
+    display.print(sub);
+  } else if (d.subline) {
+    display.print(d.subline);
   }
   display.display();
 }
 
 void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t seriesCells, float batteryVoltage, int8_t socPercent, bool motorActive, float motorTempC, bool motorTemperatureReady, float mcuTempC, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t maxDuty, uint8_t motorDisp, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme, uint32_t maxStatsRpm, bool maxStatsHasRpm, float maxStatsVoltageV, bool maxStatsHasVoltage, float maxStatsMotorTempC, bool maxStatsHasMotorTemp) {
+  (void)autoOff;
+  (void)sleepTimer;
+  (void)tempLim;
+  (void)spdStep;
+  (void)minDuty;
+  (void)maxDuty;
+  (void)motorDisp;
+  (void)triggerMode;
+  (void)ledIdleDisplayMode;
+  (void)ledDisplayMode;
+  (void)ledDimPercent;
+  (void)ledTheme;
+
   display.clearDisplay();
   display.setTextColor(SSD1327_WHITE);
 
@@ -670,24 +488,15 @@ void drawInfoPage15(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t
       break;
     }
 
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11:
-    case 12:
-    case 13:
-    case 14:
-    case 15:
-    case 16:
-    case 17:
-    case 18:
-      drawSettingsPage15(static_cast<uint8_t>(page - 1U), autoOff, sleepTimer, tempLim, spdStep, minDuty, maxDuty, seriesCells, motorDisp, triggerMode, ledIdleDisplayMode, ledDisplayMode, ledDimPercent, ledTheme);
-      return;
-
     default:
-      break;
+      if (page >= kDevMenuInfoPageCount) {
+        const DevSettingDescriptor* d =
+            devMenuVisibleAt(static_cast<size_t>(page - kDevMenuInfoPageCount));
+        if (d) {
+          drawDevSettingPage15(*d);
+        }
+      }
+      return;
   }
   display.display();
 }
