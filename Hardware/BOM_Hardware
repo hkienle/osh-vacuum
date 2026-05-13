@@ -1,0 +1,81 @@
+:::info
+Copyright and license of this page: https://hackmd.io/@team-intuity/LICENSE
+:::
+# BOM vacuum caznic ξ v1.x
+
+:construction: 
+
+cf. [Build Vacuum 1.0 by hmk-202604](/Ox9r7BxXStuDqyvwbG4sug)
+
+## Printed Parts
+ 
+| Item | Name | Qty | Part Number | Description | Material | Mass est | Revision | Print Time est |
+|------|------|-----|------------|-------------|----------|------|----------|------------|
+| 1 | `core` | 1 | VAC-100-01 | Main component for active parts e.g. PCB, motor | PLA | 0.296 kg | v1.2 | 10:23 |
+| 2 | `core-motoradapter` | 1 | VAC-100-02 | Adapts motor-3 to core | PLA | 0.056 kg | — | 1:50 |
+| 3 | dustbin-cyclone-flange | 1 | VAC-100-03 | Pre-motor filter holder and cyclone adapter | PLA | 0.064 kg | — | 2:01 |
+| 4 | `core-batteryadapter-parkside_20v-slot` | 1 | VAC-100-04 | Adapts Parkside 20V battery packs (PAP 20 B1, PAP 20 B3) to core | PLA | 0.016 kg | — | 0:38 |
+| 5 | `core-batteryadapter-parkside_20v-base` | 1 | VAC-100-05 | Adapts Parkside 20V battery packs (PAP 20 B1, PAP 20 B3) to core | PLA | 0.027 kg | — | 0:51 |
+| 6 | `core-pcbmount` | 1 | VAC-100-06 | Mounts PCB to core | PLA | 0.032 kg | — | — |
+| 7 | `dustbin-top` | 1 | VAC-200-01 | Contains the dustbin-latch along with the dustbin-hinge-latch to close the dustbin assembly | PLA | 0.235 kg | — | 8:15 |
+| 8 | `dustbin-bottom` | 1 | VAC-200-02 | Opens dustbin to release dirt, contains cable channels for motor brush electricity | PLA | 0.146 kg | — | 4:49 |
+| 9 | dustbin-cyclone-bottom | 1 | VAC-200-03 | Contains nuts to fix dustbin-stickadapter to dustbin-bottom, routes cables for motor brushes | PLA | 0.049 kg | — | 1:42 |
+| 10 | dustbin-cyclone-top | 1 | VAC-200-04 | **ATTENTION:** print very fine and if possible without support. The groove for the mesh needs to be opened up after printing. Cyclone for dust separation, routes air through its center to the dustbin-top exiting tangentially | PLA | 0.209 kg | — | 7:21 |
+| 11 | dustbin-stickadapter-xiaomi | 1 | VAC-200-05 | Adapts Xiaomi sticks to dustbin-bottom, contains the electrical plug for Xiaomi motor brushes | PLA | 0.052 kg | — | 1:56 |
+| 12 | `dustbin-hinge-side` | 2 | VAC-200-07 | Main hinge for dustbin-top along with dustbin-hinge-middle | PLA | 0.002 kg | — | 0:09 |
+| 13 | `dustbin-hinge-middle` | 1 | VAC-200-08 | Main hinge for dustbin-bottom with dustbin-hinge-side | PLA | 0.004 kg | — | 0:15 |
+| 14 | `dustbin-hinge-latch` | 1 | VAC-200-09 | Connects latch to dustbin-top | PLA | 0.002 kg | — | 0:09 |
+| 15 | `dustbin-alignmentring` | 1 | VAC-200-10 | Aligns dustbin-top to core | PLA | 0.014 kg | — | 0:33 |
+| 16 | `dustbin-latch` | 1 | VAC-200-11 | Closes the dustbin assembly, needs small spring to function, connects to dustbin-hinge-latch | PLA | 0.005 kg | — | 0:21 |
+| 17 | `dustbin-stickadapter-genericfemale` | 1 | VAC-210-01 | Adapter for sticks without motor brushes like PVC or acrylic rods | PLA | 0.089 kg | — | — |
+| 18 | `lid` | 1 | VAC-300-01 | Closes and mounts lid-inserts to core | PLA | 0.102 kg | — | 3:08 |
+| 19 | `lid-insert-blank` | 3 | VAC-300-04 | Blank inserts to cover holes in lid | PLA | 0.02 kg | — | 0:38 |
+| 20 | `lid-insert-hmi` | 1 | VAC-300-05 | HMI insert for display and buttons | PLA | 0.02 kg | — | 0:38 |
+| 21 | `lid-insert-backhandle-left` | 1 | VAC-310-01 | Left half of the back grip, routes cables from button to core | PLA | 0.046 kg | — | 1:30 |
+| 22 | `lid-insert-backhandle-right` | 1 | VAC-310-02 | Right half of the back grip, routes cables from button to core | PLA | 0.047 kg | — | 1:33 |
+| 23 | `lid-insert-handle-button` | 1 | VAC-310-03 | Button for backgrip | PLA | 0.002 kg | — | 0:38 |
+| 24 | `nozzle-flat-dxx-wxxx` | 1 | VAC-700-01 | Basic nozzle without motor (`d`: pipe dia, `w`: nozzle width) | PLA | 0.087 kg | — | — |
+ 
+### Zusammenfassung
+ 
+- **Anzahl Teile:** 24 verschiedene Komponenten
+- **Gesamtmasse:** ≈ 1.58 kg (PLA)
+- **Material:** 100% PLA
+- **Detaillierungen:** v1.2 (core) in Revision dokumentiert
+- **Druckzeit (gesamt geschätzt):** ≈ 70 Stunden
+
+## Metall Hardware
+
+| Item | Name | Qty | Part Number | Description | Material | Mass | Color |
+|------|------|-----|------------|-------------|----------|------|-------|
+| 35 | `insert-m5` Heat set insert M5 x 5.8 | 29 | VAC-010-01 | — | Brass | 0.001 kg | Brass |
+| 34 | `nut-m5` DIN 934 M5 nuts | 35 | VAC-010-02 | — | Stainless Steel | 0.001 kg | Steel |
+| 28 | DIN ISO 10642 M5x0.8 x **10mm** | 11 | VAC-010-03 | — | Stainless Steel | 0.002 kg | Steel |
+| 31 | DIN ISO 10642 M5x0.8 x **14mm** | 7 | VAC-010-04 | — | Stainless Steel | 0.003 kg | Steel |
+| 29 | DIN ISO 10642 M5x0.8 x **16mm** | 7 | VAC-010-05 | — | Stainless Steel | 0.003 kg | Steel |
+| 30 | DIN ISO 10642 M5x0.8 x **20mm** | 13 | VAC-010-06 | — | Stainless Steel | 0.004 kg | Steel |
+| 32 | DIN EN ISO 4762 M4x0.80 x **30mm** | 2 | VAC-010-08 | — | Stainless Steel | 0.006 kg | Steel |
+| 37 | DIN EN ISO 7049 ST2.2x6.5 | 9 | VAC-010-09 | — | Stainless Steel | 0 kg | Steel |
+| 57 | DIN ISO 10642 M5x0.8 x **40mm** | 4 | VAC-010-11 | — | Stainless Steel | 0.007 kg | Steel |
+
+- :owl: ISO 10642 is the current international standard for hexagon-socket countersunk head screws that supersedes the older national standard DIN 7991, but DIN 7991 is still often used by sellers (e.g., AliExpress).
+
+## Additional Parts
+
+- Motor-3
+- Parkside PAP 20 B1/B3 Battery
+- PCB 
+- DIN EN 1451-1B HTEM DN 32x1.8 Pipe
+    - OD: 32mm
+
+## Procurement
+
+### `insert-m5`
+- :de: CNC Kitchen (worldwide shipping) https://cnckitchen.store/products/heat-set-insert-m5-x-5-8-short-version-50-pieces
+    - :straight_ruler: Length: 5.8mm
+    - :money_with_wings: EUR 9.90 (50pcs) + shipping (May 2026)
+- :cn: [EDGAR GARY Store on AliExpress](https://www.aliexpress.com/store/1102811871)
+    - Search for ["m5 insert"](https://www.aliexpress.com/store/1102811871/pages/all-items.html?SearchText=m5+insert)
+    - :straight_ruler: Size: M5xL6xOD7 (or M5xL5xOD7)
+    - :money_with_wings: EUR ~3.80 (50pcs) + shipping (May 2026)
+ 
