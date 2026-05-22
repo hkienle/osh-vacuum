@@ -1,0 +1,10 @@
+.ui-form-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ui-form-row-label { font-weight: 600; }
+.ui-form-row-subline { opacity: 0.7; font-size: 12px; margin-top: 2px; }

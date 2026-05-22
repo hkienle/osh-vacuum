@@ -29,7 +29,7 @@ constexpr char WIFI_STA_SSID[]     = "YourNetworkName";
 constexpr char WIFI_STA_PASSWORD[] = "YourNetworkPassword";
 
 // Fallback hotspot (used when STA fails)
-constexpr char WIFI_AP_SSID[]      = "OSH_VAC";
+// SSID is always DEVICE_HOSTNAME
 constexpr char WIFI_AP_PASSWORD[]  = "YourAPPassword";
 
 // Device identity — used for mDNS and OTA
@@ -118,6 +118,17 @@ pio run -e esp32-s3-ota -t upload --upload-port 192.168.1.42
 ```
 
 The device shows an OTA progress bar on the OLED and reboots automatically on success.
+
+## Web Settings Modal
+
+The web UI now includes a **Settings** modal that mirrors all on-device dev-menu runtime settings.
+Changes apply immediately and are persisted through the existing WebSocket channel.
+
+WebSocket settings protocol:
+
+- `{"command":"get_settings"}` -> returns `{"settings": {...}, "schema": {...}, "motor_type": <n>}`
+- `{"command":"set_setting","key":"<nvs_key>","value":<number>}` -> applies, persists, and replies with `{"ack":"set_setting","key":"...","ok":true|false}`
+- Any successful change also triggers a broadcast payload with updated `settings` + `schema`
 
 > **Three values must always be in sync:**
 > 

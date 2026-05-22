@@ -26,6 +26,7 @@ constexpr char DISPLAY_15[] = "1.5-I2C-Waveshare";
 constexpr char DISPLAY_NONE[] = "none";
 
 static RuntimeSettings s_rt;
+static RuntimeSettingsChangedCallback s_changedCallback = nullptr;
 
 uint8_t clampAutoOff(uint8_t v) {
   if (v == 0 || v == 1 || v == 2 || v == 5 || v == 10 || v == 30) {
@@ -282,7 +283,15 @@ bool saveRuntimeSettings(const RuntimeSettings& settings) {
   const bool okLedTheme = prefs.putUChar(KEY_LED_THEME, th) > 0;
   const uint8_t mt = static_cast<uint8_t>(clampMotorType(static_cast<uint8_t>(settings.motorType)));
   const bool okMotorType = prefs.putUChar(KEY_MTR_TYPE, mt) > 0;
+  const bool ok = okDisplay && okCells && okAuto && okSleep && okTemp && okStep && okMin && okMaxDuty && okDisp &&
+                  okTrigMode && okLedIdle && okLedDisp && okLedDim && okLedTheme && okMotorType;
   prefs.end();
-  return okDisplay && okCells && okAuto && okSleep && okTemp && okStep && okMin && okMaxDuty && okDisp && okTrigMode &&
-         okLedIdle && okLedDisp && okLedDim && okLedTheme && okMotorType;
+  if (ok && s_changedCallback) {
+    s_changedCallback(settings);
+  }
+  return ok;
+}
+
+void setRuntimeSettingsChangedCallback(RuntimeSettingsChangedCallback callback) {
+  s_changedCallback = callback;
 }

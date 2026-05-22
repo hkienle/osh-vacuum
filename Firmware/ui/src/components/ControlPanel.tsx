@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { DataGraph } from './DataGraph';
 import { useWebSocketContext } from '../contexts/WebSocketContext';
 import { useDataHistory } from '../hooks/useDataHistory';
+import { Button } from './ui/Button';
 import './ControlPanel.css';
 
 export function ControlPanel() {
@@ -173,66 +174,66 @@ export function ControlPanel() {
           </div>
           
           <div className="preset-buttons">
-            <button
+            <Button
               onClick={() => handlePreset(0)}
               className="preset-button"
               disabled={!connected}
             >
               0%
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handlePreset(20)}
               className="preset-button"
               disabled={!connected}
             >
               20%
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handlePreset(40)}
               className="preset-button"
               disabled={!connected}
             >
               40%
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handlePreset(60)}
               className="preset-button"
               disabled={!connected}
             >
               60%
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handlePreset(80)}
               className="preset-button"
               disabled={!connected}
             >
               80%
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handlePreset(100)}
               className="preset-button"
               disabled={!connected}
             >
               100%
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="control-buttons">
-          <button
+          <Button
             onClick={handleStart}
             className="control-button start-button"
             disabled={!connected || isStarted}
           >
             Start
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleStop}
             className={`control-button stop-button ${isStarted ? 'active' : ''}`}
             disabled={!connected || !isStarted}
           >
             Stop
-          </button>
+          </Button>
         </div>
       </div>
 

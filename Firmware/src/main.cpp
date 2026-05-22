@@ -21,6 +21,14 @@
 
 long nextBroadcastTime = 0;
 int broadcastInterval = 250;
+
+namespace {
+void onRuntimeSettingsChanged(const RuntimeSettings& settings) {
+  (void)settings;
+  requestSettingsBroadcast();
+}
+}  // namespace
+
 void setup() {
   // Pull IO7 low (will be controlled by button module)
   pinMode(7, OUTPUT);
@@ -42,6 +50,7 @@ void setup() {
   initWebSocket();
   initSettings();
   loadRuntimeSettings();
+  setRuntimeSettingsChangedCallback(onRuntimeSettingsChanged);
   initMotor(getRuntimeSettings().motorType);
   devMenuRebuildVisible();
   initMaximumStats();

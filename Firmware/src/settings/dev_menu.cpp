@@ -1,6 +1,7 @@
 #include "dev_menu.h"
 
 #include "settings.h"
+#include "settings_schema.h"
 
 #include <Arduino.h>
 #include <stdio.h>
@@ -10,27 +11,6 @@
 #include "../motor/motor.h"
 
 namespace {
-
-void cycleUint8InList(uint8_t& v, const uint8_t* list, size_t n) {
-  for (size_t i = 0; i < n; ++i) {
-    if (list[i] == v) {
-      v = list[(i + 1U) % n];
-      return;
-    }
-  }
-  v = list[0];
-}
-
-void cycleMaxDutyPercentValue(uint8_t minDuty, uint8_t& maxDuty) {
-  const uint8_t lo = maxDutyPercentLowerBound(minDuty);
-  uint8_t v = clampMaxDutyPercent(maxDuty, minDuty);
-  if (v < 100) {
-    ++v;
-  } else {
-    v = lo;
-  }
-  maxDuty = v;
-}
 
 bool saveRsLog() {
   RuntimeSettings& rs = getRuntimeSettings();
@@ -42,403 +22,64 @@ bool saveRsLog() {
   return false;
 }
 
-void formatAutoOffVal(char* out, size_t n) {
-  const uint8_t m = getRuntimeSettings().autoOffMinutes;
-  if (m == 0) {
-    snprintf(out, n, "OFF");
-  } else {
-    snprintf(out, n, "%um", static_cast<unsigned>(m));
-  }
-}
+void formatAutoOffVal(char* out, size_t n) { settingsFormatValue(DevSettingId::AutoOff, getRuntimeSettings(), out, n); }
+void formatTempLimVal(char* out, size_t n) { settingsFormatValue(DevSettingId::TempLimit, getRuntimeSettings(), out, n); }
+void formatSpdStepVal(char* out, size_t n) { settingsFormatValue(DevSettingId::SpeedStep, getRuntimeSettings(), out, n); }
+void formatMinDutyVal(char* out, size_t n) { settingsFormatValue(DevSettingId::MinDuty, getRuntimeSettings(), out, n); }
+void formatMaxDutyVal(char* out, size_t n) { settingsFormatValue(DevSettingId::MaxDuty, getRuntimeSettings(), out, n); }
+void formatBatteryCellsVal(char* out, size_t n) { settingsFormatValue(DevSettingId::BatteryCells, getRuntimeSettings(), out, n); }
+void formatSleepTmrVal(char* out, size_t n) { settingsFormatValue(DevSettingId::SleepTimer, getRuntimeSettings(), out, n); }
+void formatTrigModeVal(char* out, size_t n) { settingsFormatValue(DevSettingId::TriggerMode, getRuntimeSettings(), out, n); }
+void formatMotorDispVal(char* out, size_t n) { settingsFormatValue(DevSettingId::MotorDisplayMode, getRuntimeSettings(), out, n); }
+void formatLedIdleVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedIdle, getRuntimeSettings(), out, n); }
+void formatLedMotorVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedDisplay, getRuntimeSettings(), out, n); }
+void formatLedDimVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedDim, getRuntimeSettings(), out, n); }
+void formatLedThemeVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedTheme, getRuntimeSettings(), out, n); }
+void formatMotorTypeVal(char* out, size_t n) { settingsFormatValue(DevSettingId::MotorType, getRuntimeSettings(), out, n); }
+void formatBatteryCellsSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::BatteryCells, getRuntimeSettings(), out, n); }
+void formatTrigModeSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::TriggerMode, getRuntimeSettings(), out, n); }
+void formatMotorDispSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::MotorDisplayMode, getRuntimeSettings(), out, n); }
+void formatLedIdleSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::LedIdle, getRuntimeSettings(), out, n); }
+void formatLedMotorSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::LedDisplay, getRuntimeSettings(), out, n); }
+void formatLedThemeSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::LedTheme, getRuntimeSettings(), out, n); }
+void formatMotorTypeSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::MotorType, getRuntimeSettings(), out, n); }
 
-void formatTempLimVal(char* out, size_t n) {
-  const uint8_t t = getRuntimeSettings().tempLimitC;
-  if (t == 0) {
-    snprintf(out, n, "OFF");
-  } else {
-    snprintf(out, n, "%uC", static_cast<unsigned>(t));
-  }
-}
-
-void formatSpdStepVal(char* out, size_t n) {
-  snprintf(out, n, "%u%%", static_cast<unsigned>(getRuntimeSettings().speedStepPercent));
-}
-
-void formatMinDutyVal(char* out, size_t n) {
-  snprintf(out, n, "%u%%", static_cast<unsigned>(getRuntimeSettings().minDutyPercent));
-}
-
-void formatMaxDutyVal(char* out, size_t n) {
-  snprintf(out, n, "%u%%", static_cast<unsigned>(getRuntimeSettings().maxDutyPercent));
-}
-
-void formatBatteryCellsVal(char* out, size_t n) {
-  snprintf(out, n, "%uS", static_cast<unsigned>(getRuntimeSettings().batterySeriesCells));
-}
-
-void formatBatteryCellsSub(char* out, size_t n) {
-  const uint8_t seriesCells = getRuntimeSettings().batterySeriesCells;
-  const float packMax = static_cast<float>(seriesCells) * 4.2f;
-  snprintf(out, n, "Max V: %.1fV", static_cast<double>(packMax));
-}
-
-void formatSleepTmrVal(char* out, size_t n) {
-  snprintf(out, n, "%um", static_cast<unsigned>(getRuntimeSettings().sleepTimerMinutes));
-}
-
-void formatTrigModeVal(char* out, size_t n) {
-  snprintf(out, n, "%u", static_cast<unsigned>(getRuntimeSettings().triggerMode) + 1U);
-}
-
-void formatTrigModeSub(char* out, size_t n) {
-  snprintf(out, n, "%s", getRuntimeSettings().triggerMode == TriggerMode::Hold ? "Hold" : "Double-Press");
-}
-
-void formatMotorDispVal(char* out, size_t n) {
-  snprintf(out, n, "%u", static_cast<unsigned>(getRuntimeSettings().motorDisplayMode) + 1U);
-}
-
-void formatMotorDispSub(char* out, size_t n) {
-  const char* modeName = "RPM";
-  switch (getRuntimeSettings().motorDisplayMode) {
-    case MotorDisplayMode::Speed:
-      modeName = "Speed";
-      break;
-    case MotorDisplayMode::Voltage:
-      modeName = "Voltage";
-      break;
-    case MotorDisplayMode::Rpm:
-      modeName = "RPM";
-      break;
-    case MotorDisplayMode::MotorTemp:
-    default:
-      modeName = "MOT Temp";
-      break;
-  }
-  snprintf(out, n, "Show: %s", modeName);
-}
-
-void formatLedIdleVal(char* out, size_t n) {
-  snprintf(out, n, "%u", static_cast<unsigned>(getRuntimeSettings().ledIdleDisplayMode) + 1U);
-}
-
-void formatLedIdleSub(char* out, size_t n) {
-  const char* idleName = "SOC";
-  switch (getRuntimeSettings().ledIdleDisplayMode) {
-    case LedIdleDisplayMode::Speed:
-      idleName = "Speed";
-      break;
-    case LedIdleDisplayMode::Rpm:
-      idleName = "RPM";
-      break;
-    case LedIdleDisplayMode::Soc:
-    default:
-      idleName = "SOC";
-      break;
-  }
-  snprintf(out, n, "%s", idleName);
-}
-
-void formatLedMotorVal(char* out, size_t n) {
-  snprintf(out, n, "%u", static_cast<unsigned>(getRuntimeSettings().ledDisplayMode) + 1U);
-}
-
-void formatLedMotorSub(char* out, size_t n) {
-  const char* ledName = "SOC";
-  switch (getRuntimeSettings().ledDisplayMode) {
-    case LedDisplayMode::Soc:
-      ledName = "SOC";
-      break;
-    case LedDisplayMode::Rpm:
-      ledName = "RPM";
-      break;
-    case LedDisplayMode::Speed:
-      ledName = "Speed";
-      break;
-    case LedDisplayMode::Temp:
-    default:
-      ledName = "Temp";
-      break;
-  }
-  snprintf(out, n, "%s", ledName);
-}
-
-void formatLedDimVal(char* out, size_t n) {
-  snprintf(out, n, "%u%%", static_cast<unsigned>(getRuntimeSettings().ledDimPercent));
-}
-
-void formatLedThemeVal(char* out, size_t n) {
-  snprintf(out, n, "%u", static_cast<unsigned>(getRuntimeSettings().ledTheme));
-}
-
-void formatLedThemeSub(char* out, size_t n) {
-  const char* themeName = "Off";
-  switch (getRuntimeSettings().ledTheme) {
-    case LedTheme::White:
-      themeName = "White";
-      break;
-    case LedTheme::Blue:
-      themeName = "Blue";
-      break;
-    case LedTheme::Green:
-      themeName = "Green";
-      break;
-    case LedTheme::Pink:
-      themeName = "Pink";
-      break;
-    case LedTheme::Orange:
-      themeName = "Orange";
-      break;
-    case LedTheme::Yellow:
-      themeName = "Yellow";
-      break;
-    case LedTheme::Off:
-    default:
-      themeName = "Off";
-      break;
-  }
-  snprintf(out, n, "%s", themeName);
-}
-
-void formatMotorTypeVal(char* out, size_t n) {
-  const auto t = static_cast<unsigned>(getRuntimeSettings().motorType);
-  snprintf(out, n, "%u", t + 1U);
-}
-
-void formatMotorTypeSub(char* out, size_t n) {
-  snprintf(out, n, "%s", motorTypeDisplayName(getRuntimeSettings().motorType));
-}
-
-// --- cycle + save ---
-
-void cycleAutoOff() {
-  static constexpr uint8_t k[] = {0, 1, 2, 5, 10, 30};
+void cycleAndSave(DevSettingId id) {
   RuntimeSettings& rs = getRuntimeSettings();
-  cycleUint8InList(rs.autoOffMinutes, k, sizeof(k));
+  settingsCycleGlobalValue(rs, id);
   saveRsLog();
 }
 
-void cycleTempLim() {
-  static constexpr uint8_t k[] = {0, 30, 35, 40, 45, 50, 55, 60, 65, 70};
-  RuntimeSettings& rs = getRuntimeSettings();
-  cycleUint8InList(rs.tempLimitC, k, sizeof(k));
-  saveRsLog();
-}
-
-void cycleSpeedStep() {
-  static constexpr uint8_t k[] = {1, 5, 10, 20, 25};
-  RuntimeSettings& rs = getRuntimeSettings();
-  cycleUint8InList(rs.speedStepPercent, k, sizeof(k));
-  saveRsLog();
-}
-
-void cycleMinDuty() {
-  static constexpr uint8_t k[] = {
-      1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-      21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
-  RuntimeSettings& rs = getRuntimeSettings();
-  cycleUint8InList(rs.minDutyPercent, k, sizeof(k));
-  rs.maxDutyPercent = clampMaxDutyPercent(rs.maxDutyPercent, rs.minDutyPercent);
-  saveRsLog();
-}
-
-void cycleMaxDuty() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  cycleMaxDutyPercentValue(rs.minDutyPercent, rs.maxDutyPercent);
-  saveRsLog();
-}
-
-void cycleBatteryCells() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t c = rs.batterySeriesCells;
-  if (c < 1 || c > 14) {
-    c = 1;
-  } else if (c >= 14) {
-    c = 1;
-  } else {
-    ++c;
-  }
-  rs.batterySeriesCells = c;
-  initBatterySOC(rs.batterySeriesCells);
-  saveRsLog();
-}
-
-void cycleSleepTimer() {
-  static constexpr uint8_t k[] = {1, 2, 5, 10, 30};
-  RuntimeSettings& rs = getRuntimeSettings();
-  cycleUint8InList(rs.sleepTimerMinutes, k, sizeof(k));
-  saveRsLog();
-}
-
-void cycleTriggerMode() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t t = static_cast<uint8_t>(rs.triggerMode);
-  t = static_cast<uint8_t>((t + 1U) % 2U);
-  rs.triggerMode = static_cast<TriggerMode>(t);
-  saveRsLog();
-}
-
-void cycleMotorDisp() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t m = static_cast<uint8_t>(rs.motorDisplayMode);
-  m = static_cast<uint8_t>((m + 1U) % 4U);
-  rs.motorDisplayMode = static_cast<MotorDisplayMode>(m);
-  saveRsLog();
-}
-
-void cycleLedIdle() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t l = static_cast<uint8_t>(rs.ledIdleDisplayMode);
-  l = static_cast<uint8_t>((l + 1U) % 3U);
-  rs.ledIdleDisplayMode = static_cast<LedIdleDisplayMode>(l);
-  saveRsLog();
-}
-
-void cycleLedDisp() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t l = static_cast<uint8_t>(rs.ledDisplayMode);
-  l = static_cast<uint8_t>((l + 1U) % 4U);
-  rs.ledDisplayMode = static_cast<LedDisplayMode>(l);
-  saveRsLog();
-}
-
-void cycleLedDim() {
-  static constexpr uint8_t k[] = {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
-                                  15, 20, 25, 30, 35, 40, 45, 50};
-  RuntimeSettings& rs = getRuntimeSettings();
-  cycleUint8InList(rs.ledDimPercent, k, sizeof(k));
-  saveRsLog();
-}
-
-void cycleLedTheme() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t t = static_cast<uint8_t>(rs.ledTheme);
-  t = static_cast<uint8_t>((static_cast<unsigned>(t) + 1U) % 7U);
-  rs.ledTheme = static_cast<LedTheme>(t);
-  saveRsLog();
-}
-
-void cycleMotorType() {
-  RuntimeSettings& rs = getRuntimeSettings();
-  uint8_t t = static_cast<uint8_t>(rs.motorType);
-  t = static_cast<uint8_t>((t + 1U) % 2U);
-  rs.motorType = static_cast<MotorType>(t);
-  saveRsLog();
-}
+void cycleAutoOff() { cycleAndSave(DevSettingId::AutoOff); }
+void cycleTempLim() { cycleAndSave(DevSettingId::TempLimit); }
+void cycleSpeedStep() { cycleAndSave(DevSettingId::SpeedStep); }
+void cycleMinDuty() { cycleAndSave(DevSettingId::MinDuty); }
+void cycleMaxDuty() { cycleAndSave(DevSettingId::MaxDuty); }
+void cycleBatteryCells() { cycleAndSave(DevSettingId::BatteryCells); }
+void cycleSleepTimer() { cycleAndSave(DevSettingId::SleepTimer); }
+void cycleTriggerMode() { cycleAndSave(DevSettingId::TriggerMode); }
+void cycleMotorDisp() { cycleAndSave(DevSettingId::MotorDisplayMode); }
+void cycleLedIdle() { cycleAndSave(DevSettingId::LedIdle); }
+void cycleLedDisp() { cycleAndSave(DevSettingId::LedDisplay); }
+void cycleLedDim() { cycleAndSave(DevSettingId::LedDim); }
+void cycleLedTheme() { cycleAndSave(DevSettingId::LedTheme); }
+void cycleMotorType() { cycleAndSave(DevSettingId::MotorType); }
 
 static DevSettingDescriptor kGlobalDescriptors[] = {
-    {true,
-     DevSettingId::AutoOff,
-     nullptr,
-     "Auto-Off",
-     formatAutoOffVal,
-     "Motor Shutdown",
-     nullptr,
-     cycleAutoOff},
-    {true,
-     DevSettingId::TempLimit,
-     nullptr,
-     "Temp. Shutdown",
-     formatTempLimVal,
-     "Motor NTC",
-     nullptr,
-     cycleTempLim},
-    {true,
-     DevSettingId::SpeedStep,
-     nullptr,
-     "Speed Steps",
-     formatSpdStepVal,
-     "Increase by ...",
-     nullptr,
-     cycleSpeedStep},
-    {true,
-     DevSettingId::MinDuty,
-     nullptr,
-     "Minimum Duty",
-     formatMinDutyVal,
-     "Motor PWM Floor",
-     nullptr,
-     cycleMinDuty},
-    {true,
-     DevSettingId::MaxDuty,
-     nullptr,
-     "Maximum Duty",
-     formatMaxDutyVal,
-     "@ speed 100%",
-     nullptr,
-     cycleMaxDuty},
-    {true,
-     DevSettingId::BatteryCells,
-     nullptr,
-     "Battery Cells",
-     formatBatteryCellsVal,
-     nullptr,
-     formatBatteryCellsSub,
-     cycleBatteryCells},
-    {true,
-     DevSettingId::SleepTimer,
-     nullptr,
-     "Sleep Timer",
-     formatSleepTmrVal,
-     "UI + Controller",
-     nullptr,
-     cycleSleepTimer},
-    {true,
-     DevSettingId::TriggerMode,
-     nullptr,
-     "Trigger Mode",
-     formatTrigModeVal,
-     nullptr,
-     formatTrigModeSub,
-     cycleTriggerMode},
-    {true,
-     DevSettingId::MotorDisplayMode,
-     nullptr,
-     "Live-Display",
-     formatMotorDispVal,
-     nullptr,
-     formatMotorDispSub,
-     cycleMotorDisp},
-    {true,
-     DevSettingId::LedIdle,
-     nullptr,
-     "LED (Idle)",
-     formatLedIdleVal,
-     nullptr,
-     formatLedIdleSub,
-     cycleLedIdle},
-    {true,
-     DevSettingId::LedDisplay,
-     nullptr,
-     "LED (Motor On)",
-     formatLedMotorVal,
-     nullptr,
-     formatLedMotorSub,
-     cycleLedDisp},
-    {true,
-     DevSettingId::LedDim,
-     nullptr,
-     "Off-Led",
-     formatLedDimVal,
-     "Brightness",
-     nullptr,
-     cycleLedDim},
-    {true,
-     DevSettingId::LedTheme,
-     nullptr,
-     "LED Theme",
-     formatLedThemeVal,
-     nullptr,
-     formatLedThemeSub,
-     cycleLedTheme},
-    {true,
-     DevSettingId::MotorType,
-     nullptr,
-     "Motor Type",
-     formatMotorTypeVal,
-     nullptr,
-     formatMotorTypeSub,
-     cycleMotorType},
+    {true, DevSettingId::AutoOff, nullptr, "Auto-Off", formatAutoOffVal, "Motor Shutdown", nullptr, cycleAutoOff},
+    {true, DevSettingId::TempLimit, nullptr, "Temp. Shutdown", formatTempLimVal, "Motor NTC", nullptr, cycleTempLim},
+    {true, DevSettingId::SpeedStep, nullptr, "Speed Steps", formatSpdStepVal, "Increase by ...", nullptr, cycleSpeedStep},
+    {true, DevSettingId::MinDuty, nullptr, "Minimum Duty", formatMinDutyVal, "Motor PWM Floor", nullptr, cycleMinDuty},
+    {true, DevSettingId::MaxDuty, nullptr, "Maximum Duty", formatMaxDutyVal, "@ speed 100%", nullptr, cycleMaxDuty},
+    {true, DevSettingId::BatteryCells, nullptr, "Battery Cells", formatBatteryCellsVal, nullptr, formatBatteryCellsSub, cycleBatteryCells},
+    {true, DevSettingId::SleepTimer, nullptr, "Sleep Timer", formatSleepTmrVal, "UI + Controller", nullptr, cycleSleepTimer},
+    {true, DevSettingId::TriggerMode, nullptr, "Trigger Mode", formatTrigModeVal, nullptr, formatTrigModeSub, cycleTriggerMode},
+    {true, DevSettingId::MotorDisplayMode, nullptr, "Live-Display", formatMotorDispVal, nullptr, formatMotorDispSub, cycleMotorDisp},
+    {true, DevSettingId::LedIdle, nullptr, "LED (Idle)", formatLedIdleVal, nullptr, formatLedIdleSub, cycleLedIdle},
+    {true, DevSettingId::LedDisplay, nullptr, "LED (Motor On)", formatLedMotorVal, nullptr, formatLedMotorSub, cycleLedDisp},
+    {true, DevSettingId::LedDim, nullptr, "Off-Led", formatLedDimVal, "Brightness", nullptr, cycleLedDim},
+    {true, DevSettingId::LedTheme, nullptr, "LED Theme", formatLedThemeVal, nullptr, formatLedThemeSub, cycleLedTheme},
+    {true, DevSettingId::MotorType, nullptr, "Motor Type", formatMotorTypeVal, nullptr, formatMotorTypeSub, cycleMotorType},
 };
 
 static_assert(

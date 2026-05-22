@@ -16,19 +16,31 @@ constexpr uint32_t kCyclePeriodMs = 50;
 constexpr uint32_t kCtrlSetpGapMs = 25;
 constexpr uint32_t kStopGapMs = 25;
 constexpr uint8_t kStopRepeats = 3;
+constexpr uint32_t kStopCtrlIntervalMs = kStopGapMs * 3U;
 
 enum class CyclePhase : uint8_t {
   IdleBeforeCtrl,
   WaitBeforeSetp,
 };
 
+enum class StopPhase : uint8_t {
+  None,
+  WaitBeforeSetp,
+  WaitBeforeNextCtrl,
+};
+
 static bool s_initialized = false;
 static bool s_motorOn = false;
 static XgEscMode s_currentMode = kXgEscModeEco;
 static bool s_wakeDone = false;
+static bool s_wakePending = false;
+static uint32_t s_wakeSentMs = 0;
 static uint32_t s_lastCycleMs = 0;
 static uint32_t s_phaseStartMs = 0;
 static CyclePhase s_phase = CyclePhase::IdleBeforeCtrl;
+static StopPhase s_stopPhase = StopPhase::None;
+static uint8_t s_stopSentCount = 0;
+static uint32_t s_stopPhaseStartMs = 0;
 
 static const MotorSpeedLevel kLevels[] = {
     {0, "Off"},
@@ -43,19 +55,13 @@ void sendStopFrame(void) {
   xgUartSendFrame(f, XG_SETP_LEN);
 }
 
-void runStopSequence(void) {
+void startStopSequence(void) {
   uint8_t ctrl[XG_CTRL_LEN];
-  uint8_t setp[XG_SETP_LEN];
-  xgBuildSetpStop(setp);
-  for (uint8_t i = 0; i < kStopRepeats; ++i) {
-    xgBuildCtrl(ctrl, s_currentMode, false);
-    xgUartSendFrame(ctrl, XG_CTRL_LEN);
-    delay(kStopGapMs);
-    xgUartSendFrame(setp, XG_SETP_LEN);
-    if (i + 1 < kStopRepeats) {
-      delay(kStopGapMs * 3);
-    }
-  }
+  xgBuildCtrl(ctrl, s_currentMode, false);
+  xgUartSendFrame(ctrl, XG_CTRL_LEN);
+  s_stopSentCount = 0;
+  s_stopPhase = StopPhase::WaitBeforeSetp;
+  s_stopPhaseStartMs = millis();
 }
 
 void xgInit(void) {
@@ -64,9 +70,14 @@ void xgInit(void) {
   s_motorOn = false;
   s_currentMode = kXgEscModeEco;
   s_wakeDone = false;
+  s_wakePending = false;
+  s_wakeSentMs = 0;
   s_lastCycleMs = 0;
   s_phaseStartMs = 0;
   s_phase = CyclePhase::IdleBeforeCtrl;
+  s_stopPhase = StopPhase::None;
+  s_stopSentCount = 0;
+  s_stopPhaseStartMs = 0;
   Serial.println("[Xiaomi G] UART 9600 8E1 TX=17 RX=18");
 }
 
@@ -79,11 +90,59 @@ void xgDeinit(void) {
   s_initialized = false;
   s_motorOn = false;
   s_wakeDone = false;
+  s_wakePending = false;
+  s_stopPhase = StopPhase::None;
+  s_stopSentCount = 0;
   Serial.println("[Xiaomi G] UART deinit");
 }
 
 void xgUpdate(void) {
-  if (!s_motorOn || !s_initialized) {
+  if (!s_initialized) {
+    return;
+  }
+
+  if (s_stopPhase != StopPhase::None) {
+    const uint32_t now = millis();
+    if (s_stopPhase == StopPhase::WaitBeforeSetp) {
+      if ((uint32_t)(now - s_stopPhaseStartMs) < kStopGapMs) {
+        return;
+      }
+      uint8_t setp[XG_SETP_LEN];
+      xgBuildSetpStop(setp);
+      xgUartSendFrame(setp, XG_SETP_LEN);
+      ++s_stopSentCount;
+      if (s_stopSentCount >= kStopRepeats) {
+        s_stopPhase = StopPhase::None;
+      } else {
+        s_stopPhase = StopPhase::WaitBeforeNextCtrl;
+        s_stopPhaseStartMs = now;
+      }
+      return;
+    }
+    if (s_stopPhase == StopPhase::WaitBeforeNextCtrl) {
+      if ((uint32_t)(now - s_stopPhaseStartMs) < kStopCtrlIntervalMs) {
+        return;
+      }
+      uint8_t ctrl[XG_CTRL_LEN];
+      xgBuildCtrl(ctrl, s_currentMode, false);
+      xgUartSendFrame(ctrl, XG_CTRL_LEN);
+      s_stopPhase = StopPhase::WaitBeforeSetp;
+      s_stopPhaseStartMs = now;
+      return;
+    }
+  }
+
+  if (s_wakePending) {
+    if ((uint32_t)(millis() - s_wakeSentMs) < kStopGapMs) {
+      return;
+    }
+    s_wakePending = false;
+    s_wakeDone = true;
+    s_lastCycleMs = 0;
+    s_phase = CyclePhase::IdleBeforeCtrl;
+  }
+
+  if (!s_motorOn) {
     return;
   }
 
@@ -116,10 +175,11 @@ void xgOnPowerOn(void) {
     xgUartBegin();
     s_initialized = true;
   }
+  s_stopPhase = StopPhase::None;
   if (!s_wakeDone) {
     xgUartSendWake();
-    delay(kStopGapMs);
-    s_wakeDone = true;
+    s_wakePending = true;
+    s_wakeSentMs = millis();
   }
   s_motorOn = true;
   s_phase = CyclePhase::IdleBeforeCtrl;
@@ -131,7 +191,8 @@ void xgOnPowerOff(void) {
   if (!s_initialized) {
     return;
   }
-  runStopSequence();
+  s_wakePending = false;
+  startStopSequence();
 }
 
 void xgSetSpeedPercent(uint8_t percent) {

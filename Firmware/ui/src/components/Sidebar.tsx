@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { StatusLED } from './StatusLED';
 import { ConsoleBox } from './ConsoleBox';
 import { useWebSocketContext } from '../contexts/WebSocketContext';
+import { Button } from './ui/Button';
 import './Sidebar.css';
 
 interface SidebarProps {
@@ -33,26 +34,26 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2 className="sidebar-title">Connection</h2>
-          <button className="sidebar-close" onClick={onClose}>×</button>
+          <Button className="sidebar-close" onClick={onClose}>x</Button>
         </div>
         
         <div className="sidebar-content">
           <div className="connection-controls">
-            <button
+            <Button
               key={connected ? 'connected' : 'disconnected'}
               onClick={handleConnect}
               className={`connect-button ${connected ? 'disconnect' : 'connect'}`}
             >
               {connected ? 'Disconnect' : 'Connect'}
-            </button>
+            </Button>
             {!connected && (
-              <button
+              <Button
                 onClick={reconnect}
                 className="connect-button connect"
                 style={{ marginTop: '12px' }}
               >
                 Reconnect
-              </button>
+              </Button>
             )}
           </div>
 

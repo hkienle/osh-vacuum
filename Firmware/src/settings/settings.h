@@ -79,6 +79,8 @@ struct RuntimeSettings {
   MotorType motorType = MotorType::GenericPwm;
 };
 
+typedef void (*RuntimeSettingsChangedCallback)(const RuntimeSettings& settings);
+
 // Initialize settings subsystem.
 void initSettings();
 
@@ -87,6 +89,7 @@ RuntimeSettings& loadRuntimeSettings();
 
 // Save full runtime settings to NVS.
 bool saveRuntimeSettings(const RuntimeSettings& settings);
+void setRuntimeSettingsChangedCallback(RuntimeSettingsChangedCallback callback);
 
 // Mutable live settings (populated by loadRuntimeSettings in setup).
 RuntimeSettings& getRuntimeSettings();

@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useWebSocketContext } from '../contexts/WebSocketContext';
 import { useBatteryTest, type BatteryTestConfig } from '../hooks/useBatteryTest';
+import { Modal } from './ui/Modal';
+import { Button } from './ui/Button';
 import './BatteryTestModal.css';
 
 interface BatteryTestModalProps {
@@ -122,16 +124,8 @@ export function BatteryTestModal({ isOpen, onClose }: BatteryTestModalProps) {
   }
 
   return (
-    <div className="battery-test-modal-overlay">
-      <div className="battery-test-modal">
-        <div className="battery-test-header">
-          <h2>Battery Test Mode</h2>
-          <button className="battery-test-close" onClick={onClose} disabled={isRunning || isPaused}>
-            ×
-          </button>
-        </div>
-
-        <div className={`battery-test-body ${showSetupPanel ? 'setup-mode' : 'run-mode'}`}>
+    <Modal isOpen={isOpen} onClose={onClose} closeDisabled={isRunning || isPaused} title="Battery Test Mode">
+      <div className={`battery-test-body ${showSetupPanel ? 'setup-mode' : 'run-mode'}`}>
           {showSetupPanel && (
             <div className="battery-test-config-card">
             <h3>Pre-Settings</h3>
@@ -195,7 +189,7 @@ export function BatteryTestModal({ isOpen, onClose }: BatteryTestModalProps) {
             </div>
 
             <div className="battery-test-actions">
-              <button
+              <Button
                 className="battery-test-start"
                 disabled={!canStart}
                 onClick={() => {
@@ -223,14 +217,14 @@ export function BatteryTestModal({ isOpen, onClose }: BatteryTestModalProps) {
                 }}
               >
                 Start Test
-              </button>
-              <button className="battery-test-stop" disabled={!isRunning} onClick={stopTest}>
+              </Button>
+              <Button className="battery-test-stop" disabled={!isRunning} onClick={stopTest}>
                 Stop Test
-              </button>
-              <button className="battery-test-export" disabled={!canDownload} onClick={downloadCSV}>
+              </Button>
+              <Button className="battery-test-export" disabled={!canDownload} onClick={downloadCSV}>
                 Download CSV
-              </button>
-              <button
+              </Button>
+              <Button
                 className="battery-test-reset"
                 disabled={isRunning}
                 onClick={() => {
@@ -246,7 +240,7 @@ export function BatteryTestModal({ isOpen, onClose }: BatteryTestModalProps) {
                 }}
               >
                 New Test
-              </button>
+              </Button>
             </div>
 
             {!connected && <p className="battery-test-warning">ESP32 not connected.</p>}
@@ -290,15 +284,15 @@ export function BatteryTestModal({ isOpen, onClose }: BatteryTestModalProps) {
             <h3>{showSetupPanel ? 'Preview' : 'Live Test'}</h3>
             {(isRunning || isPaused) && (
               <div className="battery-test-live-actions">
-                <button className="battery-test-pause" disabled={!isRunning} onClick={pauseTest}>
+                <Button className="battery-test-pause" disabled={!isRunning} onClick={pauseTest}>
                   Pause
-                </button>
-                <button className="battery-test-resume" disabled={!isPaused} onClick={resumeTest}>
+                </Button>
+                <Button className="battery-test-resume" disabled={!isPaused} onClick={resumeTest}>
                   Resume
-                </button>
-                <button className="battery-test-stop" onClick={stopTest}>
+                </Button>
+                <Button className="battery-test-stop" onClick={stopTest}>
                   Stop
-                </button>
+                </Button>
               </div>
             )}
             {isFinished && (
@@ -427,8 +421,7 @@ export function BatteryTestModal({ isOpen, onClose }: BatteryTestModalProps) {
               <textarea className="battery-test-csv-textarea" readOnly value={csvContent} />
             </details>
           </div>
-        </div>
       </div>
-    </div>
+    </Modal>
   );
 }

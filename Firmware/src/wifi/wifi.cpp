@@ -8,7 +8,7 @@
 const char* wifi_ssid = SettingsConfig::WIFI_STA_SSID;
 const char* wifi_password = SettingsConfig::WIFI_STA_PASSWORD;
 
-const char* ap_ssid = SettingsConfig::WIFI_AP_SSID;
+const char* ap_ssid = SettingsConfig::DEVICE_HOSTNAME;
 const char* ap_password = SettingsConfig::WIFI_AP_PASSWORD;
 
 namespace {

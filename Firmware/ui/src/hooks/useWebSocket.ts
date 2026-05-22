@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import type { SettingsSchema, SettingsValues } from '../types/settings';
 
 export interface WebSocketMessage {
   rpm?: number;
@@ -9,6 +10,9 @@ export interface WebSocketMessage {
   voltage?: number; // For backward compatibility
   speed?: number; // Speed setting (0-100%)
   motor_active?: boolean; // Motor state (true = running, false = stopped)
+  schema?: SettingsSchema;
+  settings?: SettingsValues;
+  motor_type?: number;
   [key: string]: unknown;
 }
 

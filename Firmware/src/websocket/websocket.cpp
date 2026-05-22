@@ -6,6 +6,9 @@
 #include <ArduinoJson.h>
 #include "motor/motor.h"
 #include "button/button.h"
+#include "settings/settings_api.h"
+#include "settings/settings.h"
+#include "settings/dev_menu.h"
 
 #define WEBSOCKET_PORT 81
 
@@ -15,6 +18,22 @@ WebSocketsServer webSocket = WebSocketsServer(WEBSOCKET_PORT);
 // State
 static bool serverRunning = false;
 static WebSocketCommandCallback commandCallback = nullptr;
+static volatile bool settingsBroadcastPending = false;
+constexpr size_t kSettingsJsonCapacity = 8192;
+
+namespace {
+void sendSettingsPayloadToClient(uint8_t client) {
+  DynamicJsonDocument outDoc(kSettingsJsonCapacity);
+  settingsApiWritePayload(outDoc.to<JsonObject>());
+  if (outDoc.overflowed()) {
+    Serial.println("[WebSocket] WARN: settings payload JSON overflow (client)");
+  }
+  String out;
+  out.reserve(6144);
+  serializeJson(outDoc, out);
+  webSocket.sendTXT(client, out);
+}
+}
 
 // WebSocket event handler
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -57,6 +76,27 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
             return;
           } else if (strcmp(command, "heartbeat") == 0) {
             handleMotorHeartbeat();
+            return;
+          } else if (strcmp(command, "get_settings") == 0) {
+            sendSettingsPayloadToClient(num);
+            return;
+          } else if (strcmp(command, "set_setting") == 0) {
+            const char* key = doc["key"] | "";
+            const JsonVariantConst value = doc["value"];
+            RuntimeSettings& rs = getRuntimeSettings();
+            const MotorType oldType = rs.motorType;
+            const bool ok = settingsApiApplySetting(rs, key, value);
+            if (ok && oldType != rs.motorType) {
+              initMotor(rs.motorType);
+              devMenuRebuildVisible();
+            }
+            StaticJsonDocument<160> ackDoc;
+            ackDoc["ack"] = "set_setting";
+            ackDoc["key"] = key;
+            ackDoc["ok"] = ok;
+            String ack;
+            serializeJson(ackDoc, ack);
+            webSocket.sendTXT(num, ack);
             return;
           }
         }
@@ -145,6 +185,10 @@ void updateWebSocket() {
   // Handle WebSocket events if server is running
   if (serverRunning) {
     webSocket.loop();
+    if (settingsBroadcastPending) {
+      settingsBroadcastPending = false;
+      broadcastSettingsToClients();
+    }
   }
 }
 
@@ -152,6 +196,25 @@ void broadcastWebSocket(const char* json) {
   if (serverRunning) {
     webSocket.broadcastTXT(json);
   }
+}
+
+void broadcastSettingsToClients() {
+  if (!serverRunning) {
+    return;
+  }
+  DynamicJsonDocument outDoc(kSettingsJsonCapacity);
+  settingsApiWritePayload(outDoc.to<JsonObject>());
+  if (outDoc.overflowed()) {
+    Serial.println("[WebSocket] WARN: settings payload JSON overflow (broadcast)");
+  }
+  String out;
+  out.reserve(6144);
+  serializeJson(outDoc, out);
+  webSocket.broadcastTXT(out);
+}
+
+void requestSettingsBroadcast() {
+  settingsBroadcastPending = true;
 }
 
 bool isWebSocketRunning() {
