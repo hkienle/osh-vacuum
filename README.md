@@ -61,6 +61,12 @@ The firmware provides:
 
 The current board design is untested and represents the benchtop prototype phase. All designs and firmware are provided as-is for development and testing purposes.
 
+## License
+
+This project is licensed under the **CERN Open Hardware Licence - Strongly Reciprocal (CERN OHL-S v2)**.
+
+The full license text is available at: [cern_ohl_s_v2.txt](https://gitlab.com/ohwr/project/cernohl/-/wikis/uploads/819d71bea3458f71fba6cf4fb0f2de6b/cern_ohl_s_v2.txt)
+
 ---
 
 *More information at [HackMD - Team Intuity](https://hackmd.io/@team-intuity) and [HackMD - hkienle](https://hackmd.io/@hkienle)*
