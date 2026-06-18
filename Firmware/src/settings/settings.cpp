@@ -218,12 +218,7 @@ RuntimeSettings& loadRuntimeSettings() {
     return s_rt;
   }
 
-  char displayTypeBuffer[32];
-  displayTypeBuffer[0] = '\0';
-  prefs.getString(KEY_DISPLAY_TYPE, displayTypeBuffer, sizeof(displayTypeBuffer));
-  if (displayTypeBuffer[0] != '\0') {
-    s_rt.displayType = parseDisplayType(displayTypeBuffer);
-  }
+  // display_type follows compile-time DEFAULT_DISPLAY_TYPE (hardware selection).
 
   const uint8_t cells = prefs.getUChar(KEY_BAT_CELLS, s_rt.batterySeriesCells);
   if (cells >= 1 && cells <= 32) {

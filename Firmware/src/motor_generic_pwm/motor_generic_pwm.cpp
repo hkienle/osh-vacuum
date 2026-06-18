@@ -8,7 +8,6 @@
 
 namespace {
 constexpr uint8_t PWM_PIN = 5;
-constexpr int PWM_CHANNEL = 0;
 constexpr int PWM_RES_BITS = 8;
 constexpr int PWM_FREQ_HZ = 1000;
 
@@ -34,11 +33,9 @@ void applyDutyFromSpeedPercent(uint8_t speedPct) {
 }
 
 void pwmInit() {
-  ledcSetup(PWM_CHANNEL, PWM_FREQ_HZ, PWM_RES_BITS);
   running = false;
   duty = 0;
   pinAttached = false;
-  ledcDetachPin(PWM_PIN);
   pinMode(PWM_PIN, OUTPUT);
   digitalWrite(PWM_PIN, LOW);
 }
@@ -137,7 +134,7 @@ void motorGenericPwmSetDuty(int newDuty) {
   duty = newDuty;
   if (duty == 0) {
     if (pinAttached) {
-      ledcDetachPin(PWM_PIN);
+      ledcDetach(PWM_PIN);
       pinAttached = false;
     }
     pinMode(PWM_PIN, OUTPUT);
@@ -145,31 +142,31 @@ void motorGenericPwmSetDuty(int newDuty) {
     running = false;
   } else {
     if (!pinAttached) {
-      ledcAttachPin(PWM_PIN, PWM_CHANNEL);
+      ledcAttach(PWM_PIN, PWM_FREQ_HZ, PWM_RES_BITS);
       pinAttached = true;
     }
     if (running) {
-      ledcWrite(PWM_CHANNEL, duty);
+      ledcWrite(PWM_PIN, duty);
     }
   }
 }
 
 void motorGenericPwmStart() {
   if (duty > 0 && !pinAttached) {
-    ledcAttachPin(PWM_PIN, PWM_CHANNEL);
+    ledcAttach(PWM_PIN, PWM_FREQ_HZ, PWM_RES_BITS);
     pinAttached = true;
   }
   running = true;
   if (duty > 0) {
-    ledcWrite(PWM_CHANNEL, duty);
+    ledcWrite(PWM_PIN, duty);
   }
 }
 
 void motorGenericPwmStop() {
   running = false;
-  ledcWrite(PWM_CHANNEL, 0);
   if (pinAttached) {
-    ledcDetachPin(PWM_PIN);
+    ledcWrite(PWM_PIN, 0);
+    ledcDetach(PWM_PIN);
     pinAttached = false;
   }
   pinMode(PWM_PIN, OUTPUT);

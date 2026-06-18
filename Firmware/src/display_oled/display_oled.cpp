@@ -1,4 +1,5 @@
 #include "display_oled.h"
+#include "boot_bitmap.h"
 #include "../button/button.h"
 #include "../settings/dev_menu.h"
 
@@ -35,7 +36,6 @@ constexpr uint32_t BOOT_HOLD_MS = 1000;
 constexpr uint32_t BOOT_MOVE_OUT_MS = 250;
 constexpr uint32_t UI_MOVE_IN_MS = 250;
 constexpr uint32_t BAR_ANIM_MS = 350;
-constexpr char BOOT_TEXT[] = "OSH VAC";
 
 Adafruit_SSD1306 oled(OLED_WIDTH, OLED_HEIGHT, &Wire, OLED_RESET_PIN);
 
@@ -446,22 +446,21 @@ void renderTargetShiftedUp(int16_t offset) {
 }
 
 void prepareBootAnimation() {
-  oled.clearDisplay();
-  oled.setTextColor(SSD1306_WHITE);
-  oled.setTextSize(3);
-
-  int16_t x1 = 0;
-  int16_t y1 = 0;
-  uint16_t w = 0;
-  uint16_t h = 0;
-  oled.getTextBounds(BOOT_TEXT, 0, 0, &x1, &y1, &w, &h);
-
-  const int16_t drawX = static_cast<int16_t>((OLED_WIDTH - w) / 2) - x1;
-  const int16_t drawY = static_cast<int16_t>((OLED_HEIGHT - h) / 2) - y1;
-  oled.setCursor(drawX, drawY);
-  oled.print(BOOT_TEXT);
-
-  memcpy(bootTargetBuffer, oled.getBuffer(), OLED_BUFFER_SIZE);
+  memset(bootTargetBuffer, 0, OLED_BUFFER_SIZE);
+  for (uint8_t y = 0; y < OLED_HEIGHT; ++y) {
+    for (uint8_t x = 0; x < OLED_WIDTH; ++x) {
+      const uint16_t byteIndex =
+          static_cast<uint16_t>(y) * (boot_bitmap::kBootBitmapWidth / 8) +
+          static_cast<uint16_t>(x / 8);
+      const uint8_t byte = pgm_read_byte(&boot_bitmap::kBootBitmap[byteIndex]);
+      const uint8_t bit = (byte >> (7 - (x & 7))) & 0x1;
+      const bool lit =
+          boot_bitmap::kBootBitmapZeroIsLit ? (bit == 0) : (bit != 0);
+      if (lit) {
+        writePixel(bootTargetBuffer, x, y, true);
+      }
+    }
+  }
   memset(bootWorkingBuffer, 0, OLED_BUFFER_SIZE);
 
   bootLitPixelCount = 0;

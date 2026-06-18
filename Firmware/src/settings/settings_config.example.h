@@ -43,7 +43,7 @@ namespace SettingsConfig {
 //   "none"                 →  kein Display
 //
 // -----------------------------------------------------------------------------
-constexpr char DEFAULT_DISPLAY_TYPE[] = "0.91-I2C-Waveshare";
+constexpr char DEFAULT_DISPLAY_TYPE[] = "1.5-I2C-Waveshare";
 
 // -----------------------------------------------------------------------------
 // DEFAULT_BATTERY_SERIES_CELLS  —  Serien-Zellenzahl für SOC-Berechnung
