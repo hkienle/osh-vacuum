@@ -1,0 +1,251 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.45;
+  background: #111;
+  color: #e8e8e8;
+  /* Set in JS — see displaySize.ts (HiDPI correction for ruler-accurate size) */
+  --display-side-px: 161px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 1.25rem 1.5rem 0.5rem;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  color: #aaa;
+  max-width: 52rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem 2rem;
+  align-items: start;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.field select,
+.actions button {
+  font: inherit;
+}
+
+.field select {
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1a1a1a;
+  color: inherit;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.actions button {
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #222;
+  color: inherit;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #2d2d2d;
+}
+
+.actions button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.telemetry pre {
+  margin: 0.5rem 0 0;
+  padding: 0.65rem;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  overflow: auto;
+  max-height: 280px;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bezel {
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #2a2a2a, #151515);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+#display-canvas {
+  display: block;
+  width: var(--display-side-px);
+  height: var(--display-side-px);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+  border: 1px solid #333;
+}
+
+.hint {
+  margin: 0;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.status-line {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #9ecbff;
+  min-height: 1.25em;
+}
+
+.device-controls {
+  width: min(100%, 280px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.controls-label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #aaa;
+  text-align: center;
+}
+
+.kbd-hint {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.hw-btn {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #444;
+  background: linear-gradient(180deg, #3a3a3a 0%, #252525 100%);
+  color: #eee;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  box-shadow: 0 3px 0 #111, 0 4px 8px rgba(0, 0, 0, 0.35);
+  transition: transform 0.05s, box-shadow 0.05s, background 0.05s;
+}
+
+.hw-btn:active,
+.hw-btn.pressed {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #111, 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-color: #6a9fd8;
+}
+
+.hw-btn-trigger {
+  padding: 0.85rem 1rem;
+  border-color: #555;
+}
+
+.hold-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hold-meter-label {
+  font-size: 0.72rem;
+  color: #777;
+}
+
+.hold-meter-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #222;
+  overflow: hidden;
+  border: 1px solid #333;
+}
+
+.hold-meter-fill {
+  height: 100%;
+  width: 0;
+  background: #6a9fd8;
+  transition: width 0.05s linear;
+}
+
+.hold-meter-fill.trigger {
+  background: #d8a86a;
+}
+
+.controls-help {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.75rem;
+  color: #777;
+  line-height: 1.5;
+}
+
+.controls-help strong {
+  color: #aaa;
+  font-weight: 600;
+}
+
+@media (max-width: 820px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  #display-canvas {
+    width: min(var(--display-side-px), 90vw);
+    height: min(var(--display-side-px), 90vw);
+  }
+}
