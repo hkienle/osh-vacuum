@@ -8,10 +8,10 @@ This document describes how the **1.5" Waveshare OLED** (SSD1327, 128×128, I2C)
 
 There are **two UIs** in this project:
 
-| UI | Location | Technology |
-|----|----------|------------|
-| **Web interface** | `Firmware/ui/` | React / TypeScript |
-| **1.5" OLED** | `Firmware/src/display_waveshare_15_i2c/` | C++ / Adafruit_GFX / SSD1327 |
+| UI                | Location                                 | Technology                   |
+| ----------------- | ---------------------------------------- | ---------------------------- |
+| **Web interface** | `Firmware/ui/`                           | React / TypeScript           |
+| **1.5" OLED**     | `Firmware/src/display_waveshare_15_i2c/` | C++ / Adafruit_GFX / SSD1327 |
 
 This document covers the **embedded 1.5" display**, not the React web app.
 
@@ -37,16 +37,16 @@ main.cpp
 
 Everything lives in **one file** (~800 lines), mostly in an anonymous `namespace`:
 
-| Piece | Role |
-|-------|------|
-| `Adafruit_SSD1327 display` | Global driver object (128×128) |
-| `initDisplayWaveshare15I2C()` | I2C init, address detect |
-| `updateDisplayWaveshare15I2C(...)` | **Router + dirty-check + animation state** |
-| `drawInterfaceFrame()` | Main screen layout |
-| `drawInfoPage15()` | Info / dev-menu pages (`switch (page)`) |
-| `drawDevSettingPage15()` | Settings page (uses `DevSettingDescriptor`) |
-| `drawOtaScreen15()` | OTA progress overlay |
-| Helpers | `drawBatteryIcon`, `drawBoldText15`, `formatRpmFull`, bar animation, etc. |
+| Piece                              | Role                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------- |
+| `Adafruit_SSD1327 display`         | Global driver object (128×128)                                            |
+| `initDisplayWaveshare15I2C()`      | I2C init, address detect                                                  |
+| `updateDisplayWaveshare15I2C(...)` | **Router + dirty-check + animation state**                                |
+| `drawInterfaceFrame()`             | Main screen layout                                                        |
+| `drawInfoPage15()`                 | Info / dev-menu pages (`switch (page)`)                                   |
+| `drawDevSettingPage15()`           | Settings page (uses `DevSettingDescriptor`)                               |
+| `drawOtaScreen15()`                | OTA progress overlay                                                      |
+| Helpers                            | `drawBatteryIcon`, `drawBoldText15`, `formatRpmFull`, bar animation, etc. |
 
 Hardware: I2C on **GPIO9 (SDA)** / **GPIO8 (SCL)**, addresses **0x3D** or **0x3C**.
 
@@ -92,15 +92,15 @@ struct DevSettingDescriptor {
 
 Info pages (0–5):
 
-| Page | Title |
-|------|-------|
-| 0 | Maximum Stats |
-| 1 | Battery Info |
-| 2 | WiFi Info |
-| 3 | BLE Info |
-| 4 | Sensor Info |
-| 5 | System Info |
-| 6+ | Dev settings (via `devMenuVisibleAt()`) |
+| Page | Title                                   |
+| ---- | --------------------------------------- |
+| 0    | Maximum Stats                           |
+| 1    | Battery Info                            |
+| 2    | WiFi Info                               |
+| 3    | BLE Info                                |
+| 4    | Sensor Info                             |
+| 5    | System Info                             |
+| 6+   | Dev settings (via `devMenuVisibleAt()`) |
 
 ---
 
@@ -211,12 +211,12 @@ Very ESP-friendly — no virtual tables, easy to inspect in flash.
 
 ## What to keep vs change
 
-| Keep | Refactor |
-|------|----------|
-| `DisplayTelemetry` + `display.cpp` facade | Split the ~800-line monolith |
-| `DevSettingDescriptor` data model | Extract reusable widgets (battery, bar) |
-| Dirty-check / frame limit logic | Move into `DisplayController15` |
-| Public API: `init` / `update` / `ota` / `sleep` | Share screen *logic* with 0.91" where layouts differ only by constants |
+| Keep                                            | Refactor                                                               |
+| ----------------------------------------------- | ---------------------------------------------------------------------- |
+| `DisplayTelemetry` + `display.cpp` facade       | Split the ~800-line monolith                                           |
+| `DevSettingDescriptor` data model               | Extract reusable widgets (battery, bar)                                |
+| Dirty-check / frame limit logic                 | Move into `DisplayController15`                                        |
+| Public API: `init` / `update` / `ota` / `sleep` | Share screen _logic_ with 0.91" where layouts differ only by constants |
 
 ---
 
@@ -277,14 +277,14 @@ The public API (`initDisplay`, `updateDisplay`, `updateDisplayOtaScreen`, `prepa
 
 ## Related files
 
-| File | Purpose |
-|------|---------|
-| `src/display/display.h` | `DisplayTelemetry`, public display API |
-| `src/display/display.cpp` | Display type switch (facade) |
-| `src/display_waveshare_15_i2c/display_waveshare_15_i2c.cpp` | Current 1.5" implementation |
-| `src/display_oled/display_oled.cpp` | Shared 0.91" logic (reference / future shared code) |
-| `src/settings/dev_menu.h` | Data-driven settings descriptors |
-| `src/main.cpp` | Builds `DisplayTelemetry`, calls `updateDisplay()` |
+| File                                                        | Purpose                                             |
+| ----------------------------------------------------------- | --------------------------------------------------- |
+| `src/display/display.h`                                     | `DisplayTelemetry`, public display API              |
+| `src/display/display.cpp`                                   | Display type switch (facade)                        |
+| `src/display_waveshare_15_i2c/display_waveshare_15_i2c.cpp` | Current 1.5" implementation                         |
+| `src/display_oled/display_oled.cpp`                         | Shared 0.91" logic (reference / future shared code) |
+| `src/settings/dev_menu.h`                                   | Data-driven settings descriptors                    |
+| `src/main.cpp`                                              | Builds `DisplayTelemetry`, calls `updateDisplay()`  |
 
 ---
 

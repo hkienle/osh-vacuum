@@ -10,14 +10,14 @@ This document records everything done to get the OSH Vacuum firmware building an
 
 ## Summary
 
-| Category | What changed | In git? |
-|----------|--------------|---------|
-| License in READMEs | Added CERN OHL-S v2 sections | Yes (committed) |
-| Git branch merges | `hardware-v1` ↔ `master` | Yes (pushed) |
-| Local config file | Created `settings_config.h` | No (gitignored) |
-| PlatformIO platform | Installed pioarduino `espressif32@55.3.39` globally | No (local `~/.platformio`) |
-| Python native modules | Reinstalled arm64 wheels in PIO venv | No (local `~/.platformio/penv`) |
-| `platformio.ini` | **Should stay** `espressif32@~55.3.0` | Yes (repo default) |
+| Category              | What changed                                        | In git?                         |
+| --------------------- | --------------------------------------------------- | ------------------------------- |
+| License in READMEs    | Added CERN OHL-S v2 sections                        | Yes (committed)                 |
+| Git branch merges     | `hardware-v1` ↔ `master`                            | Yes (pushed)                    |
+| Local config file     | Created `settings_config.h`                         | No (gitignored)                 |
+| PlatformIO platform   | Installed pioarduino `espressif32@55.3.39` globally | No (local `~/.platformio`)      |
+| Python native modules | Reinstalled arm64 wheels in PIO venv                | No (local `~/.platformio/penv`) |
+| `platformio.ini`      | **Should stay** `espressif32@~55.3.0`               | Yes (repo default)              |
 
 **Build status after fixes:** `pio run -e esp32-s3` → **SUCCESS** (~1.3 MB firmware)  
 **OTA upload status:** Failed — device not reachable at `osh-vac-01.local` / `osh-vac.local` (network, not build)
@@ -38,12 +38,12 @@ https://gitlab.com/ohwr/project/cernohl/-/wikis/uploads/819d71bea3458f71fba6cf4f
 
 ### 1.2 Git merges
 
-| Action | Result |
-|--------|--------|
-| Merged `hardware-v1` → `master` | Hardware printed parts + license on `master` |
+| Action                                     | Result                                               |
+| ------------------------------------------ | ---------------------------------------------------- |
+| Merged `hardware-v1` → `master`            | Hardware printed parts + license on `master`         |
 | Accidentally merged `main` → `hardware-v1` | Reverted; re-merged `master` → `hardware-v1` instead |
-| Pushed `hardware-v1` and `master` | Both at commit `2844070` at one point |
-| Root README license | Commit `2844070` on `master` |
+| Pushed `hardware-v1` and `master`          | Both at commit `2844070` at one point                |
+| Root README license                        | Commit `2844070` on `master`                         |
 
 Note: `origin/main` exists on GitHub as a separate branch; default branch for the project is **`master`**.
 
@@ -109,10 +109,10 @@ UnknownPackageError: Could not find the package with 'espressif32 @ ~55.3.0' req
 
 pioarduino supports **Arduino ESP32 core v3.x**. Colleague's Mac already had it installed locally; this Mac did not.
 
-| Platform source | Version | Arduino core |
-|----------------|---------|--------------|
-| Official `platformio/espressif32` | 7.0.1 | 2.x |
-| pioarduino fork | 55.3.x | 3.x |
+| Platform source                   | Version | Arduino core |
+| --------------------------------- | ------- | ------------ |
+| Official `platformio/espressif32` | 7.0.1   | 2.x          |
+| pioarduino fork                   | 55.3.x  | 3.x          |
 
 The repo intentionally uses pioarduino (`~55.3.0`). **Do not change `platformio.ini` to `espressif32` alone** unless the team agrees to downgrade the Arduino core.
 
@@ -134,6 +134,7 @@ pio platform list
 Installed location: `~/.platformio/platforms/espressif32`
 
 Also pulls in pioarduino-specific tools:
+
 - `tool-esp_install@5.3.4`
 - `toolchain-xtensa-esp-elf@14.2.0`
 - `tool-esptoolpy@5.3.0`
@@ -252,11 +253,11 @@ Sending invitation to osh-vac-01.local failed
 
 **Align these values:**
 
-| File | Setting | Example |
-|------|---------|---------|
-| `settings_config.h` | `DEVICE_HOSTNAME` | `"osh-vac"` |
-| `platformio.ini` `[env:esp32-s3-ota]` | `upload_port` | `osh-vac.local` |
-| `platformio.ini` | `upload_flags --auth` | must match `OTA_HTTP_PASSWORD` |
+| File                                  | Setting               | Example                        |
+| ------------------------------------- | --------------------- | ------------------------------ |
+| `settings_config.h`                   | `DEVICE_HOSTNAME`     | `"osh-vac"`                    |
+| `platformio.ini` `[env:esp32-s3-ota]` | `upload_port`         | `osh-vac.local`                |
+| `platformio.ini`                      | `upload_flags --auth` | must match `OTA_HTTP_PASSWORD` |
 
 If mDNS fails, use IP:
 
@@ -303,13 +304,13 @@ pio run -e esp32-s3-ota -t upload
 
 These were considered but either reverted or applied only locally:
 
-| Item | Status |
-|------|--------|
+| Item                                                         | Status                          |
+| ------------------------------------------------------------ | ------------------------------- |
 | `platformio.ini` → `platform = espressif32` (official 7.0.1) | Reverted; repo keeps `@~55.3.0` |
-| `settings_config.h` | Local only (gitignored) |
-| pioarduino platform install | Local `~/.platformio` only |
-| arm64 pip reinstall | Local `~/.platformio/penv` only |
-| `upload_speed` tuning | Not applied |
+| `settings_config.h`                                          | Local only (gitignored)         |
+| pioarduino platform install                                  | Local `~/.platformio` only      |
+| arm64 pip reinstall                                          | Local `~/.platformio/penv` only |
+| `upload_speed` tuning                                        | Not applied                     |
 
 ---
 
@@ -324,9 +325,9 @@ These were considered but either reverted or applied only locally:
 
 ## 10. PlatformIO environments
 
-| Environment | Purpose | Upload |
-|-------------|---------|--------|
-| `esp32-s3` | Standard build + USB flash | `esptool` (USB CDC) |
-| `esp32-s3-ota` | Same firmware, wireless upload | `espota` over WiFi |
+| Environment    | Purpose                        | Upload              |
+| -------------- | ------------------------------ | ------------------- |
+| `esp32-s3`     | Standard build + USB flash     | `esptool` (USB CDC) |
+| `esp32-s3-ota` | Same firmware, wireless upload | `espota` over WiFi  |
 
 Both share the same `[env:esp32-s3]` build config; `esp32-s3-ota` only overrides upload settings.
