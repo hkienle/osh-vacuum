@@ -1058,3 +1058,11 @@ void resumeDisplayOled() {
   barAnimActive = false;
   prepareBootAnimation();
 }
+
+void setDisplayContrastOled(uint8_t contrastLevel) {
+  if (!oledInitialized || !oledAvailable) {
+    return;
+  }
+  oled.ssd1306_command(SSD1306_SETCONTRAST);
+  oled.ssd1306_command(contrastLevel);
+}

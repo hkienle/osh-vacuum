@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { WebSocketMessage } from './useWebSocket';
+import type { DeviceMessage } from '../types/deviceTransport';
 
 export interface BatteryTestConfig {
   speed: number;
@@ -30,7 +30,7 @@ type ResumePhase = 'on_cycle' | 'stabilization' | 'reading' | 'cooldown' | null;
 
 interface UseBatteryTestArgs {
   connected: boolean;
-  lastMessage: WebSocketMessage | null;
+  lastMessage: DeviceMessage | null;
   sendMessage: (message: object) => void;
   /** When true, CSV (live + download + auto) includes Temperature(C) column. */
   includeTemperatureInExport: boolean;
@@ -82,7 +82,7 @@ export function useBatteryTest({
   const pausedRemainingMsRef = useRef<number | null>(null);
   /** First temp (°C) after motor off in current stabilization window; cleared when entering stabilization. */
   const temperatureAfterStopRef = useRef<number | null>(null);
-  const lastMessageRef = useRef<WebSocketMessage | null>(null);
+  const lastMessageRef = useRef<DeviceMessage | null>(null);
   lastMessageRef.current = lastMessage;
 
   const isRunning = phase !== 'idle' && phase !== 'completed' && phase !== 'error' && phase !== 'paused';

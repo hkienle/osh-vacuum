@@ -93,6 +93,7 @@ void settingsApiWriteValues(JsonObject outValues, const RuntimeSettings& rs) {
   outValues["led_idle"] = static_cast<uint8_t>(rs.ledIdleDisplayMode);
   outValues["led_disp"] = static_cast<uint8_t>(rs.ledDisplayMode);
   outValues["led_dim"] = rs.ledDimPercent;
+  outValues["disp_contrast"] = rs.displayContrastPercent;
   outValues["led_theme"] = static_cast<uint8_t>(rs.ledTheme);
   outValues["mtr_type"] = static_cast<uint8_t>(rs.motorType);
 }
@@ -133,6 +134,8 @@ bool settingsApiApplySetting(RuntimeSettings& rs, const char* key, JsonVariantCo
     rs.ledDisplayMode = static_cast<LedDisplayMode>(parseNumeric(value, static_cast<uint8_t>(rs.ledDisplayMode)));
   } else if (strcmp(key, "led_dim") == 0) {
     rs.ledDimPercent = parseNumeric(value, rs.ledDimPercent);
+  } else if (strcmp(key, "disp_contrast") == 0) {
+    rs.displayContrastPercent = parseNumeric(value, rs.displayContrastPercent);
   } else if (strcmp(key, "led_theme") == 0) {
     rs.ledTheme = static_cast<LedTheme>(parseNumeric(value, static_cast<uint8_t>(rs.ledTheme)));
   } else if (strcmp(key, "mtr_type") == 0) {

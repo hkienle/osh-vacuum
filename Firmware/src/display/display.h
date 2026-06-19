@@ -52,5 +52,7 @@ void updateDisplayOtaScreen(uint8_t percent);
 void prepareDisplayForSleep();
 void resumeDisplayAfterSleep();
 DisplayType getActiveDisplayType();
+/** Apply OLED contrast from dev-menu brightness percent (10–100). */
+void applyDisplayContrast(uint8_t contrastPercent);
 
 #endif  // DISPLAY_H

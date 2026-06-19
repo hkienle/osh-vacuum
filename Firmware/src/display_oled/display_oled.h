@@ -11,5 +11,6 @@ void updateDisplayOled(uint8_t speedPercent, float batteryVoltage, float rpm, bo
 void drawOtaScreenOled(uint8_t percent);
 void prepareDisplayOledSleep();
 void resumeDisplayOled();
+void setDisplayContrastOled(uint8_t contrastLevel);
 
 #endif // DISPLAY_OLED_H

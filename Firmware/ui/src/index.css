@@ -1,82 +1,106 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
 }
 
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.95);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --radius: 0.75rem;
+  --background: #fafafa;
+  --foreground: #0a0a0f;
+  --card: #ffffff;
+  --card-foreground: #0a0a0f;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0f;
+  --primary: #7c3aed;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.12);
+  --input: rgba(0, 0, 0, 0.08);
+  --ring: #7c3aed;
+  --chart-1: #6366f1;
+  --chart-2: #f472b6;
+  --chart-3: #34d399;
+  --success: #16a34a;
+  --success-foreground: #fafafa;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1e3a8a 0%, #312e81 20%, #581c87 40%, #7c3aed 60%, #6366f1 80%, #3b82f6 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 20s ease infinite;
-  position: relative;
-  overflow-x: hidden;
+.dark {
+  --background: #0a0a0f;
+  --foreground: #fafafa;
+  --card: #12121a;
+  --card-foreground: #fafafa;
+  --popover: #12121a;
+  --popover-foreground: #fafafa;
+  --primary: #8b5cf6;
+  --primary-foreground: #fafafa;
+  --secondary: #1c1c26;
+  --secondary-foreground: #fafafa;
+  --muted: #1c1c26;
+  --muted-foreground: #a1a1aa;
+  --accent: #1c1c26;
+  --accent-foreground: #fafafa;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #8b5cf6;
+  --chart-1: #818cf8;
+  --chart-2: #f472b6;
+  --chart-3: #34d399;
+  --success: #22c55e;
+  --success-foreground: #fafafa;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 10% 30%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 90% 70%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 50% 20%, rgba(59, 130, 246, 0.25) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: 0;
-  animation: pulseOverlay 15s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
+@layer base {
+  * {
+    @apply border-border;
   }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
-@keyframes pulseOverlay {
-  0%, 100% {
-    opacity: 1;
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
   }
-  50% {
-    opacity: 0.8;
+
+  #root {
+    min-height: 100vh;
   }
-}
-
-#root {
-  min-height: 100vh;
-  position: relative;
-  z-index: 1;
-}
-
-button {
-  font-family: inherit;
-}
-
-input {
-  font-family: inherit;
 }

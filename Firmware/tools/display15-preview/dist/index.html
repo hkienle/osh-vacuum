@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1.5&quot; OLED Preview — OSH Vacuum</title>
+    <script type="module" crossorigin src="/assets/index-Bp0KRJy0.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DjNgTC9D.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1>1.5&quot; OLED Preview</h1>
+      <p class="subtitle">
+        Layout simulator for <code>display_waveshare_15_i2c.cpp</code> — approximate Adafruit GFX
+        rendering at 128×128, scaled for desktop review before flashing.
+      </p>
+    </header>
+
+    <main class="layout">
+      <aside class="panel">
+        <label class="field">
+          <span>Load preset</span>
+          <select id="scenario-select"></select>
+        </label>
+
+        <label class="field">
+          <span>Zoom</span>
+          <select id="scale-select">
+            <option value="1" selected>Real size (1.5″ panel)</option>
+            <option value="2">2× magnification</option>
+            <option value="4">4× magnification</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button type="button" id="btn-download">Download PNG</button>
+          <button type="button" id="btn-export-all">Export all PNGs</button>
+        </div>
+
+        <p class="status-line" id="status-line">Ready</p>
+
+        <details class="telemetry">
+          <summary>Telemetry JSON</summary>
+          <pre id="telemetry-json"></pre>
+        </details>
+      </aside>
+
+      <section class="preview">
+        <div class="bezel">
+          <canvas id="display-canvas" width="128" height="128"></canvas>
+        </div>
+        <p class="hint" id="preview-hint">128×128 px — physical 1.5″ panel</p>
+
+        <div class="device-controls">
+          <p class="controls-label">Device buttons <span class="kbd-hint">↑ ↓ Space</span></p>
+          <div class="button-stack">
+            <button type="button" class="hw-btn hw-btn-up" id="btn-up" aria-label="UP (GPIO 41)">
+              UP
+            </button>
+            <button type="button" class="hw-btn hw-btn-trigger" id="btn-trigger" aria-label="Trigger (GPIO 42)">
+              TRIGGER
+            </button>
+            <button type="button" class="hw-btn hw-btn-down" id="btn-down" aria-label="DOWN (GPIO 40)">
+              DOWN
+            </button>
+          </div>
+          <div class="hold-meter" id="dual-hold-meter" hidden>
+            <span class="hold-meter-label">UP+DOWN hold</span>
+            <div class="hold-meter-track"><div class="hold-meter-fill" id="dual-hold-bar"></div></div>
+          </div>
+          <div class="hold-meter" id="trigger-hold-meter" hidden>
+            <span class="hold-meter-label">Trigger hold</span>
+            <div class="hold-meter-track"><div class="hold-meter-fill trigger" id="trigger-hold-bar"></div></div>
+          </div>
+          <ul class="controls-help">
+            <li><strong>UP</strong> / <strong>DOWN</strong> — speed ± (main) or page ± (menu)</li>
+            <li><strong>UP+DOWN</strong> hold 1.5 s — open / close dev menu</li>
+            <li><strong>TRIGGER</strong> hold 1.25 s — start motor; tap — stop</li>
+            <li><strong>TRIGGER</strong> on settings page — cycle value</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+  </body>
+</html>

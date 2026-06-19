@@ -26,6 +26,7 @@
 //   min_duty      … Mindest-PWM % bei laufendem Motor (0,5,…,30)
 //   mtr_disp      … Hauptanzeige bei Motor an: 0=Speed 1=Volt 2=RPM 3=MOT-Temp
 //   mtr_type      … 0=Generic (PWM), 1=Xiaomi G
+//   disp_contrast … OLED brightness 10–100 (10 % steps)
 //
 // Netzwerk & OTA (unten) sind reine Compile-Zeit-Werte — nicht im NVS.
 //
@@ -70,6 +71,7 @@ constexpr uint8_t DEFAULT_TRIGGER_MODE = 1;         // 0=Hold 1=Double-Press
 constexpr uint8_t DEFAULT_LED_DISPLAY_MODE = 2;     // 0=SOC 1=RPM 2=Speed 3=Temp (motor on)
 constexpr uint8_t DEFAULT_LED_IDLE_DISPLAY_MODE = 1;  // 0=SOC 1=Speed 2=RPM (idle)
 constexpr uint8_t DEFAULT_LED_DIM_PERCENT = 5;      // 0–10: 1 % steps; 15–50: 5 % steps
+constexpr uint8_t DEFAULT_DISPLAY_CONTRAST_PERCENT = 20;  // 10–100 in 10 % steps (OLED contrast)
 constexpr uint8_t DEFAULT_LED_THEME = 1;            // 0=Off 1=White 2=Blue 3=Green 4=Pink 5=Orange 6=Yellow
 constexpr uint8_t DEFAULT_MOTOR_TYPE = 0;           // 0=Generic (PWM), 1=Xiaomi G
 

@@ -1,0 +1,13 @@
+{
+  "name": "osh-vacuum-hosted-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node hosted.mjs",
+    "start:https": "node hosted.mjs --https"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "http-proxy-middleware": "^3.0.5"
+  }
+}

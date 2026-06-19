@@ -21,3 +21,7 @@ void prepareDisplayWaveshare091I2CSleep() {
 void resumeDisplayWaveshare091I2C() {
   resumeDisplayOled();
 }
+
+void setDisplayContrastWaveshare091I2C(uint8_t contrastLevel) {
+  setDisplayContrastOled(contrastLevel);
+}

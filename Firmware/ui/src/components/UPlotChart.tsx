@@ -1,7 +1,6 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import uPlot from 'uplot';
 import 'uplot/dist/uPlot.min.css';
-import './UPlotChart.css';
 
 interface UPlotChartProps {
   maxPoints?: number;
@@ -66,7 +65,7 @@ export const UPlotChart = forwardRef<UPlotChartHandle, UPlotChartProps>(
             time: false,
             auto: false,
             // Dynamic range based on actual data - will be updated via setScale in push()
-            range: (u, _dataMin, _dataMax) => {
+            range: (u) => {
               // Use the actual data to determine range
               const timeData = u.data[0];
               if (timeData && timeData.length > 0) {
@@ -105,10 +104,9 @@ export const UPlotChart = forwardRef<UPlotChartHandle, UPlotChartProps>(
             stroke: color,
             width: lineWidth,
             fill: (u) => {
-              // Create gradient fill
               const gradient = u.ctx.createLinearGradient(0, 0, 0, u.bbox.height);
-              gradient.addColorStop(0, `${color}40`);
-              gradient.addColorStop(1, `${color2}10`);
+              gradient.addColorStop(0, `${color}30`);
+              gradient.addColorStop(1, `${color}05`);
               return gradient;
             },
             points: {

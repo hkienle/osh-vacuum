@@ -35,6 +35,7 @@ void formatLedIdleVal(char* out, size_t n) { settingsFormatValue(DevSettingId::L
 void formatLedMotorVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedDisplay, getRuntimeSettings(), out, n); }
 void formatLedDimVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedDim, getRuntimeSettings(), out, n); }
 void formatLedThemeVal(char* out, size_t n) { settingsFormatValue(DevSettingId::LedTheme, getRuntimeSettings(), out, n); }
+void formatDisplayContrastVal(char* out, size_t n) { settingsFormatValue(DevSettingId::DisplayContrast, getRuntimeSettings(), out, n); }
 void formatMotorTypeVal(char* out, size_t n) { settingsFormatValue(DevSettingId::MotorType, getRuntimeSettings(), out, n); }
 void formatBatteryCellsSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::BatteryCells, getRuntimeSettings(), out, n); }
 void formatTrigModeSub(char* out, size_t n) { settingsFormatSubline(DevSettingId::TriggerMode, getRuntimeSettings(), out, n); }
@@ -63,6 +64,7 @@ void cycleLedIdle() { cycleAndSave(DevSettingId::LedIdle); }
 void cycleLedDisp() { cycleAndSave(DevSettingId::LedDisplay); }
 void cycleLedDim() { cycleAndSave(DevSettingId::LedDim); }
 void cycleLedTheme() { cycleAndSave(DevSettingId::LedTheme); }
+void cycleDisplayContrast() { cycleAndSave(DevSettingId::DisplayContrast); }
 void cycleMotorType() { cycleAndSave(DevSettingId::MotorType); }
 
 static DevSettingDescriptor kGlobalDescriptors[] = {
@@ -79,6 +81,7 @@ static DevSettingDescriptor kGlobalDescriptors[] = {
     {true, DevSettingId::LedDisplay, nullptr, "LED (Motor On)", formatLedMotorVal, nullptr, formatLedMotorSub, cycleLedDisp},
     {true, DevSettingId::LedDim, nullptr, "Off-Led", formatLedDimVal, "Brightness", nullptr, cycleLedDim},
     {true, DevSettingId::LedTheme, nullptr, "LED Theme", formatLedThemeVal, nullptr, formatLedThemeSub, cycleLedTheme},
+    {true, DevSettingId::DisplayContrast, nullptr, "Display Brightness", formatDisplayContrastVal, "OLED Contrast", nullptr, cycleDisplayContrast},
     {true, DevSettingId::MotorType, nullptr, "Motor Type", formatMotorTypeVal, nullptr, formatMotorTypeSub, cycleMotorType},
 };
 

@@ -28,4 +28,28 @@ describe('SettingsModal', () => {
     expect(screen.getByText('Auto-Off')).toBeInTheDocument();
     expect(screen.queryByText('Speed Steps')).not.toBeInTheDocument();
   });
+
+  it('renders display brightness stepper from schema', () => {
+    mocked.useDeviceSettings.mockReturnValue({
+      ready: true,
+      schema: {
+        entries: [
+          {
+            id: 13,
+            key: 'disp_contrast',
+            title: 'Display Brightness',
+            subline: 'OLED Contrast',
+            visible: true,
+            allowed_values: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+          },
+        ],
+      },
+      values: { disp_contrast: 20 },
+      motorType: 0,
+      setField: vi.fn(),
+    });
+    render(<SettingsModal isOpen={true} onClose={() => undefined} />);
+    expect(screen.getByText('Display Brightness')).toBeInTheDocument();
+    expect(screen.getByText('OLED Contrast')).toBeInTheDocument();
+  });
 });

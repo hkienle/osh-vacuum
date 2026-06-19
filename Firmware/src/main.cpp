@@ -8,6 +8,8 @@
 #include "battery_soc/battery_soc.h"
 #include "tachometer/tachometer.h"
 #include "websocket/websocket.h"
+#include "device_link/device_link.h"
+#include "device_protocol/device_protocol.h"
 #include "motor/motor.h"
 #include "webserver/webserver.h"
 #include "ota/ota.h"
@@ -24,8 +26,8 @@ int broadcastInterval = 250;
 
 namespace {
 void onRuntimeSettingsChanged(const RuntimeSettings& settings) {
-  (void)settings;
-  requestSettingsBroadcast();
+  applyDisplayContrast(settings.displayContrastPercent);
+  deviceLinkRequestSettingsBroadcast();
 }
 }  // namespace
 
@@ -44,10 +46,12 @@ void setup() {
   initTemperature();
   initBattery();
   initTachometer();
+#ifndef OSHVAC_BLE_PRIMARY
   initWebServer();
+#endif
   initOTA();
   setupWiFi();
-  initWebSocket();
+  deviceLinkInit();
   initSettings();
   loadRuntimeSettings();
   setRuntimeSettingsChangedCallback(onRuntimeSettingsChanged);
@@ -191,10 +195,12 @@ void loop() {
   };
   updateDisplay(telemetry);
   updateMotor();  // Check heartbeat timeout
+#ifndef OSHVAC_BLE_PRIMARY
   updateWebServer();
-  updateWebSocket();
+#endif
+  deviceLinkUpdate();
 
-  if(millis() > nextBroadcastTime) {  
+  if (millis() > nextBroadcastTime) {
     const uint8_t speedPercent = getSpeed();
     const float batteryVoltage = getBatteryVoltage();
     const float rpmValue = motorGetRpm();
@@ -206,18 +212,17 @@ void loop() {
              getTemperature(), batteryVoltage, rpmValue, static_cast<unsigned>(speedPercent));
     Serial.println(serialLine);
 
-    if (isWebSocketRunning()) {
-      char jsonBuffer[320];
-      const int n = snprintf(jsonBuffer, sizeof(jsonBuffer),
-                             "{\"temp\":%.2f,\"battery\":%.2f,\"rpm\":%.0f,\"speed\":%u,\"motor_active\":%s,\"battery_soc\":%d}",
-                             getTemperature(),
-                             batteryVoltage,
-                             rpmValue,
-                             static_cast<unsigned>(speedPercent),
-                             motorActive ? "true" : "false",
-                             static_cast<int>(getBatterySOC()));
-      if (n > 0 && static_cast<size_t>(n) < sizeof(jsonBuffer)) {
-        broadcastWebSocket(jsonBuffer);
+    if (deviceLinkHasActiveClients()) {
+      String jsonBuffer;
+      deviceProtocolBuildTelemetryJson(jsonBuffer,
+                                       getTemperature(),
+                                       getBatteryVoltage(),
+                                       motorGetRpm(),
+                                       speedPercent,
+                                       motorActive,
+                                       getBatterySOC());
+      if (jsonBuffer.length() > 0) {
+        deviceLinkBroadcast(jsonBuffer.c_str());
       }
     }
     

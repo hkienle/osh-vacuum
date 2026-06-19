@@ -801,3 +801,10 @@ void resumeDisplayWaveshare15I2C() {
   forceRedrawAfterWake = true;
   nextFrameAtMs = millis();
 }
+
+void setDisplayContrastWaveshare15I2C(uint8_t contrastLevel) {
+  if (!displayInitialized || !displayAvailable) {
+    return;
+  }
+  display.setContrast(contrastLevel);
+}

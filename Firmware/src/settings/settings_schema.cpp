@@ -18,6 +18,7 @@ constexpr char KEY_MTR_DISP[] = "mtr_disp";
 constexpr char KEY_LED_IDLE[] = "led_idle";
 constexpr char KEY_LED_DISP[] = "led_disp";
 constexpr char KEY_LED_DIM[] = "led_dim";
+constexpr char KEY_DISP_CONTRAST[] = "disp_contrast";
 constexpr char KEY_LED_THEME[] = "led_theme";
 constexpr char KEY_MTR_TYPE[] = "mtr_type";
 
@@ -29,6 +30,7 @@ constexpr uint8_t kMinDutyValues[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
 constexpr uint8_t kBatteryCellsValues[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 constexpr uint8_t kSleepValues[] = {1, 2, 5, 10, 30};
 constexpr uint8_t kLedDimValues[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50};
+constexpr uint8_t kDisplayContrastValues[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
 constexpr SettingEnumOption kTriggerOptions[] = {{static_cast<uint8_t>(TriggerMode::Hold), "Hold"},
                                                  {static_cast<uint8_t>(TriggerMode::DoublePress), "Double-Press"}};
@@ -67,6 +69,7 @@ constexpr SettingSchemaEntry kEntries[] = {
     {DevSettingId::LedDisplay, KEY_LED_DISP, "LED (Motor On)", nullptr, kLedDispOptions, sizeof(kLedDispOptions) / sizeof(kLedDispOptions[0])},
     {DevSettingId::LedDim, KEY_LED_DIM, "Off-Led", "Brightness", nullptr, 0},
     {DevSettingId::LedTheme, KEY_LED_THEME, "LED Theme", nullptr, kThemeOptions, sizeof(kThemeOptions) / sizeof(kThemeOptions[0])},
+    {DevSettingId::DisplayContrast, KEY_DISP_CONTRAST, "Display Brightness", "OLED Contrast", nullptr, 0},
     {DevSettingId::MotorType, KEY_MTR_TYPE, "Motor Type", nullptr, kMotorTypeOptions, sizeof(kMotorTypeOptions) / sizeof(kMotorTypeOptions[0])},
 };
 
@@ -150,6 +153,9 @@ void settingsFormatValue(DevSettingId id, const RuntimeSettings& rs, char* out, 
       break;
     case DevSettingId::LedDim:
       snprintf(out, n, "%u%%", static_cast<unsigned>(rs.ledDimPercent));
+      break;
+    case DevSettingId::DisplayContrast:
+      snprintf(out, n, "%u%%", static_cast<unsigned>(rs.displayContrastPercent));
       break;
     case DevSettingId::LedTheme:
       snprintf(out, n, "%u", static_cast<unsigned>(rs.ledTheme));
@@ -239,6 +245,9 @@ void settingsCycleGlobalValue(RuntimeSettings& rs, DevSettingId id) {
     case DevSettingId::LedDim:
       cycleInList(rs.ledDimPercent, kLedDimValues, sizeof(kLedDimValues));
       break;
+    case DevSettingId::DisplayContrast:
+      cycleInList(rs.displayContrastPercent, kDisplayContrastValues, sizeof(kDisplayContrastValues));
+      break;
     case DevSettingId::LedTheme:
       rs.ledTheme = static_cast<LedTheme>((static_cast<uint8_t>(rs.ledTheme) + 1U) % 7U);
       break;
@@ -298,6 +307,9 @@ const uint8_t* settingsGetAllowedValues(DevSettingId id, size_t* outCount) {
     case DevSettingId::LedDim:
       if (outCount) *outCount = sizeof(kLedDimValues);
       return kLedDimValues;
+    case DevSettingId::DisplayContrast:
+      if (outCount) *outCount = sizeof(kDisplayContrastValues);
+      return kDisplayContrastValues;
     default:
       return nullptr;
   }

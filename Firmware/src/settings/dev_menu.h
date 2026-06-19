@@ -18,6 +18,7 @@ enum class DevSettingId : uint8_t {
   LedDisplay,
   LedDim,
   LedTheme,
+  DisplayContrast,
   MotorType,
   GlobalCount,
 };

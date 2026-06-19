@@ -75,6 +75,8 @@ struct RuntimeSettings {
   LedDisplayMode ledDisplayMode = LedDisplayMode::Soc;
   /** Inactive bar segments: 0–10 % in 1 % steps, then 15–50 % in 5 % steps. */
   uint8_t ledDimPercent = 0;
+  /** OLED contrast / perceived brightness (10–100 % in 10 % steps). */
+  uint8_t displayContrastPercent = 20;
   LedTheme ledTheme = LedTheme::White;
   MotorType motorType = MotorType::GenericPwm;
 };
