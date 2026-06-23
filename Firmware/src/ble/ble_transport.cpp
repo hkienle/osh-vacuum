@@ -14,18 +14,18 @@ constexpr char kTxUuid[] = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
 constexpr char kDeviceName[] = "osh-vac";
 
 constexpr size_t kRxBufferSize = 1024;
-constexpr uint16_t kPreferredMtu = 247;
-// ATT payload = negotiated MTU - 3 bytes (opcode + handle).
-constexpr size_t kMaxAttPayload = kPreferredMtu - 3;
-// Fragmented packets prepend a 4-byte "OV<idx><total>" header.
-constexpr size_t kMaxChunkPayload = kMaxAttPayload - 4;
-constexpr unsigned long kFragIntervalMs = 40;
-constexpr uint8_t kMaxNotifyAttempts = 8;
+constexpr uint16_t kPreferredMtu = 517;
+constexpr size_t kMinAttPayload = 20;
+constexpr size_t kMinChunkPayload = 16;
+constexpr size_t kMaxPacketBuf = 520;
+constexpr unsigned long kFragIntervalMs = 45;
+constexpr uint8_t kMaxNotifyAttempts = 10;
 
 NimBLEServer* bleServer = nullptr;
 NimBLECharacteristic* txCharacteristic = nullptr;
 bool bleInitialized = false;
 bool clientConnected = false;
+uint16_t peerMtu = 23;
 
 char rxBuffer[kRxBufferSize];
 size_t rxLength = 0;
@@ -35,10 +35,47 @@ String queuedTxJson;
 bool txInProgress = false;
 uint8_t txFragIndex = 0;
 uint8_t txTotalFrags = 0;
+size_t txChunkPayload = kMinChunkPayload;
 unsigned long txLastFragMs = 0;
 
+size_t attPayloadMax() {
+  const size_t mtu = peerMtu > 3 ? static_cast<size_t>(peerMtu - 3) : kMinAttPayload;
+  return mtu < kMinAttPayload ? kMinAttPayload : mtu;
+}
+
+size_t chunkPayloadMax() {
+  const size_t payload = attPayloadMax();
+  return payload > 4 ? payload - 4 : kMinChunkPayload;
+}
+
+size_t chunkPayloadForLength(size_t totalLen) {
+  const size_t maxChunk = chunkPayloadMax();
+  if (totalLen <= maxChunk) {
+    return totalLen;
+  }
+  return maxChunk;
+}
+
+uint8_t totalFragmentsFor(size_t totalLen, size_t chunkPayload) {
+  if (totalLen == 0) {
+    return 0;
+  }
+  if (totalLen <= chunkPayload) {
+    return 1;
+  }
+  return static_cast<uint8_t>((totalLen + chunkPayload - 1) / chunkPayload);
+}
+
+void pushSettingsPayload() {
+  String payload;
+  deviceProtocolBuildSettingsPayload(payload);
+  if (payload.length() > 0) {
+    bleTransportSendJson(payload.c_str());
+  }
+}
+
 bool notifyPacket(const uint8_t* data, size_t len) {
-  if (!txCharacteristic || !clientConnected || len == 0) {
+  if (!txCharacteristic || !clientConnected || len == 0 || len > attPayloadMax()) {
     return false;
   }
   for (uint8_t attempt = 0; attempt < kMaxNotifyAttempts; ++attempt) {
@@ -46,7 +83,7 @@ bool notifyPacket(const uint8_t* data, size_t len) {
     if (txCharacteristic->notify()) {
       return true;
     }
-    delay(5);
+    delay(8);
   }
   return false;
 }
@@ -56,6 +93,7 @@ void finishTx() {
   activeTxJson = "";
   txFragIndex = 0;
   txTotalFrags = 0;
+  txChunkPayload = kMinChunkPayload;
   txLastFragMs = 0;
 
   if (queuedTxJson.length() > 0) {
@@ -63,8 +101,8 @@ void finishTx() {
     queuedTxJson = "";
     activeTxJson = next;
     const size_t totalLen = activeTxJson.length();
-    txTotalFrags =
-        (totalLen <= kMaxChunkPayload) ? 1 : static_cast<uint8_t>((totalLen + kMaxChunkPayload - 1) / kMaxChunkPayload);
+    txChunkPayload = chunkPayloadForLength(totalLen);
+    txTotalFrags = totalFragmentsFor(totalLen, txChunkPayload);
     txInProgress = true;
     txFragIndex = 0;
     txLastFragMs = 0;
@@ -77,8 +115,8 @@ void beginTx(const char* json) {
   if (totalLen == 0) {
     return;
   }
-  txTotalFrags =
-      (totalLen <= kMaxChunkPayload) ? 1 : static_cast<uint8_t>((totalLen + kMaxChunkPayload - 1) / kMaxChunkPayload);
+  txChunkPayload = chunkPayloadForLength(totalLen);
+  txTotalFrags = totalFragmentsFor(totalLen, txChunkPayload);
   txFragIndex = 0;
   txLastFragMs = 0;
   txInProgress = true;
@@ -94,7 +132,8 @@ bool sendCurrentTxFragment() {
 
   if (txTotalFrags == 1) {
     if (!notifyPacket(reinterpret_cast<const uint8_t*>(json), totalLen)) {
-      Serial.println("[BLE] WARN: single-packet notify failed");
+      Serial.printf("[BLE] WARN: single notify failed (len=%u mtu=%u)\n", static_cast<unsigned>(totalLen),
+                    peerMtu);
       finishTx();
       return false;
     }
@@ -107,11 +146,17 @@ bool sendCurrentTxFragment() {
     return true;
   }
 
-  const size_t offset = static_cast<size_t>(txFragIndex) * kMaxChunkPayload;
+  const size_t offset = static_cast<size_t>(txFragIndex) * txChunkPayload;
   const size_t partLen =
-      (offset + kMaxChunkPayload > totalLen) ? (totalLen - offset) : kMaxChunkPayload;
+      (offset + txChunkPayload > totalLen) ? (totalLen - offset) : txChunkPayload;
 
-  uint8_t packet[kMaxChunkPayload + 4];
+  uint8_t packet[kMaxPacketBuf];
+  if (partLen + 4 > kMaxPacketBuf) {
+    Serial.println("[BLE] WARN: fragment exceeds TX buffer");
+    finishTx();
+    return false;
+  }
+
   packet[0] = 'O';
   packet[1] = 'V';
   packet[2] = txFragIndex;
@@ -119,7 +164,8 @@ bool sendCurrentTxFragment() {
   memcpy(packet + 4, json + offset, partLen);
 
   if (!notifyPacket(packet, partLen + 4)) {
-    Serial.printf("[BLE] WARN: fragment %u/%u notify failed\n", txFragIndex + 1, txTotalFrags);
+    Serial.printf("[BLE] WARN: fragment %u/%u failed (mtu=%u chunk=%u)\n", txFragIndex + 1, txTotalFrags, peerMtu,
+                  static_cast<unsigned>(txChunkPayload));
     finishTx();
     return false;
   }
@@ -133,14 +179,22 @@ bool sendCurrentTxFragment() {
 }
 
 class BleServerCallbacks : public NimBLEServerCallbacks {
-  void onConnect(NimBLEServer* /*server*/, NimBLEConnInfo& /*connInfo*/) override {
+  void onConnect(NimBLEServer* /*server*/, NimBLEConnInfo& connInfo) override {
     clientConnected = true;
-    Serial.println("[BLE] Client connected");
-    // Settings are requested by the WebUI after notifications are enabled.
+    peerMtu = connInfo.getMTU();
+    Serial.printf("[BLE] Client connected (mtu=%u)\n", peerMtu);
+  }
+
+  void onMTUChange(uint16_t mtu, NimBLEConnInfo& /*connInfo*/) override {
+    peerMtu = mtu;
+    Serial.printf("[BLE] MTU negotiated: %u (att payload=%u, chunk=%u)\n", mtu,
+                  static_cast<unsigned>(attPayloadMax()), static_cast<unsigned>(chunkPayloadMax()));
+    pushSettingsPayload();
   }
 
   void onDisconnect(NimBLEServer* server, NimBLEConnInfo& /*connInfo*/, int /*reason*/) override {
     clientConnected = false;
+    peerMtu = 23;
     rxLength = 0;
     txInProgress = false;
     activeTxJson = "";

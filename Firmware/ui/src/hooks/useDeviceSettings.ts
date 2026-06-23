@@ -19,9 +19,9 @@ interface UseDeviceSettingsReturn {
 }
 
 const WIFI_RETRY_MS = 1500;
-const BLE_RETRY_MS = 2000;
+const BLE_RETRY_MS = 2500;
 const WIFI_MAX_ATTEMPTS = 10;
-const BLE_MAX_ATTEMPTS = 20;
+const BLE_MAX_ATTEMPTS = 30;
 
 export function useDeviceSettings(options: UseDeviceSettingsOptions = {}): UseDeviceSettingsReturn {
   const { enabled = true } = options;
@@ -63,10 +63,14 @@ export function useDeviceSettings(options: UseDeviceSettingsOptions = {}): UseDe
 
     const retryMs = transport === 'ble' ? BLE_RETRY_MS : WIFI_RETRY_MS;
     const maxAttempts = transport === 'ble' ? BLE_MAX_ATTEMPTS : WIFI_MAX_ATTEMPTS;
+    const initialDelayMs = transport === 'ble' ? 1200 : 0;
 
     attemptsRef.current = 0;
     setLoadError(false);
-    requestFromDevice();
+
+    const requestLater = window.setTimeout(() => {
+      requestFromDevice();
+    }, initialDelayMs);
 
     const interval = window.setInterval(() => {
       attemptsRef.current += 1;
@@ -82,7 +86,10 @@ export function useDeviceSettings(options: UseDeviceSettingsOptions = {}): UseDe
       requestFromDevice();
     }, retryMs);
 
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearTimeout(requestLater);
+      window.clearInterval(interval);
+    };
   }, [connected, enabled, requestFromDevice, lastMessage?.schema, schema, transport]);
 
   const setField = useCallback(
