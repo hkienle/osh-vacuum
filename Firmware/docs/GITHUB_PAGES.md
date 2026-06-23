@@ -9,7 +9,7 @@ Static hosting for the **hosted** web UI (`Firmware/ui`) at **https://connect.ca
 | BLE link | Browser → vacuum directly |
 | WiFi link | **Not available** on GitHub Pages (no server-side WebSocket proxy) |
 
-GitHub Pages serves static files only. Use **Bluetooth** (Chrome/Edge) from the hosted site. For WiFi mode with a `/device-ws` proxy, run the local Node server — see [server README](../server/README.md).
+GitHub Pages serves static files only. The hosted UI shows **Bluetooth only** — WiFi transport is hidden. For WiFi + BLE, run the Node server locally — see [server README](../server/README.md).
 
 ## One-time setup
 
@@ -70,9 +70,9 @@ npm run build:pages
 - Use Chrome or Edge (Safari has no Web Bluetooth)
 - Grant Bluetooth permission when prompted
 
-### WiFi mode fails on the hosted site
+### WiFi option missing on connect.caznic.xyz
 
-Expected on GitHub Pages. The app needs a Node proxy for `wss://…/device-ws` → `ws://vacuum:81`. Use BLE here, or run `Firmware/server` locally / on your own host.
+Expected on GitHub Pages. WiFi transport is only shown when self-hosting (e.g. `http://localhost:8080` with `Firmware/server`). Use BLE on the public site, or run the server locally for WiFi.
 
 ## Related docs
 

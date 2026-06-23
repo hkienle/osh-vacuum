@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { OnboardingScreenshot } from '@/components/onboarding/OnboardingScreenshot';
-import { ONBOARDING_STEPS } from '@/components/onboarding/onboardingSteps';
+import { getOnboardingSteps } from '@/components/onboarding/onboardingSteps';
 import { cn } from '@/lib/utils';
 
 interface OnboardingModalProps {
@@ -21,10 +21,11 @@ interface OnboardingModalProps {
 
 export function OnboardingModal({ open, onComplete, onSkip, onConnect }: OnboardingModalProps) {
   const [stepIndex, setStepIndex] = useState(0);
-  const step = ONBOARDING_STEPS[stepIndex];
+  const steps = useMemo(() => getOnboardingSteps(), []);
+  const step = steps[stepIndex];
   const isFirst = stepIndex === 0;
-  const isLast = stepIndex === ONBOARDING_STEPS.length - 1;
-  const stepCount = ONBOARDING_STEPS.length;
+  const isLast = stepIndex === steps.length - 1;
+  const stepCount = steps.length;
 
   useEffect(() => {
     if (open) {
@@ -81,7 +82,7 @@ export function OnboardingModal({ open, onComplete, onSkip, onConnect }: Onboard
             role="tablist"
             aria-label="Onboarding progress"
           >
-            {ONBOARDING_STEPS.map((s, i) => (
+            {steps.map((s, i) => (
               <span
                 key={s.id}
                 role="tab"

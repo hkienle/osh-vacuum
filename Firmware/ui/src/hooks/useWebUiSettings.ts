@@ -8,6 +8,7 @@ import {
   getBleAvailability,
   isEmbeddedDeviceUi,
   isHostedDeviceUi,
+  supportsWifiTransport,
   type TransportKind,
 } from '@/types/deviceTransport';
 
@@ -29,6 +30,7 @@ export function useWebUiSettings() {
   const bleAvailability = getBleAvailability();
   const embeddedUi = isEmbeddedDeviceUi();
   const hostedUi = isHostedDeviceUi();
+  const wifiAvailable = supportsWifiTransport();
 
   useEffect(() => {
     setMounted(true);
@@ -64,5 +66,6 @@ export function useWebUiSettings() {
     bleUnavailableReason: bleAvailability.reason,
     embeddedUi,
     hostedUi,
+    wifiAvailable,
   };
 }

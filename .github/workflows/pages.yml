@@ -33,6 +33,7 @@ jobs:
         working-directory: Firmware/ui
         env:
           VITE_DEFAULT_TRANSPORT: ble
+          VITE_WIFI_TRANSPORT: 'false'
         run: |
           npm ci
           npm run build

@@ -87,6 +87,44 @@ export function isHostedDeviceUi(): boolean {
   return typeof window !== 'undefined' && !isEmbeddedDeviceUi();
 }
 
+/** True when the UI can connect over WiFi (embedded UI or self-hosted with WS proxy). */
+export function supportsWifiTransport(): boolean {
+  if (isEmbeddedDeviceUi()) {
+    return true;
+  }
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  const fromEnv = import.meta.env.VITE_WIFI_TRANSPORT;
+  if (fromEnv === 'true' || fromEnv === '1') {
+    return true;
+  }
+  if (fromEnv === 'false' || fromEnv === '0') {
+    return false;
+  }
+
+  const hostname = window.location.hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return true;
+  }
+
+  // Static HTTPS (e.g. GitHub Pages) — no server-side WebSocket proxy.
+  if (window.location.protocol === 'https:') {
+    return false;
+  }
+
+  // HTTP self-hosted on LAN (Node server).
+  return true;
+}
+
+export function effectiveTransport(transport: TransportKind): TransportKind {
+  if (transport === 'wifi' && !supportsWifiTransport()) {
+    return 'ble';
+  }
+  return transport;
+}
+
 export interface BleAvailability {
   ok: boolean;
   reason: string;
@@ -116,12 +154,16 @@ export function getBleAvailability(): BleAvailability {
     if (isSafariBrowser()) {
       return {
         ok: false,
-        reason: 'Safari does not support Web Bluetooth. Use WiFi here, or open this app in Chrome or Edge for Bluetooth pairing.',
+        reason: supportsWifiTransport()
+          ? 'Safari does not support Web Bluetooth. Use WiFi here, or open this app in Chrome or Edge for Bluetooth pairing.'
+          : 'Safari does not support Web Bluetooth. Open this app in Chrome or Edge for Bluetooth pairing.',
       };
     }
     return {
       ok: false,
-      reason: 'This browser has no Web Bluetooth. Use Chrome or Edge on desktop/Android, or connect via WiFi.',
+      reason: supportsWifiTransport()
+        ? 'This browser has no Web Bluetooth. Use Chrome or Edge on desktop/Android, or connect via WiFi.'
+        : 'This browser has no Web Bluetooth. Use Chrome or Edge on desktop/Android.',
     };
   }
   return { ok: true, reason: '' };
@@ -145,13 +187,12 @@ export function defaultTransport(): TransportKind {
   }
   const fromEnv = import.meta.env.VITE_DEFAULT_TRANSPORT;
   if (fromEnv === 'wifi' || fromEnv === 'ble') {
-    return fromEnv;
+    return effectiveTransport(fromEnv);
   }
-  // Static HTTPS host (e.g. GitHub Pages): no WS proxy — use BLE.
-  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+  if (!supportsWifiTransport()) {
     return 'ble';
   }
-  // Local hosted dev (Vite / Node server): WiFi via /device-ws proxy.
+  // Local self-hosted (Vite / Node server): WiFi via /device-ws proxy.
   return 'wifi';
 }
 

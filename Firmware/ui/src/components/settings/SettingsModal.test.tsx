@@ -18,6 +18,7 @@ const mocked = vi.hoisted(() => ({
     bleUnavailableReason: '',
     embeddedUi: false,
     hostedUi: true,
+    wifiAvailable: true,
   },
 }));
 

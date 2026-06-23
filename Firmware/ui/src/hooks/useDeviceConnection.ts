@@ -9,6 +9,7 @@ import {
   IP_STORAGE_KEY,
   TRANSPORT_STORAGE_KEY,
   defaultTransport,
+  effectiveTransport,
   getBleAvailability,
   isEmbeddedDeviceUi,
   isHostedDeviceUi,
@@ -26,8 +27,9 @@ export function useDeviceConnection(): DeviceConnectionState {
       return 'wifi';
     }
     const stored = localStorage.getItem(TRANSPORT_STORAGE_KEY);
-    if (stored === 'ble' || stored === 'wifi') return stored;
-    return defaultTransport();
+    const initial =
+      stored === 'ble' || stored === 'wifi' ? (stored as TransportKind) : defaultTransport();
+    return effectiveTransport(initial);
   });
   const [lastMessage, setLastMessage] = useState<DeviceMessage | null>(null);
   const [consoleMessages, setConsoleMessages] = useState<string[]>([]);
@@ -64,8 +66,9 @@ export function useDeviceConnection(): DeviceConnectionState {
   }, [addConsoleMessage, onMessage]);
 
   const setTransport = useCallback((next: TransportKind) => {
-    localStorage.setItem(TRANSPORT_STORAGE_KEY, next);
-    setTransportState(next);
+    const resolved = effectiveTransport(next);
+    localStorage.setItem(TRANSPORT_STORAGE_KEY, resolved);
+    setTransportState(resolved);
   }, []);
 
   const connect = useCallback(
