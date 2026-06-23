@@ -64,8 +64,8 @@ Same JSON messages as the original WebSocket implementation:
 
 ## Deployment checklist
 
-1. Build UI: `cd Firmware/ui && npm run build:server`
-2. Deploy `dist/` to HTTPS host
+1. Build UI: `cd Firmware/ui && npm run build:pages`
+2. Deploy via GitHub Pages — see [GITHUB_PAGES.md](./GITHUB_PAGES.md) (`https://connect.caznic.xyz`)
 3. Flash `esp32-s3-ble` (or `esp32-s3`) firmware
 4. Pair from browser (Chrome/Edge, secure context)
 

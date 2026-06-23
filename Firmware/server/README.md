@@ -46,9 +46,9 @@ Open **http://localhost:5173** — the dev server includes the same `/device-ws`
 2. Deploy `Firmware/ui/dist/` **and** run `Firmware/server/hosted.mjs` on your host (Node.js)
 3. Put nginx/Caddy in front for HTTPS; ensure WebSocket upgrade works on `/device-ws`
 
-**Coolify (Nixpacks):** see [docs/COOLIFY.md](../docs/COOLIFY.md) — base directory `Firmware`, build pack **Nixpacks**, port `8080`.
+**GitHub Pages (production):** see [docs/GITHUB_PAGES.md](../docs/GITHUB_PAGES.md) — static deploy at `https://connect.caznic.xyz` (BLE transport).
 
-**Coolify (Docker):** same base directory, build pack **Dockerfile**.
+**Self-hosted (WiFi proxy):** run this server on your own host, or use `Firmware/Dockerfile` / `nixpacks.toml`.
 
 Environment:
 

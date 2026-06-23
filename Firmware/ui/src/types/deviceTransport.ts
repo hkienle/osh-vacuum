@@ -147,7 +147,11 @@ export function defaultTransport(): TransportKind {
   if (fromEnv === 'wifi' || fromEnv === 'ble') {
     return fromEnv;
   }
-  // Hosted app (not served by ESP): WiFi via proxy until BLE is production-ready.
+  // Static HTTPS host (e.g. GitHub Pages): no WS proxy — use BLE.
+  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    return 'ble';
+  }
+  // Local hosted dev (Vite / Node server): WiFi via /device-ws proxy.
   return 'wifi';
 }
 

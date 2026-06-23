@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "build:esp32": "tsc -b && vite build --mode esp32",
     "build:server": "tsc -b && vite build",
+    "build:pages": "tsc -b && VITE_DEFAULT_TRANSPORT=ble vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
