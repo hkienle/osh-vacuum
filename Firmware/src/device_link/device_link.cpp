@@ -29,7 +29,9 @@ void deviceLinkBroadcast(const char* json) {
     return;
   }
   broadcastWebSocket(json);
-  if (bleTransportHasClient()) {
+  // Skip BLE telemetry while a large payload (e.g. settings schema) is sending —
+  // interleaved small packets corrupt the WebUI fragment reassembly.
+  if (bleTransportHasClient() && !bleTransportIsTxBusy()) {
     bleTransportSendJson(json);
   }
 }

@@ -18,12 +18,14 @@ interface UseDeviceSettingsReturn {
   retry: () => void;
 }
 
-const RETRY_MS = 1500;
-const MAX_ATTEMPTS = 10;
+const WIFI_RETRY_MS = 1500;
+const BLE_RETRY_MS = 2000;
+const WIFI_MAX_ATTEMPTS = 10;
+const BLE_MAX_ATTEMPTS = 20;
 
 export function useDeviceSettings(options: UseDeviceSettingsOptions = {}): UseDeviceSettingsReturn {
   const { enabled = true } = options;
-  const { connected, sendMessage, lastMessage } = useDeviceConnectionContext();
+  const { connected, sendMessage, lastMessage, transport } = useDeviceConnectionContext();
   const [schema, setSchema] = useState<SettingsSchema | null>(null);
   const [values, setValues] = useState<SettingsValues>({});
   const [motorType, setMotorType] = useState<number>(0);
@@ -59,6 +61,9 @@ export function useDeviceSettings(options: UseDeviceSettingsOptions = {}): UseDe
       return;
     }
 
+    const retryMs = transport === 'ble' ? BLE_RETRY_MS : WIFI_RETRY_MS;
+    const maxAttempts = transport === 'ble' ? BLE_MAX_ATTEMPTS : WIFI_MAX_ATTEMPTS;
+
     attemptsRef.current = 0;
     setLoadError(false);
     requestFromDevice();
@@ -69,16 +74,16 @@ export function useDeviceSettings(options: UseDeviceSettingsOptions = {}): UseDe
         window.clearInterval(interval);
         return;
       }
-      if (attemptsRef.current >= MAX_ATTEMPTS) {
+      if (attemptsRef.current >= maxAttempts) {
         setLoadError(true);
         window.clearInterval(interval);
         return;
       }
       requestFromDevice();
-    }, RETRY_MS);
+    }, retryMs);
 
     return () => window.clearInterval(interval);
-  }, [connected, enabled, requestFromDevice, lastMessage?.schema, schema]);
+  }, [connected, enabled, requestFromDevice, lastMessage?.schema, schema, transport]);
 
   const setField = useCallback(
     (key: string, value: number) => {

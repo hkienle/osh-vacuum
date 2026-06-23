@@ -11,4 +11,7 @@ void bleTransportSendJson(const char* json);
 
 bool bleTransportHasClient();
 
+/** True while a (possibly multi-fragment) BLE TX is in progress or queued. */
+bool bleTransportIsTxBusy();
+
 #endif  // BLE_TRANSPORT_H

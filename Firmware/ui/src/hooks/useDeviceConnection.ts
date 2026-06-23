@@ -71,6 +71,17 @@ export function useDeviceConnection(): DeviceConnectionState {
     setTransportState(resolved);
   }, []);
 
+  const sendMessage = useCallback(
+    (message: object) => {
+      if (transport === 'ble') {
+        void bleRef.current?.send(message);
+        return;
+      }
+      wifiRef.current?.send(message);
+    },
+    [transport],
+  );
+
   const connect = useCallback(
     async (target?: string) => {
       if (transport === 'ble') {
@@ -81,6 +92,9 @@ export function useDeviceConnection(): DeviceConnectionState {
         const ble = ensureBle();
         await ble.connect();
         setConnected(true);
+        window.setTimeout(() => {
+          sendMessage({ command: 'get_settings' });
+        }, 600);
         return;
       }
 
@@ -108,7 +122,7 @@ export function useDeviceConnection(): DeviceConnectionState {
       }, 200);
       window.setTimeout(() => window.clearInterval(poll), 5000);
     },
-    [addConsoleMessage, bleSupported, bleUnavailableReason, ensureBle, ensureWifi, transport],
+    [addConsoleMessage, bleSupported, bleUnavailableReason, ensureBle, ensureWifi, sendMessage, transport],
   );
 
   const disconnect = useCallback(() => {
@@ -130,17 +144,6 @@ export function useDeviceConnection(): DeviceConnectionState {
       addConsoleMessage('No previous WiFi target to reconnect to');
     }
   }, [addConsoleMessage, connect, transport]);
-
-  const sendMessage = useCallback(
-    (message: object) => {
-      if (transport === 'ble') {
-        void bleRef.current?.send(message);
-        return;
-      }
-      wifiRef.current?.send(message);
-    },
-    [transport],
-  );
 
   useEffect(() => {
     if (!connected) {

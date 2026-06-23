@@ -17,7 +17,10 @@ export interface BleTransportOptions {
 interface FragmentAssembly {
   total: number;
   parts: Map<number, Uint8Array>;
+  startedAt: number;
 }
+
+const FRAGMENT_ASSEMBLY_TIMEOUT_MS = 5000;
 
 export class BleTransport {
   private device: BluetoothDevice | null = null;
@@ -118,8 +121,17 @@ export class BleTransport {
   }
 
   private handleFragment(index: number, total: number, payload: Uint8Array): void {
+    const now = Date.now();
+    if (
+      this.fragmentAssembly &&
+      now - this.fragmentAssembly.startedAt > FRAGMENT_ASSEMBLY_TIMEOUT_MS
+    ) {
+      this.options.onLog('BLE fragment assembly timed out, restarting…');
+      this.fragmentAssembly = null;
+    }
+
     if (!this.fragmentAssembly || this.fragmentAssembly.total !== total) {
-      this.fragmentAssembly = { total, parts: new Map() };
+      this.fragmentAssembly = { total, parts: new Map(), startedAt: now };
     }
     this.fragmentAssembly.parts.set(index, payload);
     if (this.fragmentAssembly.parts.size < total) {
