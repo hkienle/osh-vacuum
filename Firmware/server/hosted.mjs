@@ -17,9 +17,15 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const UI_DIR = process.env.UI_DIR ?? path.join(__dirname, '../ui/dist');
 const PORT = Number(process.env.PORT ?? 8080);
+const HOST = process.env.HOST ?? '0.0.0.0';
 const WS_PROXY_PATH = '/device-ws';
 
 const app = express();
+
+app.get('/health', (_req, res) => {
+  res.status(200).type('text/plain').send('ok');
+});
+
 app.use(express.static(UI_DIR));
 
 const wsProxy = createProxyMiddleware({
@@ -41,8 +47,8 @@ app.get('*', (_req, res) => {
   res.sendFile(path.join(UI_DIR, 'index.html'));
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Hosted UI:     http://localhost:${PORT}`);
+const server = app.listen(PORT, HOST, () => {
+  console.log(`Hosted UI:     http://${HOST}:${PORT}`);
   console.log(`Static files:  ${UI_DIR}`);
   console.log(`WS proxy path: ${WS_PROXY_PATH}?target=<host>:81`);
   console.log('Example: connect to osh-vac.local in the sidebar WiFi field.');

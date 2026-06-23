@@ -1,0 +1,13 @@
+{
+  "name": "osh-vacuum-hosted",
+  "private": true,
+  "version": "1.0.0",
+  "description": "caznic connect — hosted UI (Nixpacks / Coolify entrypoint)",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "npm ci --prefix ui && npm run build:server --prefix ui && npm ci --prefix server --omit=dev",
+    "start": "node server/hosted.mjs"
+  }
+}

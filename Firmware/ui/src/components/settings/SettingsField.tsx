@@ -24,9 +24,9 @@ export function SettingsField({ descriptor, value, onChange }: SettingsFieldProp
       <FormRow label={descriptor.title} subline={subline}>
         <Select value={String(value)} onValueChange={(v) => onChange(Number(v))}>
           <SelectTrigger className="w-40">
-            <SelectValue />
+            <SelectValue placeholder="Select…" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper" className="z-[100]">
             {descriptor.enum_options.map((opt) => (
               <SelectItem key={opt.value} value={String(opt.value)}>
                 {opt.label}

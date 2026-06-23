@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { useDeviceSettings } from './useDeviceSettings';
 
 const mocked = vi.hoisted(() => ({
@@ -10,13 +10,24 @@ const mocked = vi.hoisted(() => ({
   },
 }));
 
-vi.mock('../contexts/WebSocketContext', () => ({
-  useWebSocketContext: () => mocked.ctx,
+vi.mock('../contexts/DeviceConnectionContext', () => ({
+  useDeviceConnectionContext: () => mocked.ctx,
 }));
 
 describe('useDeviceSettings', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    mocked.ctx.connected = true;
+    mocked.ctx.lastMessage = null;
+    mocked.ctx.sendMessage.mockClear();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('requests settings and sends set_setting', () => {
-    const { result, rerender } = renderHook(() => useDeviceSettings());
+    const { result, rerender } = renderHook(() => useDeviceSettings({ enabled: true }));
     expect(mocked.ctx.sendMessage).toHaveBeenCalledWith({ command: 'get_settings' });
 
     mocked.ctx.lastMessage = {
@@ -26,7 +37,18 @@ describe('useDeviceSettings', () => {
     };
     rerender();
     expect(result.current.values.auto_off).toBe(1);
+    expect(result.current.ready).toBe(true);
     act(() => result.current.setField('auto_off', 0));
     expect(mocked.ctx.sendMessage).toHaveBeenCalledWith({ command: 'set_setting', key: 'auto_off', value: 0 });
+  });
+
+  it('retries until schema arrives', () => {
+    renderHook(() => useDeviceSettings({ enabled: true }));
+    expect(mocked.ctx.sendMessage).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      vi.advanceTimersByTime(1500);
+    });
+    expect(mocked.ctx.sendMessage).toHaveBeenCalledTimes(2);
   });
 });

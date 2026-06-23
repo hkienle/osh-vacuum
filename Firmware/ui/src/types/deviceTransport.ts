@@ -2,6 +2,16 @@ import type { SettingsSchema, SettingsValues } from '../types/settings';
 
 export type TransportKind = 'ble' | 'wifi';
 
+export type DeviceNotifyLevel = 'info' | 'warning' | 'error';
+
+export interface DeviceNotify {
+  id: string;
+  text: string;
+  level: DeviceNotifyLevel;
+}
+
+export type WiFiRole = 'ap' | 'sta' | 'none';
+
 export interface DeviceMessage {
   rpm?: number;
   temp?: number;
@@ -11,12 +21,18 @@ export interface DeviceMessage {
   voltage?: number;
   speed?: number;
   motor_active?: boolean;
+  wifi_role?: WiFiRole;
+  ap_ssid?: string;
   schema?: SettingsSchema;
   settings?: SettingsValues;
   motor_type?: number;
   ack?: string;
   ok?: boolean;
   key?: string;
+  notify?: DeviceNotify | Record<string, unknown>;
+  message?: string;
+  notify_id?: string;
+  level?: DeviceNotifyLevel;
   [key: string]: unknown;
 }
 
@@ -36,6 +52,7 @@ export interface DeviceConnectionState {
 
 export const TRANSPORT_STORAGE_KEY = 'oshvac_transport';
 export const IP_STORAGE_KEY = 'esp32_ip_address';
+export const DEFAULT_VACUUM_HOST = 'caznic.local';
 
 export const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
 export const NUS_RX_UUID = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
@@ -135,15 +152,22 @@ export function defaultTransport(): TransportKind {
 }
 
 export function mergeDeviceMessage(prev: DeviceMessage | null, data: DeviceMessage): DeviceMessage {
-  const next: DeviceMessage = { ...prev, ...data };
+  const next: DeviceMessage = { ...(prev ?? {}), ...data };
   next.temperature = data.temp ?? data.temperature ?? prev?.temperature;
   next.voltage = data.battery ?? data.voltage ?? prev?.voltage;
   if ('rpm' in data) next.rpm = data.rpm;
   if ('motor_active' in data) next.motor_active = data.motor_active;
   if ('speed' in data && data.speed !== undefined) next.speed = data.speed;
   if ('battery_soc' in data && data.battery_soc !== undefined) next.battery_soc = data.battery_soc;
-  if ('schema' in data) next.schema = data.schema;
-  if ('settings' in data) next.settings = data.settings;
-  if ('motor_type' in data) next.motor_type = data.motor_type;
+  if ('schema' in data && data.schema) next.schema = data.schema;
+  else if (prev?.schema) next.schema = prev.schema;
+  if ('settings' in data && data.settings) next.settings = { ...(prev?.settings ?? {}), ...data.settings };
+  else if (prev?.settings) next.settings = prev.settings;
+  if ('motor_type' in data && typeof data.motor_type === 'number') next.motor_type = data.motor_type;
+  else if (prev?.motor_type !== undefined) next.motor_type = prev.motor_type;
+  if ('wifi_role' in data && typeof data.wifi_role === 'string') next.wifi_role = data.wifi_role as WiFiRole;
+  else if (prev?.wifi_role) next.wifi_role = prev.wifi_role;
+  if ('ap_ssid' in data && typeof data.ap_ssid === 'string') next.ap_ssid = data.ap_ssid;
+  else if (prev?.ap_ssid) next.ap_ssid = prev.ap_ssid;
   return next;
 }

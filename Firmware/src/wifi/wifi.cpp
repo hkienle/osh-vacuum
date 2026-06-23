@@ -1,12 +1,18 @@
 #include <Arduino.h>
 #include <stdio.h>
 #include "wifi.h"
+#include "wifi_credentials.h"
 #include "led/led.h"
 #include "settings/settings_config.h"
 #include <ESPmDNS.h>
 
-const char* wifi_ssid = SettingsConfig::WIFI_STA_SSID;
-const char* wifi_password = SettingsConfig::WIFI_STA_PASSWORD;
+namespace {
+char g_sta_ssid[WIFI_STA_SSID_MAX + 1];
+char g_sta_password[WIFI_STA_PASSWORD_MAX + 1];
+}  // namespace
+
+const char* wifi_ssid = g_sta_ssid;
+const char* wifi_password = g_sta_password;
 
 const char* ap_ssid = SettingsConfig::DEVICE_HOSTNAME;
 const char* ap_password = SettingsConfig::WIFI_AP_PASSWORD;
@@ -20,6 +26,62 @@ bool softApIsUp() {
   }
   const IPAddress apIp = WiFi.softAPIP();
   return apIp != IPAddress(0, 0, 0, 0);
+}
+
+void loadStaCredentials() {
+  wifiCredentialsLoad(g_sta_ssid, sizeof(g_sta_ssid), g_sta_password, sizeof(g_sta_password));
+}
+
+bool waitForStaConnection(uint32_t timeoutMs) {
+  unsigned long startTime = millis();
+  unsigned long lastDotTime = 0;
+
+  while (millis() - startTime < timeoutMs) {
+    yield();
+
+    if (WiFi.status() == WL_CONNECTED) {
+      return true;
+    }
+
+    if (millis() - lastDotTime >= 500) {
+      Serial.print(".");
+      lastDotTime = millis();
+    }
+  }
+  Serial.println();
+  return WiFi.status() == WL_CONNECTED;
+}
+
+void configureStaSuccess() {
+  Serial.println("WiFi connected successfully!");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  WiFi.setHostname(SettingsConfig::DEVICE_HOSTNAME);
+  if (MDNS.begin(SettingsConfig::DEVICE_HOSTNAME)) {
+    Serial.printf("mDNS started: %s.local\n", SettingsConfig::DEVICE_HOSTNAME);
+  } else {
+    Serial.println("Error starting mDNS");
+  }
+}
+
+bool startAccessPoint() {
+  Serial.println("Starting Access Point...");
+
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_AP);
+  const bool result = WiFi.softAP(ap_ssid, ap_password);
+
+  if (result) {
+    Serial.println("WiFi AP started successfully!");
+    Serial.print("SSID: ");
+    Serial.println(ap_ssid);
+    Serial.print("IP address: ");
+    Serial.println(WiFi.softAPIP());
+  } else {
+    Serial.println("Failed to start WiFi AP!");
+  }
+  return result;
 }
 
 }  // namespace
@@ -121,72 +183,39 @@ void printNetworkSummaryToSerial(const char* tag) {
 }
 
 void setupWiFi() {
-  // Keep strip off until enableLEDBarDisplay() boot glow (no pulse/STA/AP colors during setup).
   setLEDColor(0, 0, 0);
   setLEDPattern(LED_OFF);
   updateLED();
 
+  loadStaCredentials();
+
+  const bool probePending = wifiCredentialsIsProbePending();
+  const uint32_t connectTimeout =
+      probePending ? WIFI_PROVISION_CONNECT_TIMEOUT_MS : WIFI_STA_CONNECT_TIMEOUT_MS;
+
   Serial.println("Attempting to connect to WiFi...");
   Serial.print("SSID: ");
   Serial.println(wifi_ssid);
-  
-  // Try to connect to WiFi
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(wifi_ssid, wifi_password);
-  
-  // Wait for connection for up to 10 seconds (non-blocking)
-  unsigned long startTime = millis();
-  unsigned long lastDotTime = 0;
-  bool connected = false;
-  
-  while (millis() - startTime < 10000) { // 10 second timeout
-    yield();
 
-    if (WiFi.status() == WL_CONNECTED) {
-      connected = true;
-      break;
-    }
-    
-    // Print dot every 500ms
-    if (millis() - lastDotTime >= 500) {
-      Serial.print(".");
-      lastDotTime = millis();
-    }
-    
-  }
-  Serial.println();
+  const bool connected = waitForStaConnection(connectTimeout);
 
-  if (connected || WiFi.status() == WL_CONNECTED) {
-    Serial.println("WiFi connected successfully!");
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
-    
-    WiFi.setHostname(SettingsConfig::DEVICE_HOSTNAME);
-    if (MDNS.begin(SettingsConfig::DEVICE_HOSTNAME)) {
-      Serial.printf("mDNS started: %s.local\n", SettingsConfig::DEVICE_HOSTNAME);
-    } else {
-      Serial.println("Error starting mDNS");
-    }
+  if (connected) {
+    wifiCredentialsClearProbePending();
+    configureStaSuccess();
   } else {
-    Serial.println("WiFi connection failed. Starting Access Point...");
-    
-    // Create WiFi access point
-    WiFi.mode(WIFI_AP);
-    bool result = WiFi.softAP(ap_ssid, ap_password);
-    
-    if (result) {
-      Serial.println("WiFi AP started successfully!");
-      Serial.print("SSID: ");
-      Serial.println(ap_ssid);
-      Serial.print("IP address: ");
-      Serial.println(WiFi.softAPIP());
+    if (probePending) {
+      wifiCredentialsClearProbePending();
+      Serial.println("Provisioned WiFi connection failed — returning to Access Point.");
     } else {
-      Serial.println("Failed to start WiFi AP!");
+      Serial.println("WiFi connection failed.");
     }
+    startAccessPoint();
   }
 
   setLEDColor(0, 0, 0);
   setLEDPattern(LED_OFF);
   updateLED();
 }
-

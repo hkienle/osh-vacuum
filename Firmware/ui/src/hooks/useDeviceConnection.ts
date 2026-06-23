@@ -2,12 +2,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { BleTransport } from '../transports/bleTransport';
 import { WifiTransport } from '../transports/wifiTransport';
 import {
+  handleDeviceMessageNotify,
+  resetDeviceNotifications,
+} from '../services/deviceNotifications';
+import {
   IP_STORAGE_KEY,
   TRANSPORT_STORAGE_KEY,
   defaultTransport,
   getBleAvailability,
   isEmbeddedDeviceUi,
   isHostedDeviceUi,
+  DEFAULT_VACUUM_HOST,
   mergeDeviceMessage,
   type DeviceConnectionState,
   type DeviceMessage,
@@ -40,6 +45,7 @@ export function useDeviceConnection(): DeviceConnectionState {
   }, []);
 
   const onMessage = useCallback((data: DeviceMessage) => {
+    handleDeviceMessageNotify(data);
     setLastMessage((prev) => mergeDeviceMessage(prev, data));
   }, []);
 
@@ -75,18 +81,16 @@ export function useDeviceConnection(): DeviceConnectionState {
         return;
       }
 
-      const ip =
-        target ??
-        (lastWifiTarget.current ||
+      let raw = target?.trim();
+      if (!raw) {
+        raw =
+          lastWifiTarget.current ||
           localStorage.getItem(IP_STORAGE_KEY) ||
           (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
             ? window.location.hostname
-            : ''));
-
-      if (!ip) {
-        addConsoleMessage('WiFi connect needs a device IP address');
-        return;
+            : '');
       }
+      const ip = raw.trim() || DEFAULT_VACUUM_HOST;
 
       lastWifiTarget.current = ip;
       localStorage.setItem(IP_STORAGE_KEY, ip);
@@ -107,6 +111,7 @@ export function useDeviceConnection(): DeviceConnectionState {
   const disconnect = useCallback(() => {
     wifiRef.current?.disconnect();
     bleRef.current?.disconnect();
+    resetDeviceNotifications();
     setConnected(false);
   }, []);
 
@@ -133,6 +138,12 @@ export function useDeviceConnection(): DeviceConnectionState {
     },
     [transport],
   );
+
+  useEffect(() => {
+    if (!connected) {
+      resetDeviceNotifications();
+    }
+  }, [connected]);
 
   useEffect(() => {
     if (!connected) return;

@@ -137,6 +137,16 @@ void loop() {
         setMotorState(false);
         motorRunStartMs = 0;
         Serial.printf("[Main] Motor stopped: auto-off after %u min\n", static_cast<unsigned>(autoOffMin));
+        if (deviceLinkHasActiveClients()) {
+          String notifyJson;
+          char text[96];
+          snprintf(text,
+                   sizeof(text),
+                   "Motor stopped: auto-off after %u min",
+                   static_cast<unsigned>(autoOffMin));
+          deviceProtocolBuildNotifyJson(notifyJson, "auto_off", text, "info");
+          deviceLinkBroadcast(notifyJson.c_str());
+        }
       }
     }
 
@@ -146,6 +156,16 @@ void loop() {
       motorRunStartMs = 0;
       triggerThermalOffBlink();
       Serial.printf("[Main] Motor stopped: NTC > %u C\n", static_cast<unsigned>(lim));
+      if (deviceLinkHasActiveClients()) {
+        String notifyJson;
+        char text[96];
+        snprintf(text,
+                 sizeof(text),
+                 "Motor stopped due to over-temperature (limit %u °C)",
+                 static_cast<unsigned>(lim));
+        deviceProtocolBuildNotifyJson(notifyJson, "thermal_stop", text, "warning");
+        deviceLinkBroadcast(notifyJson.c_str());
+      }
     }
   }
 

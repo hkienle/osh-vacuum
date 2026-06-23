@@ -22,6 +22,13 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length)
       IPAddress ip = webSocket.remoteIP(num);
       Serial.printf("[WebSocket] Client %u connected from %d.%d.%d.%d\n", num, ip[0], ip[1], ip[2], ip[3]);
       Serial.printf("[WebSocket] Total connected clients: %u\n", webSocket.connectedClients());
+      {
+        String payload;
+        deviceProtocolBuildSettingsPayload(payload);
+        if (payload.length() > 0) {
+          webSocket.sendTXT(num, payload);
+        }
+      }
       break;
     }
 
@@ -31,6 +38,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length)
       if (result.hasUnicast) {
         webSocket.sendTXT(num, result.unicastJson);
       }
+      deviceProtocolAfterCommand(result);
       break;
     }
 

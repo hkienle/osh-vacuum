@@ -24,10 +24,17 @@ bool clientConnected = false;
 char rxBuffer[kRxBufferSize];
 size_t rxLength = 0;
 
+void sendChunkedJson(const char* json);
+
 class BleServerCallbacks : public NimBLEServerCallbacks {
   void onConnect(NimBLEServer* /*server*/, NimBLEConnInfo& /*connInfo*/) override {
     clientConnected = true;
     Serial.println("[BLE] Client connected");
+    String payload;
+    deviceProtocolBuildSettingsPayload(payload);
+    if (payload.length() > 0) {
+      sendChunkedJson(payload.c_str());
+    }
   }
 
   void onDisconnect(NimBLEServer* server, NimBLEConnInfo& /*connInfo*/, int /*reason*/) override {
@@ -60,6 +67,7 @@ class BleRxCallbacks : public NimBLECharacteristicCallbacks {
           if (result.hasUnicast) {
             bleTransportSendJson(result.unicastJson.c_str());
           }
+          deviceProtocolAfterCommand(result);
         }
         rxLength = 0;
       }

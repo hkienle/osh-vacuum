@@ -27,8 +27,11 @@
 //   mtr_disp      … Hauptanzeige bei Motor an: 0=Speed 1=Volt 2=RPM 3=MOT-Temp
 //   mtr_type      … 0=Generic (PWM), 1=Xiaomi G
 //   disp_contrast … OLED brightness 10–100 (10 % steps)
+//   wifi_ssid     … STA SSID from Web UI setup (AP mode)
+//   wifi_pass     … STA password from Web UI setup
+//   wifi_probe    … 1 after set_wifi until STA connects (longer boot timeout)
 //
-// Netzwerk & OTA (unten) sind reine Compile-Zeit-Werte — nicht im NVS.
+// Netzwerk & OTA (unten): Compile-Zeit-Fallbacks, wenn kein wifi_ssid in NVS.
 //
 // =============================================================================
 

@@ -1,8 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useDeviceConnectionContext } from '@/contexts/DeviceConnectionContext';
 import { getStoredIP } from '@/hooks/useDeviceConnection';
-import { isEmbeddedDeviceUi, isHostedDeviceUi } from '@/types/deviceTransport';
+import {
+  DEFAULT_VACUUM_HOST,
+  isEmbeddedDeviceUi,
+  isSafariBrowser,
+} from '@/types/deviceTransport';
 import { Button } from '@/components/ui/button';
+import { InfoBox } from '@/components/ui/info-box';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -35,18 +40,11 @@ export function ConnectionPanel({ open, onOpenChange }: ConnectionPanelProps) {
     bleUnavailableReason,
   } = useDeviceConnectionContext();
 
-  const defaultWifiHost = useMemo(() => {
-    const hostname = window.location.hostname;
-    if (hostname && hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      return hostname;
-    }
-    return getStoredIP();
-  }, []);
-
-  const [wifiIp, setWifiIp] = useState(defaultWifiHost);
+  const [wifiIp, setWifiIp] = useState(() => getStoredIP());
 
   const embeddedUi = isEmbeddedDeviceUi();
-  const hostedUi = isHostedDeviceUi();
+
+  const resolveWifiHost = () => wifiIp.trim() || DEFAULT_VACUUM_HOST;
 
   const handleConnect = () => {
     if (connected) {
@@ -57,7 +55,7 @@ export function ConnectionPanel({ open, onOpenChange }: ConnectionPanelProps) {
       void connect();
       return;
     }
-    void connect(wifiIp.trim());
+    void connect(resolveWifiHost());
   };
 
   return (
@@ -91,13 +89,27 @@ export function ConnectionPanel({ open, onOpenChange }: ConnectionPanelProps) {
             </RadioGroup>
 
             {transport === 'ble' && !bleSupported && bleUnavailableReason && (
-              <p className="text-xs text-amber-600 dark:text-amber-400">{bleUnavailableReason}</p>
+              <InfoBox>{bleUnavailableReason}</InfoBox>
+            )}
+
+            {transport === 'ble' && bleSupported && (
+              <InfoBox>
+                Bluetooth works in Chrome and Edge on desktop and Android. Safari does not support Web
+                Bluetooth — use Wi‑Fi there instead.
+              </InfoBox>
             )}
 
             {embeddedUi && transport === 'ble' && bleSupported && (
-              <p className="text-xs text-muted-foreground">
+              <InfoBox>
                 BLE from the ESP web page is experimental — hosted UI on localhost is preferred for now.
-              </p>
+              </InfoBox>
+            )}
+
+            {transport === 'wifi' && (
+              <InfoBox>
+                The vacuum must be on the same Wi‑Fi network as this device.
+                {isSafariBrowser() ? ' Safari supports Wi‑Fi only (no Bluetooth).' : ''}
+              </InfoBox>
             )}
 
             {transport === 'wifi' && !embeddedUi && (
@@ -107,16 +119,11 @@ export function ConnectionPanel({ open, onOpenChange }: ConnectionPanelProps) {
                   id="wifi-ip"
                   value={wifiIp}
                   onChange={(e) => setWifiIp(e.target.value)}
-                  placeholder="osh-vac.local or 192.168.1.50"
+                  placeholder={DEFAULT_VACUUM_HOST}
                 />
               </div>
             )}
 
-            {transport === 'wifi' && hostedUi && (
-              <p className="text-xs text-muted-foreground">
-                Hosted UI connects via this server&apos;s WebSocket proxy (not the ESP web UI).
-              </p>
-            )}
           </div>
 
           <div className="flex flex-col gap-2">

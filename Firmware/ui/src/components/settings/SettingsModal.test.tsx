@@ -1,19 +1,53 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { SettingsModal } from './SettingsModal';
 
 const mocked = vi.hoisted(() => ({
   useDeviceSettings: vi.fn(),
+  connected: true,
+  webUi: {
+    mounted: true,
+    theme: 'system',
+    setTheme: vi.fn(),
+    transport: 'wifi' as const,
+    setDefaultTransport: vi.fn(),
+    vacuumHost: 'osh-vac.local',
+    setVacuumHost: vi.fn(),
+    bleSupported: true,
+    bleUnavailableReason: '',
+    embeddedUi: false,
+    hostedUi: true,
+  },
 }));
 
 vi.mock('../../hooks/useDeviceSettings', () => ({
   useDeviceSettings: mocked.useDeviceSettings,
 }));
 
+vi.mock('../../contexts/DeviceConnectionContext', () => ({
+  useDeviceConnectionContext: () => ({
+    connected: mocked.connected,
+    lastMessage: null,
+    sendMessage: vi.fn(),
+  }),
+}));
+
+vi.mock('../../hooks/useWebUiSettings', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../hooks/useWebUiSettings')>();
+  return {
+    ...actual,
+    useWebUiSettings: () => mocked.webUi,
+  };
+});
+
 describe('SettingsModal', () => {
-  it('renders visible fields only', () => {
+  beforeEach(() => {
+    localStorage.setItem('oshvac_settings_tab', 'vac');
+    mocked.connected = true;
     mocked.useDeviceSettings.mockReturnValue({
       ready: true,
+      loadError: false,
       schema: {
         entries: [
           { id: 0, key: 'auto_off', title: 'Auto-Off', visible: true, allowed_values: [0, 1] },
@@ -23,15 +57,29 @@ describe('SettingsModal', () => {
       values: { auto_off: 1, spd_step: 5 },
       motorType: 1,
       setField: vi.fn(),
+      retry: vi.fn(),
     });
+  });
+
+  it('renders visible vac fields only on Vac Settings tab', async () => {
     render(<SettingsModal isOpen={true} onClose={() => undefined} />);
     expect(screen.getByText('Auto-Off')).toBeInTheDocument();
     expect(screen.queryByText('Speed Steps')).not.toBeInTheDocument();
   });
 
-  it('renders display brightness stepper from schema', () => {
+  it('shows WebUI settings on WebUI Settings tab', async () => {
+    const user = userEvent.setup();
+    render(<SettingsModal isOpen={true} onClose={() => undefined} />);
+    await user.click(screen.getByRole('tab', { name: 'WebUI Settings' }));
+    expect(screen.getByText('Theme')).toBeInTheDocument();
+    expect(screen.getByText('Default transport')).toBeInTheDocument();
+    expect(screen.queryByText('Auto-Off')).not.toBeInTheDocument();
+  });
+
+  it('renders display brightness stepper from schema on vac tab', () => {
     mocked.useDeviceSettings.mockReturnValue({
       ready: true,
+      loadError: false,
       schema: {
         entries: [
           {
@@ -47,9 +95,22 @@ describe('SettingsModal', () => {
       values: { disp_contrast: 20 },
       motorType: 0,
       setField: vi.fn(),
+      retry: vi.fn(),
     });
     render(<SettingsModal isOpen={true} onClose={() => undefined} />);
     expect(screen.getByText('Display Brightness')).toBeInTheDocument();
     expect(screen.getByText('OLED Contrast')).toBeInTheDocument();
+  });
+
+  it('requests settings when modal is open and connected', () => {
+    render(<SettingsModal isOpen={true} onClose={() => undefined} />);
+    expect(mocked.useDeviceSettings).toHaveBeenCalledWith({ enabled: true });
+  });
+
+  it('shows connect hint on vac tab when disconnected', () => {
+    mocked.connected = false;
+    render(<SettingsModal isOpen={true} onClose={() => undefined} />);
+    expect(screen.getByText(/Connect your vacuum to view and edit device settings/)).toBeInTheDocument();
+    expect(screen.queryByText('Auto-Off')).not.toBeInTheDocument();
   });
 });

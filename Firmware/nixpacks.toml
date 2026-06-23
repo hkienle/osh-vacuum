@@ -1,0 +1,20 @@
+# Coolify / Nixpacks — build hosted UI + run WebSocket proxy server
+# Base directory in Coolify: Firmware
+
+providers = ["node"]
+
+[variables]
+HOST = "0.0.0.0"
+NIXPACKS_NODE_VERSION = "22"
+
+[phases.install]
+cmds = [
+  "npm ci --prefix ui",
+  "npm ci --prefix server --omit=dev",
+]
+
+[phases.build]
+cmds = ["npm run build:server --prefix ui"]
+
+[start]
+cmd = "node server/hosted.mjs"

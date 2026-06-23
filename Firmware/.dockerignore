@@ -1,0 +1,23 @@
+# Dependencies (reinstalled in image)
+ui/node_modules
+server/node_modules
+
+# Build outputs
+ui/dist
+data
+
+# Firmware / dev tooling (not needed for hosted UI image)
+.pio
+.pioenvs
+.vscode
+tools
+
+# Tests & local dev
+ui/coverage
+**/*.test.ts
+**/*.test.tsx
+
+# Git & OS
+.git
+.gitignore
+**/.DS_Store

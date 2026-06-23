@@ -1,5 +1,6 @@
 import type { Plugin } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { DEFAULT_VACUUM_HOST } from '../types/deviceTransport';
 
 const WS_PROXY_PATH = '/device-ws';
 
@@ -14,7 +15,7 @@ export function deviceWsProxyPlugin(): Plugin {
         changeOrigin: true,
         router: (req) => {
           const url = new URL(req.url ?? '', 'http://localhost');
-          const target = url.searchParams.get('target') ?? 'osh-vac.local:81';
+          const target = url.searchParams.get('target') ?? `${DEFAULT_VACUUM_HOST}:81`;
           return `http://${target}`;
         },
         pathRewrite: () => '/',
