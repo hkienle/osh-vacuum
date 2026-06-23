@@ -14,7 +14,12 @@ constexpr char kTxUuid[] = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
 constexpr char kDeviceName[] = "osh-vac";
 
 constexpr size_t kRxBufferSize = 1024;
-constexpr size_t kMaxChunkPayload = 480;
+// Each notification carries (negotiated ATT_MTU - 3) bytes, plus we prepend a
+// 4-byte "OV<frag><total>" fragment header. Keep the payload small enough that
+// packet + header fits inside the MTU we request below, otherwise the BLE stack
+// silently truncates large notifications (e.g. the settings schema).
+constexpr uint16_t kPreferredMtu = 247;
+constexpr size_t kMaxChunkPayload = 180;
 
 NimBLEServer* bleServer = nullptr;
 NimBLECharacteristic* txCharacteristic = nullptr;
@@ -122,6 +127,7 @@ void initBleTransport() {
 
   NimBLEDevice::init(kDeviceName);
   NimBLEDevice::setPower(ESP_PWR_LVL_P9);
+  NimBLEDevice::setMTU(kPreferredMtu);
 
   bleServer = NimBLEDevice::createServer();
   bleServer->setCallbacks(&bleServerCallbacks);
