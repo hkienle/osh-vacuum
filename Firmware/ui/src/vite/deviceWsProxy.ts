@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { DEFAULT_VACUUM_HOST } from '../types/deviceTransport';
 
+const DEFAULT_VACUUM_HOST = 'caznic.local';
 const WS_PROXY_PATH = '/device-ws';
 
 /** Dev-server proxy: hosted UI → vacuum WebSocket (same as production server). */
