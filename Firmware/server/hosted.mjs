@@ -10,12 +10,29 @@
  *   Open http://localhost:8080 → Sidebar → WiFi → enter osh-vac.local → Connect
  */
 import express from 'express';
+import fs from 'fs';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const UI_DIR = process.env.UI_DIR ?? path.join(__dirname, '../ui/dist');
+
+function resolveUiDir() {
+  const raw = process.env.UI_DIR;
+  if (!raw) {
+    return path.join(__dirname, '../ui/dist');
+  }
+  return path.isAbsolute(raw) ? raw : path.resolve(__dirname, raw);
+}
+
+const UI_DIR = resolveUiDir();
+const INDEX_HTML = path.join(UI_DIR, 'index.html');
+
+if (!fs.existsSync(INDEX_HTML)) {
+  console.error(`[hosted] Missing UI build: ${INDEX_HTML}`);
+  console.error('[hosted] Run: npm run build:server --prefix ui');
+  process.exit(1);
+}
 const PORT = Number(process.env.PORT ?? 8080);
 const HOST = process.env.HOST ?? '0.0.0.0';
 const WS_PROXY_PATH = '/device-ws';
@@ -44,7 +61,7 @@ const wsProxy = createProxyMiddleware({
 app.use(wsProxy);
 
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(UI_DIR, 'index.html'));
+  res.sendFile(INDEX_HTML);
 });
 
 const server = app.listen(PORT, HOST, () => {

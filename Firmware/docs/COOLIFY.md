@@ -73,9 +73,9 @@ WebSocket upgrade on `/device-ws` is handled by the Node server; Coolify's proxy
 |----------|----------|---------|---------|
 | `PORT` | Set by Coolify | `8080` | HTTP listen port |
 | `HOST` | No | `0.0.0.0` | Bind address (set in `nixpacks.toml`) |
-| `UI_DIR` | No | `../ui/dist` from server | Override static files path if needed |
+| `UI_DIR` | No | `/app/ui/dist` (set in `nixpacks.toml`) | Override only if you change the image layout. Use an **absolute** path — do not set `../ui/dist`. |
 
-No secrets required for the basic setup.
+No secrets required for the basic setup. **Leave `UI_DIR` unset** in Coolify unless you know you need it.
 
 ## 5. Deploy
 

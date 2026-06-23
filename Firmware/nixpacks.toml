@@ -5,6 +5,7 @@ providers = ["node"]
 
 [variables]
 HOST = "0.0.0.0"
+UI_DIR = "/app/ui/dist"
 NIXPACKS_NODE_VERSION = "22"
 
 [phases.install]
