@@ -56,21 +56,24 @@ describe('SettingsModal', () => {
       },
       values: { auto_off: 1, spd_step: 5 },
       motorType: 1,
+      dirty: false,
       setField: vi.fn(),
+      save: vi.fn(),
+      resetToDefault: vi.fn(),
       retry: vi.fn(),
     });
   });
 
-  it('renders visible vac fields only on Vac Settings tab', async () => {
+  it('renders visible vac fields only on Vacuum Settings tab', async () => {
     render(<SettingsModal isOpen={true} onClose={() => undefined} />);
     expect(screen.getByText('Auto-Off')).toBeInTheDocument();
     expect(screen.queryByText('Speed Steps')).not.toBeInTheDocument();
   });
 
-  it('shows WebUI settings on WebUI Settings tab', async () => {
+  it('shows Caznic Connect settings on Caznic Connect Settings tab', async () => {
     const user = userEvent.setup();
     render(<SettingsModal isOpen={true} onClose={() => undefined} />);
-    await user.click(screen.getByRole('tab', { name: 'WebUI Settings' }));
+    await user.click(screen.getByRole('tab', { name: 'Caznic Connect Settings' }));
     expect(screen.getByText('Theme')).toBeInTheDocument();
     expect(screen.getByText('Default transport')).toBeInTheDocument();
     expect(screen.queryByText('Auto-Off')).not.toBeInTheDocument();
@@ -94,7 +97,10 @@ describe('SettingsModal', () => {
       },
       values: { disp_contrast: 20 },
       motorType: 0,
+      dirty: false,
       setField: vi.fn(),
+      save: vi.fn(),
+      resetToDefault: vi.fn(),
       retry: vi.fn(),
     });
     render(<SettingsModal isOpen={true} onClose={() => undefined} />);

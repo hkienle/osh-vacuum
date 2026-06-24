@@ -18,6 +18,7 @@ void writeSchema(JsonObject outSchema, const RuntimeSettings& rs) {
     j["key"] = entry->key;
     j["title"] = entry->title;
     j["visible"] = settingsGlobalVisibleForMotorType(entry->id, rs.motorType);
+    j["def"] = settingsDefaultValue(entry->id);
     if (entry->subline) {
       j["subline"] = entry->subline;
     }

@@ -15,6 +15,7 @@
 #include "ota/ota.h"
 #include "button/button.h"
 #include "settings/settings.h"
+#include "settings/settings_config.h"
 #include "settings/dev_menu.h"
 #include "display/display.h"
 #include "mcu_temp/mcu_temp.h"
@@ -73,6 +74,7 @@ void setup() {
 
 void loop() {
   static uint32_t motorRunStartMs = 0;
+  static uint32_t undervoltageBelowSinceMs = 0;
 
   // Update buttons (handles speed changes and trigger state)
   updateButtons();
@@ -167,6 +169,43 @@ void loop() {
         deviceLinkBroadcast(notifyJson.c_str());
       }
     }
+
+    const uint8_t cells = getRuntimeSettings().batterySeriesCells;
+    if (cells > 0) {
+      const float packV = getBatteryVoltage();
+      if (packV > 0.05f) {
+        const float cellV = packV / static_cast<float>(cells);
+        const float minCellV = SettingsConfig::DEFAULT_MIN_CELL_VOLTAGE_CUTOFF;
+        if (cellV < minCellV) {
+          const uint32_t now = millis();
+          if (undervoltageBelowSinceMs == 0) {
+            undervoltageBelowSinceMs = now;
+          } else if ((now - undervoltageBelowSinceMs) >= 400) {
+            setMotorState(false);
+            motorRunStartMs = 0;
+            undervoltageBelowSinceMs = 0;
+            Serial.printf("[Main] Motor stopped: pack undervoltage (%.2f V, %.2f V/cell)\n",
+                          static_cast<double>(packV),
+                          static_cast<double>(cellV));
+            if (deviceLinkHasActiveClients()) {
+              String notifyJson;
+              char text[96];
+              snprintf(text,
+                       sizeof(text),
+                       "Motor stopped: battery undervoltage (%.2f V, %.2f V/cell)",
+                       static_cast<double>(packV),
+                       static_cast<double>(cellV));
+              deviceProtocolBuildNotifyJson(notifyJson, "undervoltage_stop", text, "warning");
+              deviceLinkBroadcast(notifyJson.c_str());
+            }
+          }
+        } else {
+          undervoltageBelowSinceMs = 0;
+        }
+      }
+    }
+  } else {
+    undervoltageBelowSinceMs = 0;
   }
 
   const bool buttonActivity = hadButtonActivityAndClear();

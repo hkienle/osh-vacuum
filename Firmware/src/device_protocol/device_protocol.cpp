@@ -57,7 +57,7 @@ bool isValidStaPassword(const char* password) {
 DeviceCommandResult deviceProtocolHandleJson(const char* json, size_t len) {
   DeviceCommandResult result;
 
-  StaticJsonDocument<512> doc;
+  StaticJsonDocument<768> doc;
   DeserializationError error = deserializeJson(doc, json, len);
   if (error) {
     Serial.printf("[DeviceProtocol] JSON parse error: %s\n", error.c_str());
@@ -100,6 +100,32 @@ DeviceCommandResult deviceProtocolHandleJson(const char* json, size_t len) {
       ackDoc["ack"] = "set_setting";
       ackDoc["key"] = key;
       ackDoc["ok"] = ok;
+      serializeJson(ackDoc, result.unicastJson);
+      result.hasUnicast = true;
+      result.handled = true;
+      return result;
+    }
+    if (strcmp(command, "set_settings") == 0) {
+      JsonObjectConst values = doc["values"].as<JsonObjectConst>();
+      RuntimeSettings& rs = getRuntimeSettings();
+      const MotorType oldType = rs.motorType;
+      uint8_t applied = 0;
+      uint8_t failed = 0;
+      for (JsonPairConst kv : values) {
+        if (settingsApiApplySetting(rs, kv.key().c_str(), kv.value())) {
+          ++applied;
+        } else {
+          ++failed;
+        }
+      }
+      result.motorTypeChanged = applied > 0 && oldType != rs.motorType;
+      applyMotorTypeChangeIfNeeded(result.motorTypeChanged);
+
+      StaticJsonDocument<160> ackDoc;
+      ackDoc["ack"] = "set_settings";
+      ackDoc["applied"] = applied;
+      ackDoc["failed"] = failed;
+      ackDoc["ok"] = failed == 0;
       serializeJson(ackDoc, result.unicastJson);
       result.hasUnicast = true;
       result.handled = true;
@@ -174,13 +200,15 @@ DeviceCommandResult deviceProtocolHandleJson(const char* json, size_t len) {
 
 void deviceProtocolBuildSettingsPayload(String& out) {
   DynamicJsonDocument outDoc(kSettingsJsonCapacity);
-  settingsApiWritePayload(outDoc.to<JsonObject>());
-  deviceProtocolWriteWifiStatus(outDoc.to<JsonObject>());
+  JsonObject root = outDoc.to<JsonObject>();
+  settingsApiWritePayload(root);
+  deviceProtocolWriteWifiStatus(root);
   if (outDoc.overflowed()) {
     Serial.println("[DeviceProtocol] WARN: settings payload JSON overflow");
   }
   out.reserve(6144);
   serializeJson(outDoc, out);
+  Serial.printf("[DeviceProtocol] settings payload %u bytes\n", static_cast<unsigned>(out.length()));
 }
 
 void deviceProtocolBuildTelemetryJson(String& out,

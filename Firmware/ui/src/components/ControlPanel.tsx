@@ -4,7 +4,9 @@ import { Link2 } from 'lucide-react';
 import { DataGraph } from '@/components/DataGraph';
 import { useWebSocketContext } from '@/contexts/WebSocketContext';
 import { useDataHistory } from '@/hooks/useDataHistory';
+import { markUserMotorStart, markUserMotorStop } from '@/services/deviceNotifications';
 import { chartColors } from '@/lib/themeColors';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -14,6 +16,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 interface ControlPanelProps {
   onConnect?: () => void;
 }
+
+const SPEED_PRESETS = [25, 50, 75, 100] as const;
+
+/** Shared min height so motor + graph cards align on desktop. */
+const GRAPH_CARD_CLASS = 'flex min-h-[22.5rem] min-w-0 w-full flex-col';
+const MOTOR_CARD_CLASS = 'flex min-w-0 w-full flex-col lg:min-h-[22.5rem]';
 
 export function ControlPanel({ onConnect }: ControlPanelProps) {
   const [speed, setSpeed] = useState(0);
@@ -31,8 +39,7 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
 
   useEffect(() => {
     if (lastMessage?.speed !== undefined) {
-      const roundedSpeed = Math.round(lastMessage.speed / 20) * 20;
-      setSpeed(roundedSpeed);
+      setSpeed(Math.round(lastMessage.speed));
     }
   }, [lastMessage?.speed]);
 
@@ -68,6 +75,7 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
 
   const handleStart = () => {
     if (connected && !isStarted) {
+      markUserMotorStart();
       setIsStarted(true);
       sendMessage({ command: 'motor_start' });
       sendMessage({ speed: Math.max(0, Math.min(100, Math.round(speed))) });
@@ -76,6 +84,7 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
 
   const handleStop = () => {
     if (connected && isStarted) {
+      markUserMotorStop();
       setIsStarted(false);
       sendMessage({ command: 'motor_stop' });
     }
@@ -119,6 +128,10 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
   const tempRange = calculateSoftMax(tempActualMax);
   const voltageRange = calculateSoftMax(voltageActualMax);
 
+  const activePreset = SPEED_PRESETS.includes(speed as (typeof SPEED_PRESETS)[number])
+    ? String(speed)
+    : undefined;
+
   if (!connected) {
     return (
       <Card className="border-dashed">
@@ -145,14 +158,58 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <Card>
+    <div className="grid w-full min-w-0 max-w-full gap-4 lg:grid-cols-[minmax(0,1fr)_17rem] lg:grid-rows-3 lg:items-stretch xl:grid-cols-[minmax(0,1fr)_19rem]">
+      <MetricCard
+        className={cn(GRAPH_CARD_CLASS, 'order-2 lg:col-start-1 lg:row-start-1')}
+        label="Impeller RPM"
+        value={currentRpm.toFixed(0)}
+        unit="RPM"
+        color={colors.rpm}
+        data={rpmData}
+        min={rpmRange.min}
+        max={rpmRange.max}
+        actualMin={rpmActualMin}
+        actualMax={rpmActualMax}
+      />
+
+      <MetricCard
+        className={cn(GRAPH_CARD_CLASS, 'order-3 lg:col-start-1 lg:row-start-2')}
+        label="Exhaust temperature"
+        value={currentTemperature.toFixed(1)}
+        unit="°C"
+        color={colors.temp}
+        data={tempData}
+        min={tempRange.min}
+        max={tempRange.max}
+        actualMin={tempActualMin}
+        actualMax={tempActualMax}
+      />
+
+      <MetricCard
+        className={cn(GRAPH_CARD_CLASS, 'order-4 lg:col-start-1 lg:row-start-3')}
+        label="Battery voltage"
+        value={currentVoltage.toFixed(2)}
+        unit="V"
+        color={colors.voltage}
+        data={voltageData}
+        min={voltageRange.min}
+        max={voltageRange.max}
+        actualMin={voltageActualMin}
+        actualMax={voltageActualMax}
+      />
+
+      <Card className={cn(MOTOR_CARD_CLASS, 'order-1 lg:col-start-2 lg:row-start-1 lg:sticky lg:top-20')}>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-medium text-muted-foreground">Motor speed</CardTitle>
-          <p className="font-mono text-4xl font-bold tabular-nums">{speed}%</p>
+          <CardTitle className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            Motor speed
+          </CardTitle>
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-mono text-3xl font-bold tabular-nums">{speed}</span>
+            <span className="text-sm text-muted-foreground">%</span>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
+        <CardContent className="flex flex-1 flex-col justify-between gap-4">
+          <div className="space-y-2">
             <Label htmlFor="speed-slider" className="sr-only">
               Motor speed
             </Label>
@@ -169,25 +226,25 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
 
           <ToggleGroup
             type="single"
-            value={String(speed)}
+            value={activePreset}
             onValueChange={(v) => v && handlePreset(Number(v))}
-            className="flex w-full flex-wrap justify-between gap-1"
+            className="grid w-full grid-cols-4 gap-1"
           >
-            {[0, 20, 40, 60, 80, 100].map((preset) => (
+            {SPEED_PRESETS.map((preset) => (
               <ToggleGroupItem
                 key={preset}
                 value={String(preset)}
                 disabled={!connected}
-                className="min-w-0 flex-1 rounded-full px-2 text-xs sm:text-sm"
+                className="min-w-0 rounded-full px-1 text-xs"
               >
                 {preset}%
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-2">
             <Button
-              className="flex-1 rounded-full bg-success text-success-foreground hover:bg-success/90"
+              className="w-full rounded-full bg-success text-success-foreground hover:bg-success/90"
               onClick={handleStart}
               disabled={!connected || isStarted}
             >
@@ -195,7 +252,7 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
             </Button>
             <Button
               variant="destructive"
-              className="flex-1 rounded-full"
+              className="w-full rounded-full"
               onClick={handleStop}
               disabled={!connected || !isStarted}
             >
@@ -204,47 +261,12 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
           </div>
         </CardContent>
       </Card>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        <MetricCard
-          label="Impeller RPM"
-          value={currentRpm.toFixed(0)}
-          unit="RPM"
-          color={colors.rpm}
-          data={rpmData}
-          min={rpmRange.min}
-          max={rpmRange.max}
-          actualMin={rpmActualMin}
-          actualMax={rpmActualMax}
-        />
-        <MetricCard
-          label="Exhaust temperature"
-          value={currentTemperature.toFixed(1)}
-          unit="°C"
-          color={colors.temp}
-          data={tempData}
-          min={tempRange.min}
-          max={tempRange.max}
-          actualMin={tempActualMin}
-          actualMax={tempActualMax}
-        />
-        <MetricCard
-          label="Battery voltage"
-          value={currentVoltage.toFixed(2)}
-          unit="V"
-          color={colors.voltage}
-          data={voltageData}
-          min={voltageRange.min}
-          max={voltageRange.max}
-          actualMin={voltageActualMin}
-          actualMax={voltageActualMax}
-        />
-      </div>
     </div>
   );
 }
 
 interface MetricCardProps {
+  className?: string;
   label: string;
   value: string;
   unit: string;
@@ -256,9 +278,20 @@ interface MetricCardProps {
   actualMax?: number;
 }
 
-function MetricCard({ label, value, unit, color, data, min, max, actualMin, actualMax }: MetricCardProps) {
+function MetricCard({
+  className,
+  label,
+  value,
+  unit,
+  color,
+  data,
+  min,
+  max,
+  actualMin,
+  actualMax,
+}: MetricCardProps) {
   return (
-    <Card>
+    <Card className={cn('min-w-0 w-full', className)}>
       <CardHeader className="pb-2">
         <CardTitle className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
           {label}
@@ -270,7 +303,7 @@ function MetricCard({ label, value, unit, color, data, min, max, actualMin, actu
           <span className="text-sm text-muted-foreground">{unit}</span>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <DataGraph
           data={data}
           unit={unit}

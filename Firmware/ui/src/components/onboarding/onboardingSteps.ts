@@ -1,3 +1,5 @@
+import { supportsWifiTransport } from '@/types/deviceTransport';
+
 export interface OnboardingStep {
   id: string;
   title: string;
@@ -8,7 +10,7 @@ export interface OnboardingStep {
   screenshotSrc?: string;
 }
 
-export const ONBOARDING_STEPS: OnboardingStep[] = [
+const BASE_ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'welcome',
     title: 'Welcome',
@@ -37,18 +39,35 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     screenshotAlt: 'Battery test dialog',
     screenshotSrc: '/onboarding/battery.png',
   },
-  {
-    id: 'connection',
-    title: 'Connect',
-    description: 'WiFi or Bluetooth — pick a transport and connect.',
-    screenshotAlt: 'Connection panel, ready to connect via WiFi',
-    screenshotSrc: '/onboarding/connection.png',
-  },
-  {
-    id: 'done',
-    title: 'Ready to go',
-    description: 'Replay this tour anytime under Settings → WebUI Settings.',
-    screenshotAlt: 'Connection panel, connected via WiFi',
-    screenshotSrc: '/onboarding/connection-connected.png',
-  },
 ];
+
+export function getOnboardingSteps(): OnboardingStep[] {
+  const wifiAvailable = supportsWifiTransport();
+
+  return [
+    ...BASE_ONBOARDING_STEPS,
+    {
+      id: 'connection',
+      title: 'Connect',
+      description: wifiAvailable
+        ? 'WiFi or Bluetooth — pick a transport and connect.'
+        : 'Pair your vacuum via Bluetooth in Chrome or Edge.',
+      screenshotAlt: wifiAvailable
+        ? 'Connection panel, ready to connect via WiFi'
+        : 'Connection panel, ready to pair via Bluetooth',
+      screenshotSrc: '/onboarding/connection.png',
+    },
+    {
+      id: 'done',
+      title: 'Ready to go',
+      description: 'Replay this tour anytime under Settings → Caznic Connect Settings.',
+      screenshotAlt: wifiAvailable
+        ? 'Connection panel, connected via WiFi'
+        : 'Connection panel, connected via Bluetooth',
+      screenshotSrc: '/onboarding/connection-connected.png',
+    },
+  ];
+}
+
+/** @deprecated Use getOnboardingSteps() for transport-aware copy. */
+export const ONBOARDING_STEPS = getOnboardingSteps();

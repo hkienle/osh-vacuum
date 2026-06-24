@@ -43,7 +43,7 @@ export default function App() {
               <h1 className="flex min-w-0 items-center gap-2">
                 <span className="flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight lowercase leading-none">caznic</span>
-                  <span className="hidden text-sm font-normal tracking-widest text-muted-foreground uppercase leading-none sm:inline">
+                  <span className="text-sm font-normal tracking-widest text-muted-foreground uppercase leading-none">
                     connect
                   </span>
                 </span>

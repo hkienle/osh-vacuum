@@ -45,8 +45,8 @@ export function SettingsModal({ isOpen, onClose, onShowOnboarding }: SettingsMod
 
         <Tabs value={tab} onValueChange={handleTabChange} className="gap-4">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="webui">WebUI Settings</TabsTrigger>
-            <TabsTrigger value="vac">Vac Settings</TabsTrigger>
+            <TabsTrigger value="webui">Caznic Connect Settings</TabsTrigger>
+            <TabsTrigger value="vac">Vacuum Settings</TabsTrigger>
           </TabsList>
 
           <div className="h-[min(60vh,32rem)] overflow-y-auto pr-2">
@@ -59,9 +59,12 @@ export function SettingsModal({ isOpen, onClose, onShowOnboarding }: SettingsMod
                 connected={connected}
                 ready={vacSettings.ready}
                 loadError={vacSettings.loadError}
+                dirty={vacSettings.dirty}
                 schema={vacSettings.schema}
                 values={vacSettings.values}
                 onFieldChange={vacSettings.setField}
+                onSave={vacSettings.save}
+                onResetToDefault={vacSettings.resetToDefault}
                 onRetry={vacSettings.retry}
               />
             </TabsContent>

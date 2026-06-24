@@ -9,3 +9,10 @@ export function setSetting(
 ): void {
   sendMessage({ command: 'set_setting', key, value });
 }
+
+export function setSettings(
+  sendMessage: (message: object) => void,
+  values: Record<string, number>
+): void {
+  sendMessage({ command: 'set_settings', values });
+}
