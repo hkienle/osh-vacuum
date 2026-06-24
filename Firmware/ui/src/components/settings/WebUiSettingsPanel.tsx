@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useWebUiSettings } from '@/hooks/useWebUiSettings';
-import { DEFAULT_VACUUM_HOST, supportsWifiTransport } from '@/types/deviceTransport';
+import { DEFAULT_VACUUM_HOST } from '@/types/deviceTransport';
 
 interface WebUiSettingsPanelProps {
   onShowOnboarding?: () => void;
