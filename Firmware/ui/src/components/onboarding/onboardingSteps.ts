@@ -60,7 +60,7 @@ export function getOnboardingSteps(): OnboardingStep[] {
     {
       id: 'done',
       title: 'Ready to go',
-      description: 'Replay this tour anytime under Settings → WebUI Settings.',
+      description: 'Replay this tour anytime under Settings → Caznic Connect Settings.',
       screenshotAlt: wifiAvailable
         ? 'Connection panel, connected via WiFi'
         : 'Connection panel, connected via Bluetooth',

@@ -78,6 +78,9 @@ constexpr uint8_t DEFAULT_DISPLAY_CONTRAST_PERCENT = 20;  // 10–100 in 10 % st
 constexpr uint8_t DEFAULT_LED_THEME = 1;            // 0=Off 1=White 2=Blue 3=Green 4=Pink 5=Orange 6=Yellow
 constexpr uint8_t DEFAULT_MOTOR_TYPE = 0;           // 0=Generic (PWM), 1=Xiaomi G
 
+// Per-cell pack voltage under motor load — motor stops when V_pack / cells stays below this.
+constexpr float DEFAULT_MIN_CELL_VOLTAGE_CUTOFF = 3.0f;
+
 // -----------------------------------------------------------------------------
 // STANDBY_TIMEOUT_MS  —  Inaktivitätszeit bis Light-Sleep
 // -----------------------------------------------------------------------------

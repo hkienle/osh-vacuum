@@ -26,6 +26,9 @@ const SettingSchemaEntry* settingsSchemaByKey(const char* key);
 size_t settingsSchemaEntryCount();
 const SettingSchemaEntry* settingsSchemaEntryAt(size_t idx);
 
+/** Factory-default value for a setting (from a default-constructed store). */
+uint8_t settingsDefaultValue(DevSettingId id);
+
 void settingsFormatValue(DevSettingId id, const RuntimeSettings& rs, char* out, size_t n);
 void settingsFormatSubline(DevSettingId id, const RuntimeSettings& rs, char* out, size_t n);
 

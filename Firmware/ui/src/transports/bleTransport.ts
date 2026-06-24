@@ -12,6 +12,8 @@ type MessageFn = (data: DeviceMessage) => void;
 export interface BleTransportOptions {
   onLog: LogFn;
   onMessage: MessageFn;
+  onConnect?: () => void;
+  onDisconnect?: (unexpected: boolean) => void;
 }
 
 interface FragmentAssembly {
@@ -27,6 +29,8 @@ export class BleTransport {
   private server: BluetoothRemoteGATTServer | null = null;
   private rxCharacteristic: BluetoothRemoteGATTCharacteristic | null = null;
   private fragmentAssembly: FragmentAssembly | null = null;
+  private disconnectListenerAttached = false;
+  private userInitiatedDisconnect = false;
   private readonly options: BleTransportOptions;
 
   constructor(options: BleTransportOptions) {
@@ -35,6 +39,10 @@ export class BleTransport {
 
   get connected(): boolean {
     return this.device?.gatt?.connected ?? false;
+  }
+
+  get hasPairedDevice(): boolean {
+    return this.device !== null;
   }
 
   static isSupported(): boolean {
@@ -51,6 +59,7 @@ export class BleTransport {
       throw new Error('Web Bluetooth is not available');
     }
 
+    this.userInitiatedDisconnect = false;
     this.options.onLog('Requesting BLE device (osh-vac)...');
     this.device = await bluetooth.requestDevice({
       filters: [{ services: [NUS_SERVICE_UUID] }],
@@ -58,7 +67,70 @@ export class BleTransport {
     });
 
     this.options.onLog(`Selected ${this.device.name ?? 'device'}`);
-    this.server = await this.device.gatt!.connect();
+    this.attachDisconnectListener();
+    await this.setupGattConnection();
+    this.options.onLog('Connected via Bluetooth');
+    this.options.onConnect?.();
+  }
+
+  async reconnect(): Promise<void> {
+    if (!this.device) {
+      throw new Error('No BLE device to reconnect to');
+    }
+    this.userInitiatedDisconnect = false;
+    await this.setupGattConnection();
+    this.options.onLog('Reconnected via Bluetooth');
+    this.options.onConnect?.();
+  }
+
+  /** Drop GATT without clearing the device (e.g. connection timeout). */
+  dropConnection(): void {
+    this.fragmentAssembly = null;
+    if (this.device?.gatt?.connected) {
+      this.device.gatt.disconnect();
+    }
+    this.server = null;
+    this.rxCharacteristic = null;
+  }
+
+  disconnect(): void {
+    this.userInitiatedDisconnect = true;
+    this.fragmentAssembly = null;
+    if (this.device?.gatt?.connected) {
+      this.device.gatt.disconnect();
+    }
+    this.device = null;
+    this.server = null;
+    this.rxCharacteristic = null;
+    this.disconnectListenerAttached = false;
+    this.options.onLog('Disconnecting BLE...');
+  }
+
+  private attachDisconnectListener(): void {
+    if (!this.device || this.disconnectListenerAttached) {
+      return;
+    }
+    this.device.addEventListener('gattserverdisconnected', this.handleGattDisconnected);
+    this.disconnectListenerAttached = true;
+  }
+
+  private handleGattDisconnected = (): void => {
+    this.options.onLog('BLE disconnected');
+    this.fragmentAssembly = null;
+    this.server = null;
+    this.rxCharacteristic = null;
+    if (!this.userInitiatedDisconnect) {
+      this.options.onDisconnect?.(true);
+    }
+    this.userInitiatedDisconnect = false;
+  };
+
+  private async setupGattConnection(): Promise<void> {
+    if (!this.device?.gatt) {
+      throw new Error('BLE device has no GATT server');
+    }
+
+    this.server = await this.device.gatt.connect();
     const service = await this.server.getPrimaryService(NUS_SERVICE_UUID);
     this.rxCharacteristic = await service.getCharacteristic(NUS_RX_UUID);
     const txCharacteristic = await service.getCharacteristic(NUS_TX_UUID);
@@ -70,24 +142,6 @@ export class BleTransport {
       if (!value) return;
       this.handleNotification(value);
     });
-
-    this.device.addEventListener('gattserverdisconnected', () => {
-      this.options.onLog('BLE disconnected');
-      this.fragmentAssembly = null;
-    });
-
-    this.options.onLog('Connected via Bluetooth');
-  }
-
-  disconnect(): void {
-    this.fragmentAssembly = null;
-    if (this.device?.gatt?.connected) {
-      this.device.gatt.disconnect();
-    }
-    this.device = null;
-    this.server = null;
-    this.rxCharacteristic = null;
-    this.options.onLog('Disconnecting BLE...');
   }
 
   async send(message: object): Promise<void> {

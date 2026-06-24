@@ -63,7 +63,7 @@ export const DataGraph = forwardRef<DataGraphHandle, DataGraphProps>(
     const decimals = unit === 'RPM' ? 0 : unit === '°C' ? 1 : 2;
 
     return (
-      <div className="space-y-2">
+      <div className="min-w-0 w-full space-y-2">
         {actualMin !== undefined && actualMax !== undefined && (
           <div className="flex justify-end gap-2 text-[11px] text-muted-foreground">
             <span>
@@ -75,7 +75,7 @@ export const DataGraph = forwardRef<DataGraphHandle, DataGraphProps>(
             </span>
           </div>
         )}
-        <div className="rounded-lg border bg-muted/20 p-2">
+        <div className="min-w-0 w-full overflow-hidden rounded-lg border bg-muted/20 p-2">
           <UPlotChart
             ref={chartRef}
             maxPoints={300}

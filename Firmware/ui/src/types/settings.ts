@@ -8,6 +8,8 @@ export interface SettingDescriptor {
   key: string;
   title: string;
   visible: boolean;
+  /** Factory-default value reported by the device. */
+  def?: number;
   subline?: string;
   subline_dynamic?: string;
   allowed_values?: number[];

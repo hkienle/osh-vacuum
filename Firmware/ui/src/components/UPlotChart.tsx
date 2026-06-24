@@ -296,7 +296,7 @@ export const UPlotChart = forwardRef<UPlotChartHandle, UPlotChartProps>(
     return (
       <div
         ref={containerRef}
-        className="uplot-chart-container"
+        className="uplot-chart-container min-w-0 w-full max-w-full"
         style={{ width: '100%', height: `${height}px` }}
       />
     );

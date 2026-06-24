@@ -7,13 +7,13 @@ type MessageFn = (data: DeviceMessage) => void;
 export interface WifiTransportOptions {
   onLog: LogFn;
   onMessage: MessageFn;
+  onConnect?: () => void;
+  onDisconnect?: (unexpected: boolean) => void;
 }
 
 export class WifiTransport {
   private ws: WebSocket | null = null;
   private lastIp = '';
-  private reconnectTimer: number | null = null;
-  private readonly reconnectDelay = 3000;
   private readonly options: WifiTransportOptions;
 
   constructor(options: WifiTransportOptions) {
@@ -25,11 +25,6 @@ export class WifiTransport {
   }
 
   connect(ip: string): void {
-    if (this.reconnectTimer) {
-      clearTimeout(this.reconnectTimer);
-      this.reconnectTimer = null;
-    }
-
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       return;
     }
@@ -50,6 +45,7 @@ export class WifiTransport {
     ws.onopen = () => {
       wasConnected = true;
       this.options.onLog('Connected via WiFi');
+      this.options.onConnect?.();
     };
 
     ws.onmessage = (event) => {
@@ -69,20 +65,24 @@ export class WifiTransport {
       }
       if (wasConnected) {
         this.options.onLog(`Disconnected (code ${event.code})`);
-        if (event.code !== 1000 && this.lastIp) {
-          this.reconnectTimer = window.setTimeout(() => this.connect(this.lastIp), this.reconnectDelay);
-        }
+        this.options.onDisconnect?.(event.code !== 1000);
       } else if (wasCurrent) {
         this.options.onLog(`Connection failed (code ${event.code})`);
+        this.options.onDisconnect?.(true);
       }
     };
   }
 
-  disconnect(): void {
-    if (this.reconnectTimer) {
-      clearTimeout(this.reconnectTimer);
-      this.reconnectTimer = null;
+  /** Close the socket without clearing the target (e.g. connection timeout). */
+  dropConnection(): void {
+    if (!this.ws) {
+      return;
     }
+    this.ws.close(4000, 'Connection timeout');
+    this.ws = null;
+  }
+
+  disconnect(): void {
     this.lastIp = '';
     this.ws?.close(1000, 'User disconnected');
     this.ws = null;

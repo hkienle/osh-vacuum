@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { markUserMotorStart, markUserMotorStop } from '../services/deviceNotifications';
 import type { DeviceMessage } from '../types/deviceTransport';
 
 export interface BatteryTestConfig {
@@ -89,11 +90,13 @@ export function useBatteryTest({
   const isPaused = phase === 'paused';
 
   const stopMotor = useCallback(() => {
+    markUserMotorStop();
     sendMessage({ command: 'motor_stop' });
   }, [sendMessage]);
 
   const startMotorWithSpeed = useCallback(
     (speed: number) => {
+      markUserMotorStart();
       sendMessage({ speed });
       sendMessage({ command: 'motor_start' });
     },

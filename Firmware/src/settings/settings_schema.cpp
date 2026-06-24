@@ -116,6 +116,44 @@ const SettingSchemaEntry* settingsSchemaEntryAt(size_t idx) {
   return &kEntries[idx];
 }
 
+uint8_t settingsDefaultValue(DevSettingId id) {
+  static const RuntimeSettings d{};
+  switch (id) {
+    case DevSettingId::AutoOff:
+      return d.autoOffMinutes;
+    case DevSettingId::TempLimit:
+      return d.tempLimitC;
+    case DevSettingId::SpeedStep:
+      return d.speedStepPercent;
+    case DevSettingId::MinDuty:
+      return d.minDutyPercent;
+    case DevSettingId::MaxDuty:
+      return d.maxDutyPercent;
+    case DevSettingId::BatteryCells:
+      return d.batterySeriesCells;
+    case DevSettingId::SleepTimer:
+      return d.sleepTimerMinutes;
+    case DevSettingId::TriggerMode:
+      return static_cast<uint8_t>(d.triggerMode);
+    case DevSettingId::MotorDisplayMode:
+      return static_cast<uint8_t>(d.motorDisplayMode);
+    case DevSettingId::LedIdle:
+      return static_cast<uint8_t>(d.ledIdleDisplayMode);
+    case DevSettingId::LedDisplay:
+      return static_cast<uint8_t>(d.ledDisplayMode);
+    case DevSettingId::LedDim:
+      return d.ledDimPercent;
+    case DevSettingId::DisplayContrast:
+      return d.displayContrastPercent;
+    case DevSettingId::LedTheme:
+      return static_cast<uint8_t>(d.ledTheme);
+    case DevSettingId::MotorType:
+      return static_cast<uint8_t>(d.motorType);
+    default:
+      return 0;
+  }
+}
+
 void settingsFormatValue(DevSettingId id, const RuntimeSettings& rs, char* out, size_t n) {
   switch (id) {
     case DevSettingId::AutoOff:
