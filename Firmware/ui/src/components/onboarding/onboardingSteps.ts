@@ -33,10 +33,10 @@ const BASE_ONBOARDING_STEPS: OnboardingStep[] = [
     screenshotSrc: '/onboarding/settings.png',
   },
   {
-    id: 'battery',
-    title: 'Battery test',
-    description: 'Run a guided discharge test and export results.',
-    screenshotAlt: 'Battery test dialog',
+    id: 'test',
+    title: 'Test',
+    description: 'Battery discharge tests and motor speed ramps.',
+    screenshotAlt: 'Test dialog with battery and motor ramp tabs',
     screenshotSrc: '/onboarding/battery.png',
   },
 ];

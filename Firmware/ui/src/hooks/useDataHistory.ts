@@ -76,8 +76,13 @@ export function useDataHistory() {
       .sort((a, b) => a.timestamp - b.timestamp);
   }, [dataPoints]);
 
+  const clear = useCallback(() => {
+    setDataPoints([]);
+  }, []);
+
   return {
     addDataPoint,
+    clear,
     getRpmData,
     getTemperatureData,
     getVoltageData,

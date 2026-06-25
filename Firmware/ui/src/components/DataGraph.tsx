@@ -27,7 +27,7 @@ export interface DataGraphHandle {
 export const DataGraph = forwardRef<DataGraphHandle, DataGraphProps>(
   ({ data, unit = '', color = '#818cf8', color2 = '#a5b4fc', min, max, actualMin, actualMax }, ref) => {
     const chartRef = useRef<UPlotChartHandle>(null);
-    const lastPushedIndexRef = useRef(-1);
+    const lastPushedTimestampRef = useRef<number>(-1);
 
     useImperativeHandle(ref, () => ({
       push: (value: number) => chartRef.current?.push(value),
@@ -35,20 +35,26 @@ export const DataGraph = forwardRef<DataGraphHandle, DataGraphProps>(
 
     useEffect(() => {
       if (data.length === 0) {
-        lastPushedIndexRef.current = -1;
+        lastPushedTimestampRef.current = -1;
+        chartRef.current?.reset();
         return;
       }
-      if (lastPushedIndexRef.current >= data.length) {
-        lastPushedIndexRef.current = -1;
+
+      const firstTimestamp = data[0]?.timestamp ?? 0;
+      // Sliding window dropped points we already charted — resync from scratch.
+      if (lastPushedTimestampRef.current >= 0 && firstTimestamp > lastPushedTimestampRef.current) {
+        chartRef.current?.reset();
+        lastPushedTimestampRef.current = -1;
       }
-      if (lastPushedIndexRef.current < data.length - 1) {
-        for (let i = lastPushedIndexRef.current + 1; i < data.length; i++) {
-          const point = data[i];
-          if (point.value !== undefined && Number.isFinite(point.value)) {
-            chartRef.current?.push(point.value);
-          }
+
+      for (const point of data) {
+        if (point.timestamp <= lastPushedTimestampRef.current) {
+          continue;
         }
-        lastPushedIndexRef.current = data.length - 1;
+        if (point.value !== undefined && Number.isFinite(point.value)) {
+          chartRef.current?.push(point.value, point.timestamp);
+          lastPushedTimestampRef.current = point.timestamp;
+        }
       }
     }, [data]);
 

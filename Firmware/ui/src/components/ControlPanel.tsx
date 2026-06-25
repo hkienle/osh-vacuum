@@ -27,7 +27,7 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
   const [speed, setSpeed] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
   const { connected, sendMessage, lastMessage } = useWebSocketContext();
-  const { addDataPoint, getRpmData, getTemperatureData, getVoltageData } = useDataHistory();
+  const { addDataPoint, clear: clearHistory, getRpmData, getTemperatureData, getVoltageData } = useDataHistory();
   const { resolvedTheme } = useTheme();
   const colors = useMemo(() => chartColors(), [resolvedTheme]);
 
@@ -50,8 +50,11 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
   }, [lastMessage?.motor_active]);
 
   useEffect(() => {
-    if (!connected) setIsStarted(false);
-  }, [connected]);
+    if (!connected) {
+      setIsStarted(false);
+      clearHistory();
+    }
+  }, [connected, clearHistory]);
 
   const sendSpeedCommand = (speedValue: number) => {
     if (connected) {
@@ -144,7 +147,7 @@ export function ControlPanel({ onConnect }: ControlPanelProps) {
             <ul className="list-disc space-y-2 pl-5 text-left text-sm text-muted-foreground">
               <li>Control motor speed and run cycles</li>
               <li>Live RPM, temperature, and battery voltage</li>
-              <li>Adjust settings and run battery tests!</li>
+              <li>Adjust settings and run tests!</li>
             </ul>
           </div>
           {onConnect && (

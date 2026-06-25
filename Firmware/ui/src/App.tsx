@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Battery, Settings } from 'lucide-react';
+import { FlaskConical, Settings } from 'lucide-react';
 import { ControlPanel } from '@/components/ControlPanel';
 import { ConnectionPanel } from '@/components/ConnectionPanel';
-import { BatteryTestModal } from '@/components/BatteryTestModal';
+import { TestModal } from '@/components/TestModal';
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal';
 import { SettingsModal } from '@/components/settings/SettingsModal';
 import { StatusBadge } from '@/components/StatusBadge';
@@ -65,8 +65,8 @@ export default function App() {
                     className="hidden rounded-full sm:inline-flex"
                     onClick={() => setTestModalOpen(true)}
                   >
-                    <Battery className="size-4" />
-                    Battery Test
+                    <FlaskConical className="size-4" />
+                    Test
                   </Button>
 
                   <Button
@@ -74,9 +74,9 @@ export default function App() {
                     size="icon"
                     className="rounded-full sm:hidden"
                     onClick={() => setTestModalOpen(true)}
-                    aria-label="Battery Test"
+                    aria-label="Test"
                   >
-                    <Battery className="size-4" />
+                    <FlaskConical className="size-4" />
                   </Button>
                 </>
               )}
@@ -120,7 +120,7 @@ export default function App() {
       </div>
 
       <ConnectionPanel open={connectionOpen} onOpenChange={setConnectionOpen} />
-      <BatteryTestModal isOpen={testModalOpen} onClose={() => setTestModalOpen(false)} />
+      <TestModal isOpen={testModalOpen} onClose={() => setTestModalOpen(false)} />
       <SettingsModal
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
