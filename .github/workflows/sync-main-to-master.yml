@@ -1,0 +1,26 @@
+# GitHub Pages environment only allows deploys from master. Keep master in sync
+# when UI-related changes land on main so the Pages workflow can deploy.
+name: Sync main to master
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Firmware/ui/**'
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/sync-main-to-master.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fast-forward master to main
+        run: git push origin "HEAD:refs/heads/master"

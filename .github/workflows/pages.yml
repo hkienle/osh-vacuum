@@ -2,10 +2,12 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # github-pages environment is restricted to master; main is synced via sync-main-to-master.yml
+    branches: [master]
     paths:
       - 'Firmware/ui/**'
       - '.github/workflows/pages.yml'
+      - '.github/workflows/sync-main-to-master.yml'
   workflow_dispatch:
 
 permissions:
