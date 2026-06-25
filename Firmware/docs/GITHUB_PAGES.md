@@ -26,14 +26,9 @@ In the repo on GitHub ([Settings → Pages](https://github.com/hkienle/osh-vacuu
 
 The first successful enable creates the `github-pages` deployment environment. Until this is done, the workflow build succeeds but **deploy** fails with HTTP 404.
 
-Two workflows handle deployment:
+The `github-pages` environment must allow the **`gh_pages_deploy`** branch (Settings → Environments → github-pages → Deployment branches).
 
-| Workflow | Trigger | Role |
-|----------|---------|------|
-| [`.github/workflows/sync-main-to-master.yml`](../../.github/workflows/sync-main-to-master.yml) | Push to `main` (UI paths) | Fast-forwards `master` to match `main` |
-| [`.github/workflows/pages.yml`](../../.github/workflows/pages.yml) | Push to `master` (UI paths) | Builds `Firmware/ui` and deploys to Pages |
-
-The `github-pages` environment only allows deploys from **`master`**, so you keep developing on **`main`** — UI merges to `main` sync `master` automatically, then Pages deploys. You can also run **Actions** → **Deploy GitHub Pages** manually (use branch **`master`**).
+[`.github/workflows/pages.yml`](../../.github/workflows/pages.yml) builds `Firmware/ui` and deploys on every push to **`gh_pages_deploy`** that touches the UI (or via **Actions** → **Deploy GitHub Pages** → **Run workflow** on `gh_pages_deploy`).
 
 ### 2. DNS (caznic.xyz)
 
@@ -62,18 +57,24 @@ npm run build:pages
 
 ## Updating
 
+Develop on **`main`** or **`feature/hosted-ui-ble`**. To publish the hosted UI:
+
+```bash
+git checkout gh_pages_deploy
+git merge main   # or: git merge feature/hosted-ui-ble
+git push origin gh_pages_deploy
+```
+
 | What changed | Action |
 |--------------|--------|
-| Web UI only | Merge/push to `main` → syncs `master` → Pages redeploys |
+| Web UI only | Merge into `gh_pages_deploy` and push → workflow redeploys |
 | ESP firmware | `pio run -e esp32-s3-ota -t upload` (OTA) or USB flash |
 
 ## Troubleshooting
 
-### Deploy job: `Branch "main" is not allowed to deploy to github-pages`
+### Deploy job: branch not allowed to deploy to github-pages
 
-The `github-pages` environment only permits **`master`**. Pushes to `main` should run **Sync main to master** first, then **Deploy GitHub Pages** on `master`. If sync did not run, merge `main` into `master` manually or re-run **Sync main to master**.
-
-Repo admins can alternatively add `main` under **Settings → Environments → github-pages → Deployment branches** and switch `pages.yml` back to `branches: [main]`.
+The `github-pages` environment only permits branches on its allowlist. Add **`gh_pages_deploy`** under **Settings → Environments → github-pages → Deployment branches**, then re-run the workflow.
 
 ### Deploy job: `Failed to create deployment (status: 404)`
 
@@ -81,7 +82,7 @@ GitHub Pages is **not enabled** on the repository.
 
 1. Open [github.com/hkienle/osh-vacuum/settings/pages](https://github.com/hkienle/osh-vacuum/settings/pages) as a **repo admin**
 2. Set **Source** to **GitHub Actions**
-3. Re-run the workflow: **Actions** → **Deploy GitHub Pages** → **Run workflow**
+3. Re-run the workflow: **Actions** → **Deploy GitHub Pages** → **Run workflow** (branch `gh_pages_deploy`)
 
 ### Custom domain not verified
 
