@@ -1,7 +1,6 @@
 import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
-import { UPlotChart } from './UPlotChart';
-import type { UPlotChartHandle } from './UPlotChart';
-import './DataGraph.css';
+import { UPlotChart } from '@/components/UPlotChart';
+import type { UPlotChartHandle } from '@/components/UPlotChart';
 
 interface DataPoint {
   time: string;
@@ -15,10 +14,10 @@ interface DataGraphProps {
   unit?: string;
   color?: string;
   color2?: string;
-  min?: number; // Visual min (for Y-axis scale)
-  max?: number; // Visual max (for Y-axis scale)
-  actualMin?: number; // Actual min value in data (for display)
-  actualMax?: number; // Actual max value in data (for display)
+  min?: number;
+  max?: number;
+  actualMin?: number;
+  actualMax?: number;
 }
 
 export interface DataGraphHandle {
@@ -26,69 +25,63 @@ export interface DataGraphHandle {
 }
 
 export const DataGraph = forwardRef<DataGraphHandle, DataGraphProps>(
-  ({ data, title, unit = '', color = '#818cf8', color2 = '#a5b4fc', min, max, actualMin, actualMax }, ref) => {
+  ({ data, unit = '', color = '#818cf8', color2 = '#a5b4fc', min, max, actualMin, actualMax }, ref) => {
     const chartRef = useRef<UPlotChartHandle>(null);
-    const lastPushedIndexRef = useRef(-1);
+    const lastPushedTimestampRef = useRef<number>(-1);
 
     useImperativeHandle(ref, () => ({
-      push: (value: number) => {
-        chartRef.current?.push(value);
-      },
+      push: (value: number) => chartRef.current?.push(value),
     }));
 
-    // Push new data points when data changes (only new ones)
     useEffect(() => {
       if (data.length === 0) {
-        lastPushedIndexRef.current = -1;
+        lastPushedTimestampRef.current = -1;
+        chartRef.current?.reset();
         return;
       }
-      
-      // If array shrunk (old data filtered), reset tracking
-      if (lastPushedIndexRef.current >= data.length) {
-        lastPushedIndexRef.current = -1;
+
+      const firstTimestamp = data[0]?.timestamp ?? 0;
+      // Sliding window dropped points we already charted — resync from scratch.
+      if (lastPushedTimestampRef.current >= 0 && firstTimestamp > lastPushedTimestampRef.current) {
+        chartRef.current?.reset();
+        lastPushedTimestampRef.current = -1;
       }
-      
-      // Push all new points since last push
-      if (lastPushedIndexRef.current < data.length - 1) {
-        for (let i = lastPushedIndexRef.current + 1; i < data.length; i++) {
-          const point = data[i];
-          if (point.value !== undefined && Number.isFinite(point.value)) {
-            chartRef.current?.push(point.value);
-          }
+
+      for (const point of data) {
+        if (point.timestamp <= lastPushedTimestampRef.current) {
+          continue;
         }
-        lastPushedIndexRef.current = data.length - 1;
+        if (point.value !== undefined && Number.isFinite(point.value)) {
+          chartRef.current?.push(point.value, point.timestamp);
+          lastPushedTimestampRef.current = point.timestamp;
+        }
       }
     }, [data]);
 
-    // Update range when min/max changes (only if both are provided)
     useEffect(() => {
       if (min !== undefined && max !== undefined && Number.isFinite(min) && Number.isFinite(max)) {
         chartRef.current?.setRange(min, max);
       } else {
-        // Reset to autoscale
         chartRef.current?.setRange(NaN, NaN);
       }
     }, [min, max]);
 
+    const decimals = unit === 'RPM' ? 0 : unit === '°C' ? 1 : 2;
+
     return (
-      <div className="data-graph-container">
-        {title && (
-          <div className="graph-header">
-            <h3 className="graph-title">{title}</h3>
-            {actualMin !== undefined && actualMax !== undefined && (
-              <div className="graph-minmax">
-                <span className="minmax-label">
-                  Min: <span className="minmax-value">{actualMin.toFixed(unit === 'RPM' ? 0 : unit === '°C' ? 1 : 2)}</span>
-                </span>
-                <span className="minmax-separator">|</span>
-                <span className="minmax-label">
-                  Max: <span className="minmax-value">{actualMax.toFixed(unit === 'RPM' ? 0 : unit === '°C' ? 1 : 2)}</span>
-                </span>
-              </div>
-            )}
+      <div className="min-w-0 w-full space-y-2">
+        {actualMin !== undefined && actualMax !== undefined && (
+          <div className="flex justify-end gap-2 text-[11px] text-muted-foreground">
+            <span>
+              Min: <span className="font-mono font-medium text-foreground">{actualMin.toFixed(decimals)}</span>
+            </span>
+            <span>|</span>
+            <span>
+              Max: <span className="font-mono font-medium text-foreground">{actualMax.toFixed(decimals)}</span>
+            </span>
           </div>
         )}
-        <div className="live-chart-wrapper">
+        <div className="min-w-0 w-full overflow-hidden rounded-lg border bg-muted/20 p-2">
           <UPlotChart
             ref={chartRef}
             maxPoints={300}
@@ -97,12 +90,12 @@ export const DataGraph = forwardRef<DataGraphHandle, DataGraphProps>(
             yMax={max ?? null}
             color={color}
             color2={color2}
-            height={200}
+            height={160}
           />
         </div>
       </div>
     );
-  }
+  },
 );
 
 DataGraph.displayName = 'DataGraph';

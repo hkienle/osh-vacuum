@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "button.h"
 #include "../settings/settings.h"
+#include "../settings/dev_menu.h"
+#include "../motor/motor.h"
 #include "../battery_soc/battery_soc.h"
 #include "../maximum_stats/maximum_stats.h"
 
@@ -30,123 +32,36 @@ static bool doublePressLatched = false;
 static bool momentaryTriggerRun = false;
 
 namespace {
-constexpr uint8_t kDevMenuPageCount = 19U;
 constexpr unsigned long DOUBLE_PRESS_WINDOW_MS = 300;
 constexpr unsigned long MAX_STATS_CLEAR_HOLD_MS = 2000UL;
 static unsigned long maxStatsClearHoldStartMs = 0;
 static bool maxStatsClearLatched = false;
 
-void cycleUint8InList(uint8_t& v, const uint8_t* list, size_t n) {
-  for (size_t i = 0; i < n; ++i) {
-    if (list[i] == v) {
-      v = list[(i + 1U) % n];
-      return;
-    }
-  }
-  v = list[0];
-}
-
-void cycleMaxDutyPercentValue(uint8_t minDuty, uint8_t& maxDuty) {
-  const uint8_t lo = maxDutyPercentLowerBound(minDuty);
-  uint8_t v = clampMaxDutyPercent(maxDuty, minDuty);
-  if (v < 100) {
-    ++v;
-  } else {
-    v = lo;
-  }
-  maxDuty = v;
-}
-
 void cycleDevSettingAndSave(uint8_t page) {
-  if (page < 6U) {
+  if (page < kDevMenuInfoPageCount) {
     return;
   }
-  const uint8_t sp = static_cast<uint8_t>(page - 1U);
-  RuntimeSettings& rs = getRuntimeSettings();
-  static constexpr uint8_t kAutoOff[] = {0, 1, 2, 5, 10, 30};
-  static constexpr uint8_t kTempLim[] = {0, 30, 35, 40, 45, 50, 55, 60, 65, 70};
-  static constexpr uint8_t kSpdStep[] = {1, 5, 10, 20, 25};
-  static constexpr uint8_t kMinDuty[] = {
-      1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
-      11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-      21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
-  static constexpr uint8_t kSleepTimer[] = {1, 2, 5, 10, 30};
-  static constexpr uint8_t kLedDim[] = {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
-                                        15, 20, 25, 30, 35, 40, 45, 50};
-
-  switch (sp) {
-    case 5:
-      cycleUint8InList(rs.autoOffMinutes, kAutoOff, sizeof(kAutoOff));
-      break;
-    case 6:
-      cycleUint8InList(rs.tempLimitC, kTempLim, sizeof(kTempLim));
-      break;
-    case 7:
-      cycleUint8InList(rs.speedStepPercent, kSpdStep, sizeof(kSpdStep));
-      break;
-    case 8:
-      cycleUint8InList(rs.minDutyPercent, kMinDuty, sizeof(kMinDuty));
-      rs.maxDutyPercent = clampMaxDutyPercent(rs.maxDutyPercent, rs.minDutyPercent);
-      break;
-    case 9:
-      cycleMaxDutyPercentValue(rs.minDutyPercent, rs.maxDutyPercent);
-      break;
-    case 10: {
-      uint8_t c = rs.batterySeriesCells;
-      if (c < 1 || c > 14) {
-        c = 1;
-      } else if (c >= 14) {
-        c = 1;
-      } else {
-        ++c;
-      }
-      rs.batterySeriesCells = c;
-      initBatterySOC(rs.batterySeriesCells);
-      break;
-    }
-    case 11:
-      cycleUint8InList(rs.sleepTimerMinutes, kSleepTimer, sizeof(kSleepTimer));
-      break;
-    case 12: {
-      uint8_t t = static_cast<uint8_t>(rs.triggerMode);
-      t = static_cast<uint8_t>((t + 1U) % 2U);
-      rs.triggerMode = static_cast<TriggerMode>(t);
-      break;
-    }
-    case 13: {
-      uint8_t m = static_cast<uint8_t>(rs.motorDisplayMode);
-      m = static_cast<uint8_t>((m + 1U) % 4U);
-      rs.motorDisplayMode = static_cast<MotorDisplayMode>(m);
-      break;
-    }
-    case 14: {
-      uint8_t l = static_cast<uint8_t>(rs.ledIdleDisplayMode);
-      l = static_cast<uint8_t>((l + 1U) % 3U);
-      rs.ledIdleDisplayMode = static_cast<LedIdleDisplayMode>(l);
-      break;
-    }
-    case 15: {
-      uint8_t l = static_cast<uint8_t>(rs.ledDisplayMode);
-      l = static_cast<uint8_t>((l + 1U) % 4U);
-      rs.ledDisplayMode = static_cast<LedDisplayMode>(l);
-      break;
-    }
-    case 16:
-      cycleUint8InList(rs.ledDimPercent, kLedDim, sizeof(kLedDim));
-      break;
-    case 17: {
-      uint8_t t = static_cast<uint8_t>(rs.ledTheme);
-      t = static_cast<uint8_t>((static_cast<unsigned>(t) + 1U) % 7U);
-      rs.ledTheme = static_cast<LedTheme>(t);
-      break;
-    }
-    default:
-      return;
+  const size_t idx = static_cast<size_t>(page - kDevMenuInfoPageCount);
+  const DevSettingDescriptor* d = devMenuVisibleAt(idx);
+  if (!d || !d->cycleAndSave) {
+    return;
   }
-  if (saveRuntimeSettings(rs)) {
-    Serial.printf("[Button] Dev setting page %u saved\n", static_cast<unsigned>(page));
-  } else {
-    Serial.println("[Button] Dev setting save failed");
+  d->cycleAndSave();
+  if (d->isGlobal && d->globalId == DevSettingId::MotorType) {
+    initMotor(getRuntimeSettings().motorType);
+    devMenuRebuildVisible();
+    // Stay on Motor Type: visible indices shift when PWM-only pages disappear.
+    for (size_t i = 0; i < devMenuVisibleCount(); ++i) {
+      const DevSettingDescriptor* vd = devMenuVisibleAt(i);
+      if (vd && vd->isGlobal && vd->globalId == DevSettingId::MotorType) {
+        displayInfoPage = static_cast<uint8_t>(kDevMenuInfoPageCount + i);
+        return;
+      }
+    }
+    const uint8_t total = devMenuTotalPageCount();
+    if (total > 0 && displayInfoPage >= total) {
+      displayInfoPage = static_cast<uint8_t>(total - 1U);
+    }
   }
 }
 }  // namespace
@@ -223,10 +138,13 @@ void updateButtons() {
     if (debounced) {
       if (!bothHeld) {
         if (upReading && !upState) {
-          displayInfoPage = static_cast<uint8_t>((static_cast<unsigned>(displayInfoPage) + 1U) % kDevMenuPageCount);
+          displayInfoPage =
+              static_cast<uint8_t>((static_cast<unsigned>(displayInfoPage) + 1U) % static_cast<unsigned>(devMenuTotalPageCount()));
         }
         if (downReading && !downState) {
-          displayInfoPage = static_cast<uint8_t>((static_cast<unsigned>(displayInfoPage) + kDevMenuPageCount - 1U) % kDevMenuPageCount);
+          const uint8_t total = devMenuTotalPageCount();
+          displayInfoPage = static_cast<uint8_t>((static_cast<unsigned>(displayInfoPage) + static_cast<unsigned>(total) - 1U) %
+                                                  static_cast<unsigned>(total));
         }
       }
       upState = upReading;
@@ -252,7 +170,7 @@ void updateButtons() {
       }
     }
 
-    if (triggerPressedEdge && displayInfoPage >= 6U) {
+    if (triggerPressedEdge && displayInfoPage >= kDevMenuInfoPageCount) {
       cycleDevSettingAndSave(displayInfoPage);
     }
 
@@ -381,25 +299,14 @@ void updateButtons() {
     digitalWrite(MOSFET_PIN, LOW);
   }
 
-  const uint8_t step = getRuntimeSettings().speedStepPercent;
-
   if (debounced && !bothHeld) {
     if (upReading && !upState) {
-      const unsigned add = step;
-      if (speedPercent <= 100U - add) {
-        speedPercent = static_cast<uint8_t>(speedPercent + add);
-      } else {
-        speedPercent = 100;
-      }
+      speedPercent = motorNextSpeedPercent(speedPercent);
       Serial.printf("[Button] Speed increased to %d%%\n", speedPercent);
     }
 
     if (downReading && !downState) {
-      if (speedPercent > step) {
-        speedPercent = static_cast<uint8_t>(speedPercent - step);
-      } else {
-        speedPercent = 0;
-      }
+      speedPercent = motorPrevSpeedPercent(speedPercent);
       Serial.printf("[Button] Speed decreased to %d%%\n", speedPercent);
     }
 
@@ -495,4 +402,5 @@ void resetButtonRuntimeStateKeepSpeed() {
   doublePressLatched = false;
   momentaryTriggerRun = false;
   digitalWrite(MOSFET_PIN, LOW);
+  devMenuRebuildVisible();
 }

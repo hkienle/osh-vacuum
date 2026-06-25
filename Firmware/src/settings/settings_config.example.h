@@ -25,8 +25,13 @@
 //   spd_step      … Speed-Taster-Schritt: 5, 10, 20, 25
 //   min_duty      … Mindest-PWM % bei laufendem Motor (0,5,…,30)
 //   mtr_disp      … Hauptanzeige bei Motor an: 0=Speed 1=Volt 2=RPM 3=MOT-Temp
+//   mtr_type      … 0=Generic (PWM), 1=Xiaomi G
+//   disp_contrast … OLED brightness 10–100 (10 % steps)
+//   wifi_ssid     … STA SSID from Web UI setup (AP mode)
+//   wifi_pass     … STA password from Web UI setup
+//   wifi_probe    … 1 after set_wifi until STA connects (longer boot timeout)
 //
-// Netzwerk & OTA (unten) sind reine Compile-Zeit-Werte — nicht im NVS.
+// Netzwerk & OTA (unten): Compile-Zeit-Fallbacks, wenn kein wifi_ssid in NVS.
 //
 // =============================================================================
 
@@ -42,7 +47,7 @@ namespace SettingsConfig {
 //   "none"                 →  kein Display
 //
 // -----------------------------------------------------------------------------
-constexpr char DEFAULT_DISPLAY_TYPE[] = "0.91-I2C-Waveshare";
+constexpr char DEFAULT_DISPLAY_TYPE[] = "1.5-I2C-Waveshare";
 
 // -----------------------------------------------------------------------------
 // DEFAULT_BATTERY_SERIES_CELLS  —  Serien-Zellenzahl für SOC-Berechnung
@@ -60,11 +65,21 @@ constexpr uint8_t DEFAULT_BATTERY_SERIES_CELLS = 5;
 // -----------------------------------------------------------------------------
 constexpr uint8_t DEFAULT_AUTO_OFF_MINUTES = 2;       // 0 = sleep off
 constexpr uint8_t DEFAULT_SLEEP_TIMER_MINUTES = 2;   // 1, 2, 5, 10, 30
-constexpr uint8_t DEFAULT_TEMP_LIMIT_C = 0;         // 0 = off
+constexpr uint8_t DEFAULT_TEMP_LIMIT_C = 40;         // 0 = off
 constexpr uint8_t DEFAULT_SPEED_STEP_PERCENT = 20;    // 5, 10, 20, or 25
 constexpr uint8_t DEFAULT_MIN_DUTY_PERCENT = 0;     // 0–30, step 5
-constexpr uint8_t DEFAULT_MOTOR_DISPLAY_MODE = 2;   // 0=Speed 1=Volt 2=RPM 3=MOT-Temp
-constexpr uint8_t DEFAULT_TRIGGER_MODE = 0;         // 0=Hold 1=Double-Press
+constexpr uint8_t DEFAULT_MAX_DUTY_PERCENT = 100;   // 50–100, 1 % steps; > min duty
+constexpr uint8_t DEFAULT_MOTOR_DISPLAY_MODE = 0;   // 0=Speed 1=Volt 2=RPM 3=MOT-Temp
+constexpr uint8_t DEFAULT_TRIGGER_MODE = 1;         // 0=Hold 1=Double-Press
+constexpr uint8_t DEFAULT_LED_DISPLAY_MODE = 2;     // 0=SOC 1=RPM 2=Speed 3=Temp (motor on)
+constexpr uint8_t DEFAULT_LED_IDLE_DISPLAY_MODE = 1;  // 0=SOC 1=Speed 2=RPM (idle)
+constexpr uint8_t DEFAULT_LED_DIM_PERCENT = 5;      // 0–10: 1 % steps; 15–50: 5 % steps
+constexpr uint8_t DEFAULT_DISPLAY_CONTRAST_PERCENT = 20;  // 10–100 in 10 % steps (OLED contrast)
+constexpr uint8_t DEFAULT_LED_THEME = 1;            // 0=Off 1=White 2=Blue 3=Green 4=Pink 5=Orange 6=Yellow
+constexpr uint8_t DEFAULT_MOTOR_TYPE = 0;           // 0=Generic (PWM), 1=Xiaomi G
+
+// Per-cell pack voltage under motor load — motor stops when V_pack / cells stays below this.
+constexpr float DEFAULT_MIN_CELL_VOLTAGE_CUTOFF = 3.0f;
 
 // -----------------------------------------------------------------------------
 // STANDBY_TIMEOUT_MS  —  Inaktivitätszeit bis Light-Sleep
@@ -77,7 +92,7 @@ constexpr uint32_t STANDBY_TIMEOUT_MS = 120000UL;
 // Netzwerk (WLAN) & Gerätename  —  nur Build-Zeit, kein NVS
 // -----------------------------------------------------------------------------
 // STA: Zugangsdaten für den Heim-/Lab-Router. Bei Fehlschlag startet die
-// Firmware den Soft-AP mit WIFI_AP_SSID / WIFI_AP_PASSWORD.
+// Firmware den Soft-AP mit DEVICE_HOSTNAME / WIFI_AP_PASSWORD.
 //
 // DEVICE_HOSTNAME: WiFi-Hostname (ESP32) und mDNS-Name ohne „.local“
 // (Erreichbarkeit im Browser: http://<DEVICE_HOSTNAME>.local).
@@ -86,7 +101,6 @@ constexpr uint32_t STANDBY_TIMEOUT_MS = 120000UL;
 // -----------------------------------------------------------------------------
 constexpr char WIFI_STA_SSID[] = "YOUR WIFI SSID";
 constexpr char WIFI_STA_PASSWORD[] = "YOUR WIFI PASSWORD";
-constexpr char WIFI_AP_SSID[] = "OSH_VAC";
 constexpr char WIFI_AP_PASSWORD[] = "OpenSource";
 constexpr char DEVICE_HOSTNAME[] = "osh-vac";
 

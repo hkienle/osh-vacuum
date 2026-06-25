@@ -3,8 +3,9 @@
 
 #include <WiFi.h>
 #include <stddef.h>
+#include <stdint.h>
 
-// WiFi credentials (pointers into strings from settings_config.h)
+// WiFi credentials (pointers into runtime buffers loaded from NVS or settings_config.h)
 extern const char* wifi_ssid;
 extern const char* wifi_password;
 
@@ -14,6 +15,9 @@ extern const char* ap_password;
 
 /// STA connected to an AP, or running as soft-AP (including AP_STA while AP is up).
 enum class WiFiLinkRole : uint8_t { None, Sta, AccessPoint };
+
+constexpr uint32_t WIFI_STA_CONNECT_TIMEOUT_MS = 10000;
+constexpr uint32_t WIFI_PROVISION_CONNECT_TIMEOUT_MS = 30000;
 
 // Setup WiFi - tries to connect first, falls back to AP mode
 void setupWiFi();

@@ -1,5 +1,7 @@
 #include "display_oled.h"
+#include "boot_bitmap.h"
 #include "../button/button.h"
+#include "../settings/dev_menu.h"
 
 #include <Arduino.h>
 #include "../wifi/wifi.h"
@@ -34,7 +36,6 @@ constexpr uint32_t BOOT_HOLD_MS = 1000;
 constexpr uint32_t BOOT_MOVE_OUT_MS = 250;
 constexpr uint32_t UI_MOVE_IN_MS = 250;
 constexpr uint32_t BAR_ANIM_MS = 350;
-constexpr char BOOT_TEXT[] = "OSH VAC";
 
 Adafruit_SSD1306 oled(OLED_WIDTH, OLED_HEIGHT, &Wire, OLED_RESET_PIN);
 
@@ -120,205 +121,42 @@ void printRight091(const char* s, int16_t y, uint8_t textSize) {
   oled.print(s);
 }
 
-void drawSettingsPage091(uint8_t page, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t maxDuty, uint8_t seriesCells, uint8_t motorDisp, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme) {
-  char line[24];
+void drawDevSettingPage091(const DevSettingDescriptor& d) {
   char val[20];
+  char subLine[28];
   oled.clearDisplay();
   oled.setTextColor(SSD1306_WHITE);
-
-  switch (page) {
-    case 5:
-      drawBoldText091("Auto-Off", 0, 0);
-      formatAutoOffShort091(val, sizeof(val), autoOff);
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("Motor Shutdown");
-      break;
-    case 6:
-      drawBoldText091("Temp. Shutdown", 0, 0);
-      if (tempLim == 0) {
-        printRight091("OFF", 0, 2);
-      } else {
-        snprintf(val, sizeof(val), "%uC", static_cast<unsigned>(tempLim));
-        printRight091(val, 0, 2);
-      }
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("Motor NTC");
-      break;
-    case 7:
-      drawBoldText091("Speed Steps", 0, 0);
-      snprintf(val, sizeof(val), "%u%%", static_cast<unsigned>(spdStep));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("Increase by ...");
-      break;
-    case 8:
-      drawBoldText091("Minimum Duty", 0, 0);
-      snprintf(val, sizeof(val), "%u%%", static_cast<unsigned>(minDuty));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("Motor PWM Floor");
-      break;
-    case 9:
-      drawBoldText091("Maximum Duty", 0, 0);
-      snprintf(val, sizeof(val), "%u%%", static_cast<unsigned>(maxDuty));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("@ speed 100%");
-      break;
-    case 10: {
-      drawBoldText091("Battery Cells", 0, 0);
-      snprintf(val, sizeof(val), "%uS", static_cast<unsigned>(seriesCells));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      const float packMax = static_cast<float>(seriesCells) * 4.2f;
-      snprintf(line, sizeof(line), "Max V: %.1fV", packMax);
-      oled.print(line);
-      break;
-    }
-    case 11:
-      drawBoldText091("Sleep Timer", 0, 0);
-      snprintf(val, sizeof(val), "%um", static_cast<unsigned>(sleepTimer));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("UI + Controller");
-      break;
-    case 12:
-      drawBoldText091("Trigger Mode", 0, 0);
-      snprintf(val, sizeof(val), "%u", static_cast<unsigned>(triggerMode) + 1U);
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print(triggerMode == 0 ? "Hold" : "Double-Press");
-      break;
-    case 13: {
-      drawBoldText091("Live-Display", 0, 0);
-      snprintf(val, sizeof(val), "%u", static_cast<unsigned>(motorDisp) + 1U);
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("Show: ");
-      const char* modeName = "RPM";
-      switch (motorDisp) {
-        case 0:
-          modeName = "Speed";
-          break;
-        case 1:
-          modeName = "Voltage";
-          break;
-        case 2:
-          modeName = "RPM";
-          break;
-        default:
-          modeName = "MOT Temp";
-          break;
-      }
-      oled.print(modeName);
-      break;
-    }
-    case 14:
-      drawBoldText091("LED (Idle)", 0, 0);
-      snprintf(val, sizeof(val), "%u", static_cast<unsigned>(ledIdleDisplayMode) + 1U);
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      {
-        const char* idleName = "SOC";
-        switch (ledIdleDisplayMode) {
-          case 1:
-            idleName = "Speed";
-            break;
-          case 2:
-            idleName = "RPM";
-            break;
-          default:
-            idleName = "SOC";
-            break;
-        }
-        oled.print(idleName);
-      }
-      break;
-    case 15:
-      drawBoldText091("LED (Motor On)", 0, 0);
-      snprintf(val, sizeof(val), "%u", static_cast<unsigned>(ledDisplayMode) + 1U);
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      {
-        const char* ledName = "SOC";
-        switch (ledDisplayMode) {
-          case 0:
-            ledName = "SOC";
-            break;
-          case 1:
-            ledName = "RPM";
-            break;
-          case 2:
-            ledName = "Speed";
-            break;
-          default:
-            ledName = "Temp";
-            break;
-        }
-        oled.print(ledName);
-      }
-      break;
-    case 16:
-      drawBoldText091("Off-Led", 0, 0);
-      snprintf(val, sizeof(val), "%u%%", static_cast<unsigned>(ledDimPercent));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      oled.print("Brightness");
-      break;
-    case 17:
-      drawBoldText091("LED Theme", 0, 0);
-      snprintf(val, sizeof(val), "%u", static_cast<unsigned>(ledTheme));
-      printRight091(val, 0, 2);
-      oled.setTextSize(1);
-      oled.setCursor(0, 16);
-      {
-        const char* themeName = "Off";
-        switch (ledTheme) {
-          case 1:
-            themeName = "White";
-            break;
-          case 2:
-            themeName = "Blue";
-            break;
-          case 3:
-            themeName = "Green";
-            break;
-          case 4:
-            themeName = "Pink";
-            break;
-          case 5:
-            themeName = "Orange";
-            break;
-          case 6:
-            themeName = "Yellow";
-            break;
-          default:
-            themeName = "Off";
-            break;
-        }
-        oled.print(themeName);
-      }
-      break;
-    default:
-      break;
+  drawBoldText091(d.title, 0, 0);
+  if (d.formatValue) {
+    d.formatValue(val, sizeof(val));
+  } else {
+    val[0] = '\0';
+  }
+  printRight091(val, 0, 2);
+  oled.setTextSize(1);
+  oled.setCursor(0, 16);
+  if (d.formatSubline) {
+    d.formatSubline(subLine, sizeof(subLine));
+    oled.print(subLine);
+  } else if (d.subline) {
+    oled.print(d.subline);
   }
   oled.display();
 }
 
 void drawInfoPage091(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_t seriesCells, float batteryVoltage, int8_t socPercent, bool motorActive, float motorTempC, bool motorTemperatureReady, float mcuTempC, uint8_t autoOff, uint8_t sleepTimer, uint8_t tempLim, uint8_t spdStep, uint8_t minDuty, uint8_t maxDuty, uint8_t motorDisp, uint8_t triggerMode, uint8_t ledIdleDisplayMode, uint8_t ledDisplayMode, uint8_t ledDimPercent, uint8_t ledTheme, uint32_t maxStatsRpm, bool maxStatsHasRpm, float maxStatsVoltageV, bool maxStatsHasVoltage, float maxStatsMotorTempC, bool maxStatsHasMotorTemp) {
+  (void)autoOff;
+  (void)sleepTimer;
+  (void)tempLim;
+  (void)spdStep;
+  (void)minDuty;
+  (void)maxDuty;
+  (void)motorDisp;
+  (void)triggerMode;
+  (void)ledIdleDisplayMode;
+  (void)ledDisplayMode;
+  (void)ledDimPercent;
+  (void)ledTheme;
   oled.clearDisplay();
   oled.setTextColor(SSD1306_WHITE);
   oled.setTextSize(1);
@@ -457,24 +295,15 @@ void drawInfoPage091(uint8_t page, uint32_t uptimeSec, uint32_t freeHeap, uint8_
       break;
     }
 
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11:
-    case 12:
-    case 13:
-    case 14:
-    case 15:
-    case 16:
-    case 17:
-    case 18:
-      drawSettingsPage091(static_cast<uint8_t>(page - 1U), autoOff, sleepTimer, tempLim, spdStep, minDuty, maxDuty, seriesCells, motorDisp, triggerMode, ledIdleDisplayMode, ledDisplayMode, ledDimPercent, ledTheme);
-      return;
-
     default:
-      break;
+      if (page >= kDevMenuInfoPageCount) {
+        const DevSettingDescriptor* d =
+            devMenuVisibleAt(static_cast<size_t>(page - kDevMenuInfoPageCount));
+        if (d) {
+          drawDevSettingPage091(*d);
+        }
+      }
+      return;
   }
   oled.display();
 }
@@ -617,22 +446,21 @@ void renderTargetShiftedUp(int16_t offset) {
 }
 
 void prepareBootAnimation() {
-  oled.clearDisplay();
-  oled.setTextColor(SSD1306_WHITE);
-  oled.setTextSize(3);
-
-  int16_t x1 = 0;
-  int16_t y1 = 0;
-  uint16_t w = 0;
-  uint16_t h = 0;
-  oled.getTextBounds(BOOT_TEXT, 0, 0, &x1, &y1, &w, &h);
-
-  const int16_t drawX = static_cast<int16_t>((OLED_WIDTH - w) / 2) - x1;
-  const int16_t drawY = static_cast<int16_t>((OLED_HEIGHT - h) / 2) - y1;
-  oled.setCursor(drawX, drawY);
-  oled.print(BOOT_TEXT);
-
-  memcpy(bootTargetBuffer, oled.getBuffer(), OLED_BUFFER_SIZE);
+  memset(bootTargetBuffer, 0, OLED_BUFFER_SIZE);
+  for (uint8_t y = 0; y < OLED_HEIGHT; ++y) {
+    for (uint8_t x = 0; x < OLED_WIDTH; ++x) {
+      const uint16_t byteIndex =
+          static_cast<uint16_t>(y) * (boot_bitmap::kBootBitmapWidth / 8) +
+          static_cast<uint16_t>(x / 8);
+      const uint8_t byte = pgm_read_byte(&boot_bitmap::kBootBitmap[byteIndex]);
+      const uint8_t bit = (byte >> (7 - (x & 7))) & 0x1;
+      const bool lit =
+          boot_bitmap::kBootBitmapZeroIsLit ? (bit == 0) : (bit != 0);
+      if (lit) {
+        writePixel(bootTargetBuffer, x, y, true);
+      }
+    }
+  }
   memset(bootWorkingBuffer, 0, OLED_BUFFER_SIZE);
 
   bootLitPixelCount = 0;
@@ -1229,4 +1057,12 @@ void resumeDisplayOled() {
   barAnimInitialized = false;
   barAnimActive = false;
   prepareBootAnimation();
+}
+
+void setDisplayContrastOled(uint8_t contrastLevel) {
+  if (!oledInitialized || !oledAvailable) {
+    return;
+  }
+  oled.ssd1306_command(SSD1306_SETCONTRAST);
+  oled.ssd1306_command(contrastLevel);
 }

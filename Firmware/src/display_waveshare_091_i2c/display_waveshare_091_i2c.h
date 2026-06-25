@@ -8,5 +8,6 @@ void updateDisplayWaveshare091I2C(uint8_t speedPercent, float batteryVoltage, fl
 void drawOtaScreenWaveshare091(uint8_t percent);
 void prepareDisplayWaveshare091I2CSleep();
 void resumeDisplayWaveshare091I2C();
+void setDisplayContrastWaveshare091I2C(uint8_t contrastLevel);
 
 #endif  // DISPLAY_WAVESHARE_091_I2C_H

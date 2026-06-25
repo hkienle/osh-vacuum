@@ -7,7 +7,7 @@
 #include "../button/button.h"
 #include "../display/display.h"
 #include "../led/led.h"
-#include "../motor_pwm/motor_pwm.h"
+#include "../motor/motor.h"
 #include "../settings/settings.h"
 #include "../settings/settings_config.h"
 

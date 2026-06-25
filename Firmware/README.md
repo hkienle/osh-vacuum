@@ -53,7 +53,9 @@ Firmware/
 └── src/
     ├── main.cpp                      # Setup, loop, telemetry, safety
     ├── settings/                     # NVS runtime settings + compile-time config
-    ├── motor_pwm/                    # LEDC PWM + ProFet enable
+    ├── motor/                      # Dispatcher + MOTOR_DRIVERS.md
+    ├── motor_generic_pwm/          # LEDC PWM (default backend)
+    ├── motor_xiaomi_g/             # Xiaomi G ESC: xiaomi_g_protocol, xiaomi_g_uart, driver
     ├── button/                       # Debounced inputs, trigger modes, dev menu
     ├── led/                          # WS2812B FastLED patterns
     ├── display/                      # Display facade + telemetry struct

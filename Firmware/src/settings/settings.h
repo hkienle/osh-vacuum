@@ -48,6 +48,12 @@ enum class LedTheme : uint8_t {
   Yellow = 6,
 };
 
+/** Motor control backend (NVS + dev menu). */
+enum class MotorType : uint8_t {
+  GenericPwm = 0,
+  XiaomiG = 1,
+};
+
 struct RuntimeSettings {
   DisplayType displayType = DisplayType::Waveshare091I2C;
   uint8_t batterySeriesCells = 5;  // Series cell count for pack voltage -> SOC mapping (1–32 NVS; UI cycles 1–14S)
@@ -69,8 +75,13 @@ struct RuntimeSettings {
   LedDisplayMode ledDisplayMode = LedDisplayMode::Soc;
   /** Inactive bar segments: 0–10 % in 1 % steps, then 15–50 % in 5 % steps. */
   uint8_t ledDimPercent = 0;
+  /** OLED contrast / perceived brightness (10–100 % in 10 % steps). */
+  uint8_t displayContrastPercent = 20;
   LedTheme ledTheme = LedTheme::White;
+  MotorType motorType = MotorType::GenericPwm;
 };
+
+typedef void (*RuntimeSettingsChangedCallback)(const RuntimeSettings& settings);
 
 // Initialize settings subsystem.
 void initSettings();
@@ -80,6 +91,7 @@ RuntimeSettings& loadRuntimeSettings();
 
 // Save full runtime settings to NVS.
 bool saveRuntimeSettings(const RuntimeSettings& settings);
+void setRuntimeSettingsChangedCallback(RuntimeSettingsChangedCallback callback);
 
 // Mutable live settings (populated by loadRuntimeSettings in setup).
 RuntimeSettings& getRuntimeSettings();
@@ -92,5 +104,9 @@ const char* displayTypeToString(DisplayType type);
 uint8_t maxDutyPercentLowerBound(uint8_t minDutyPercent);
 /** Clamp max duty to 50–100 % and strictly above min duty. */
 uint8_t clampMaxDutyPercent(uint8_t maxDutyPercent, uint8_t minDutyPercent);
+
+MotorType parseMotorType(uint8_t v);
+const char* motorTypeToString(MotorType type);
+const char* motorTypeDisplayName(MotorType type);
 
 #endif  // SETTINGS_H

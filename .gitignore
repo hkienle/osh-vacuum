@@ -1,5 +1,8 @@
 .DS_Store
 
+# Tool caches
+**/fp-info-cache
+
 # Lokale Firmware-Secrets / persönliche Defaults (Vorlage: settings_config.example.h)
 Firmware/src/settings/settings_config.h
 

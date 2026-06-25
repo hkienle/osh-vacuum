@@ -8,11 +8,15 @@
 #include "battery_soc/battery_soc.h"
 #include "tachometer/tachometer.h"
 #include "websocket/websocket.h"
-#include "motor_pwm/motor_pwm.h"
+#include "device_link/device_link.h"
+#include "device_protocol/device_protocol.h"
+#include "motor/motor.h"
 #include "webserver/webserver.h"
 #include "ota/ota.h"
 #include "button/button.h"
 #include "settings/settings.h"
+#include "settings/settings_config.h"
+#include "settings/dev_menu.h"
 #include "display/display.h"
 #include "mcu_temp/mcu_temp.h"
 #include "power/power.h"
@@ -20,6 +24,14 @@
 
 long nextBroadcastTime = 0;
 int broadcastInterval = 250;
+
+namespace {
+void onRuntimeSettingsChanged(const RuntimeSettings& settings) {
+  applyDisplayContrast(settings.displayContrastPercent);
+  deviceLinkRequestSettingsBroadcast();
+}
+}  // namespace
+
 void setup() {
   // Pull IO7 low (will be controlled by button module)
   pinMode(7, OUTPUT);
@@ -35,13 +47,17 @@ void setup() {
   initTemperature();
   initBattery();
   initTachometer();
-  initMotorPWM();
+#ifndef OSHVAC_BLE_PRIMARY
   initWebServer();
+#endif
   initOTA();
   setupWiFi();
-  initWebSocket();
+  deviceLinkInit();
   initSettings();
   loadRuntimeSettings();
+  setRuntimeSettingsChangedCallback(onRuntimeSettingsChanged);
+  initMotor(getRuntimeSettings().motorType);
+  devMenuRebuildVisible();
   initMaximumStats();
   initBatterySOC(getRuntimeSettings().batterySeriesCells);
   initDisplay(getRuntimeSettings());
@@ -58,21 +74,14 @@ void setup() {
 
 void loop() {
   static uint32_t motorRunStartMs = 0;
+  static uint32_t undervoltageBelowSinceMs = 0;
 
   // Update buttons (handles speed changes and trigger state)
   updateButtons();
   
   if (isMotorActive()) {
     const uint8_t speed = getSpeed();
-    const uint8_t minP = getRuntimeSettings().minDutyPercent;
-    const uint8_t maxP = clampMaxDutyPercent(getRuntimeSettings().maxDutyPercent, minP);
-    int pwmDuty = 0;
-    if (speed > 0) {
-      const int minDuty = static_cast<int>((minP * 255) / 100);
-      const int maxDuty = static_cast<int>((maxP * 255) / 100);
-      pwmDuty = minDuty + (static_cast<int>(speed) * (maxDuty - minDuty)) / 100;
-    }
-    setMotorDuty(pwmDuty);
+    setMotorSpeedPercent(speed);
     startMotor();
     if (motorRunStartMs == 0) {
       motorRunStartMs = millis();
@@ -92,8 +101,8 @@ void loop() {
 
   maximumStatsOnMotorLoop(
       isMotorActive(),
-      getRPM(),
-      isRPMReady(),
+      motorGetRpm(),
+      motorIsRpmReady(),
       getBatteryVoltage(),
       getTemperature(),
       isTemperatureReady());
@@ -103,8 +112,8 @@ void loop() {
     const MaximumStatsForDisplay mxLed = maximumStatsGetForDisplay();
     updateLEDBarGraph(
         getBatterySOC(),
-        getRPM(),
-        isRPMReady(),
+        motorGetRpm(),
+        motorIsRpmReady(),
         mxLed.maxRpm,
         mxLed.hasMaxRpm,
         getSpeed(),
@@ -130,6 +139,16 @@ void loop() {
         setMotorState(false);
         motorRunStartMs = 0;
         Serial.printf("[Main] Motor stopped: auto-off after %u min\n", static_cast<unsigned>(autoOffMin));
+        if (deviceLinkHasActiveClients()) {
+          String notifyJson;
+          char text[96];
+          snprintf(text,
+                   sizeof(text),
+                   "Motor stopped: auto-off after %u min",
+                   static_cast<unsigned>(autoOffMin));
+          deviceProtocolBuildNotifyJson(notifyJson, "auto_off", text, "info");
+          deviceLinkBroadcast(notifyJson.c_str());
+        }
       }
     }
 
@@ -139,7 +158,54 @@ void loop() {
       motorRunStartMs = 0;
       triggerThermalOffBlink();
       Serial.printf("[Main] Motor stopped: NTC > %u C\n", static_cast<unsigned>(lim));
+      if (deviceLinkHasActiveClients()) {
+        String notifyJson;
+        char text[96];
+        snprintf(text,
+                 sizeof(text),
+                 "Motor stopped due to over-temperature (limit %u °C)",
+                 static_cast<unsigned>(lim));
+        deviceProtocolBuildNotifyJson(notifyJson, "thermal_stop", text, "warning");
+        deviceLinkBroadcast(notifyJson.c_str());
+      }
     }
+
+    const uint8_t cells = getRuntimeSettings().batterySeriesCells;
+    if (cells > 0) {
+      const float packV = getBatteryVoltage();
+      if (packV > 0.05f) {
+        const float cellV = packV / static_cast<float>(cells);
+        const float minCellV = SettingsConfig::DEFAULT_MIN_CELL_VOLTAGE_CUTOFF;
+        if (cellV < minCellV) {
+          const uint32_t now = millis();
+          if (undervoltageBelowSinceMs == 0) {
+            undervoltageBelowSinceMs = now;
+          } else if ((now - undervoltageBelowSinceMs) >= 400) {
+            setMotorState(false);
+            motorRunStartMs = 0;
+            undervoltageBelowSinceMs = 0;
+            Serial.printf("[Main] Motor stopped: pack undervoltage (%.2f V, %.2f V/cell)\n",
+                          static_cast<double>(packV),
+                          static_cast<double>(cellV));
+            if (deviceLinkHasActiveClients()) {
+              String notifyJson;
+              char text[96];
+              snprintf(text,
+                       sizeof(text),
+                       "Motor stopped: battery undervoltage (%.2f V, %.2f V/cell)",
+                       static_cast<double>(packV),
+                       static_cast<double>(cellV));
+              deviceProtocolBuildNotifyJson(notifyJson, "undervoltage_stop", text, "warning");
+              deviceLinkBroadcast(notifyJson.c_str());
+            }
+          }
+        } else {
+          undervoltageBelowSinceMs = 0;
+        }
+      }
+    }
+  } else {
+    undervoltageBelowSinceMs = 0;
   }
 
   const bool buttonActivity = hadButtonActivityAndClear();
@@ -154,9 +220,9 @@ void loop() {
     getTemperature(),
     isTemperatureReady(),
     getMcuTemperatureC(),
-    getRPM(),
+    motorGetRpm(),
     isTriggerPressed(),
-    isRPMReady(),
+    motorIsRpmReady(),
     getBatterySOC(),
     isMotorActive(),
     isDisplayInfoMode(),
@@ -178,6 +244,7 @@ void loop() {
     static_cast<uint8_t>(rs.ledDisplayMode),
     rs.ledDimPercent,
     static_cast<uint8_t>(rs.ledTheme),
+    static_cast<uint8_t>(rs.motorType),
     mx.maxRpm,
     mx.hasMaxRpm,
     mx.maxVoltageV,
@@ -187,13 +254,15 @@ void loop() {
   };
   updateDisplay(telemetry);
   updateMotor();  // Check heartbeat timeout
+#ifndef OSHVAC_BLE_PRIMARY
   updateWebServer();
-  updateWebSocket();
+#endif
+  deviceLinkUpdate();
 
-  if(millis() > nextBroadcastTime) {  
+  if (millis() > nextBroadcastTime) {
     const uint8_t speedPercent = getSpeed();
     const float batteryVoltage = getBatteryVoltage();
-    const float rpmValue = getRPM();
+    const float rpmValue = motorGetRpm();
     const bool motorActive = isMotorActive();
 
     char serialLine[160];
@@ -202,18 +271,17 @@ void loop() {
              getTemperature(), batteryVoltage, rpmValue, static_cast<unsigned>(speedPercent));
     Serial.println(serialLine);
 
-    if (isWebSocketRunning()) {
-      char jsonBuffer[320];
-      const int n = snprintf(jsonBuffer, sizeof(jsonBuffer),
-                             "{\"temp\":%.2f,\"battery\":%.2f,\"rpm\":%.0f,\"speed\":%u,\"motor_active\":%s,\"battery_soc\":%d}",
-                             getTemperature(),
-                             batteryVoltage,
-                             rpmValue,
-                             static_cast<unsigned>(speedPercent),
-                             motorActive ? "true" : "false",
-                             static_cast<int>(getBatterySOC()));
-      if (n > 0 && static_cast<size_t>(n) < sizeof(jsonBuffer)) {
-        broadcastWebSocket(jsonBuffer);
+    if (deviceLinkHasActiveClients()) {
+      String jsonBuffer;
+      deviceProtocolBuildTelemetryJson(jsonBuffer,
+                                       getTemperature(),
+                                       getBatteryVoltage(),
+                                       motorGetRpm(),
+                                       speedPercent,
+                                       motorActive,
+                                       getBatterySOC());
+      if (jsonBuffer.length() > 0) {
+        deviceLinkBroadcast(jsonBuffer.c_str());
       }
     }
     

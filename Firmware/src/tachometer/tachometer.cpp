@@ -17,7 +17,7 @@ const unsigned long UPDATE_INTERVAL = 200; // Update every 200ms
 
 // Interrupt Service Routine for FG pulse
 void IRAM_ATTR onFgPulse() {
-  fgPulseCount++;
+  fgPulseCount = fgPulseCount + 1;
 }
 
 void initTachometer() {

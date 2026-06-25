@@ -6,6 +6,13 @@
 
 namespace {
 DisplayType activeDisplayType = DisplayType::None;
+
+uint8_t contrastPercentToLevel(uint8_t percent) {
+  if (percent > 100) {
+    percent = 100;
+  }
+  return static_cast<uint8_t>((static_cast<uint16_t>(percent) * 255U + 50U) / 100U);
+}
 }
 
 void initDisplay(const RuntimeSettings& settings) {
@@ -22,6 +29,22 @@ void initDisplay(const RuntimeSettings& settings) {
     case DisplayType::None:
     default:
       Serial.println("Display: disabled");
+      break;
+  }
+  applyDisplayContrast(settings.displayContrastPercent);
+}
+
+void applyDisplayContrast(uint8_t contrastPercent) {
+  const uint8_t level = contrastPercentToLevel(contrastPercent);
+  switch (activeDisplayType) {
+    case DisplayType::Waveshare091I2C:
+      setDisplayContrastWaveshare091I2C(level);
+      break;
+    case DisplayType::Waveshare15I2C:
+      setDisplayContrastWaveshare15I2C(level);
+      break;
+    case DisplayType::None:
+    default:
       break;
   }
 }
