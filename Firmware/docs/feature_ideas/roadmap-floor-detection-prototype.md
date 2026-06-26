@@ -1,6 +1,6 @@
 # Roadmap: KI-Bodenerkennung & Anomalie-Detection — Prototyp
 
-Roadmap bis zum ersten funktionierenden Prototyp eines selbstlernenden Bodenerkennungs- und Wartungs-Diagnose-Systems für den Open-Source-Staubsauger.
+Roadmap bis zum ersten funktionierenden Prototyp eines selbstlernenden Bodenerkennungs- und Wartungs-Diagnose-Systems für Caznic.
 
 ## Prototyp-Scope
 
@@ -58,7 +58,9 @@ Im Prototyp wird das `current/`-Modul als Dispatcher angelegt, aber **nur das `c
 
 **Statische Speicher-Allokation.** Alle Puffer (Ringpuffer, Suspicious-Buffer, Cluster-Centroids) werden zur Compile-Zeit allokiert. Kein `new`/`malloc` im Loop.
 
-**Watchdog-Timeouts als 3× nominale Update-Rate.** Jeder Sensor-Watchdog bekommt einen Timeout von mindestens 3× der nominellen Sample-Rate.
+**Thread-sichere Speicherzugriffe zwischen ISR und Tasks.** Sobald ein FreeRTOS-Task (z.B. ML-Inferenz auf Core 0) parallel zu ISRs (z.B. Tachometer) auf gemeinsame Datenstrukturen zugreift, dürfen diese nur über atomare Operationen, FreeRTOS-Queues (`xQueueSendFromISR`/`xQueueReceive`) oder lock-free Single-Producer-Single-Consumer Ringbuffer (ESP-IDF `ringbuf`) ausgetauscht werden. Auf Xtensa sind nur 32-Bit-aligned Zugriffe atomar — int64-Zeitstempel brauchen zwingend Synchronisation.
+
+**Watchdog-Timeouts als 3× nominale Update-Rate.** Jeder Sensor-Watchdog bekommt einen Timeout von mindestens 3× der nominellen Sample-Rate. **Ausnahme Tachometer**: hier wird die Aktivierung an die **Soll-Anweisung** des Motors gekoppelt, nicht an die Ist-Drehzahl. Konkret: Watchdog aktiv, sobald das System Motorrotation anweist (PWM-Duty > 0 UND Motor-Enable = true). Watchdog inaktiv nur dann, wenn der Motor explizit abgeschaltet ist (Duty = 0 oder Disable). Der Timeout wird dynamisch aus der bei aktueller Duty erwarteten Pulse-Rate (gemäß Kalibrierungs-Baseline) berechnet. Folge dieser Regel: eine **mechanische Blockade** (Motor angewiesen, aber Pulse fehlen, weil z.B. ein massiver Gegenstand das Laufrad blockiert) löst korrekterweise einen Watchdog-Trip aus — genau das Signal, das die Anomalie-Detection sehen muss. Bei freiwillig abgeschaltetem Motor ist 0 Hz dagegen physikalisch korrekt und löst keinen Trip aus.
 
 **NVS-Schreibvorgänge minimieren.** Adaption-State wird in RAM gehalten und nur bei Light-Sleep oder maximal alle 60 Minuten persistiert.
 
@@ -68,7 +70,8 @@ Im Prototyp wird das `current/`-Modul als Dispatcher angelegt, aber **nur das `c
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Normal
+    [*] --> Uncalibrated
+    Uncalibrated --> Normal: Self-Calibration erfolgreich
     Normal --> Transition: |dI/dt| > Schwellwert
     Transition --> Normal: Ableitung beruhigt sich
     Transition --> Suspicious: Timeout 1s erreicht
@@ -79,10 +82,19 @@ stateDiagram-v2
     Spawn --> Normal: Cluster initialisiert
     Anomalie --> Persistent: N konsekutive Samples
     Anomalie --> Normal: Spike vorbei
-    Persistent --> [*]: Warnung an User
+    Persistent --> Recovery: User-Acknowledge (UI) ODER Cooldown 30s
+    Recovery --> Normal: System bereit
 ```
 
-Während Transition wird weder Anomalie noch Spawn ausgelöst. Während Suspicious wird kein Cluster aktualisiert. Anomalie-Punkte werden vom Cluster-Update generell ausgeschlossen (Anomaly-Aware Learning).
+**Boot-Verhalten:** `Uncalibrated` ist der initiale Zustand wenn der `calib`-NVS-Namespace leer ist. In diesem Zustand wird die Motorfreigabe **hart blockiert** — ohne Baseline können auch die Safety-Schicht-2-Schwellwerte nicht sinnvoll gesetzt werden. Erst nach erfolgreicher Kalibrierung wird in `Normal` gewechselt.
+
+**Während Transition** wird weder Anomalie noch Spawn ausgelöst. **Während Suspicious** wird kein Cluster aktualisiert. **Anomalie-Punkte** werden vom Cluster-Update generell ausgeschlossen (Anomaly-Aware Learning).
+
+**Spawn ist non-blocking.** Der Übergang `Spawn → Normal` initialisiert das Cluster sofort und kehrt unmittelbar in den Normal-Betrieb zurück. Die optionale UI-Benennungs-Aufforderung läuft **post-hoc und asynchron** — der Nutzer kann später entscheiden, ob er den neuen Cluster benennt oder nicht. Das verhindert, dass der Erkennungs-Pfad auf User-Interaktion warten muss.
+
+**Recovery aus Persistent:** Zwei Pfade — entweder explizites User-Acknowledge via Web-UI ("Anomalie quittiert") oder Auto-Cooldown nach 30 Sekunden (für False-Positives, die sich von selbst auflösen). Beide führen zurück nach `Normal`. Während `Persistent` bleibt der Motor zwar nicht blockiert (das ist Safety-Schicht 2), aber die Warnung bleibt aktiv und Cluster-Updates pausieren.
+
+**State-Valid-Flag für NVS-Persistenz:** Cluster-State darf nur persistiert werden, wenn die State Machine zum Sleep-Zeitpunkt in `Normal` ist. In `Uncalibrated`, `Suspicious`, `Anomalie`, `Persistent` oder `Recovery` bleibt der bestehende NVS-Inhalt unverändert. Verhindert, dass ein Notstopp während verdächtigem Zustand einen korrumpierten Cluster-State permanent einbäckt.
 
 ## Annahmen
 
@@ -109,12 +121,12 @@ Diese Punkte sind gegen die Codebase verifiziert und müssen die Phase-0-Planung
 
 | Phase | Inhalt | Dauer |
 |-------|--------|-------|
-| 0 | Setup, Kalibrierung, Safety-Foundation, Firmware-Foundation | 1,5 Wochen |
+| 0 | Setup, Kalibrierung, Safety-Foundation, Firmware-Foundation | 2 Wochen |
 | 1 | Datensammlung (light) | 1 Woche |
 | 2 | Modell-Pipeline (Clustering + Anomalie) | 1,5 Wochen |
 | 3 | On-Device-Integration | 1 Woche |
 
-**Gesamt:** 5 Wochen netto, 6 Wochen mit Puffer.
+**Gesamt:** 5,5 Wochen netto, 6,5 Wochen mit Puffer. Phase 0 ist mit 17 Major-Tasks (Pin-Verifikation, Infrastruktur, Sensorik, Safety, Kalibrierung, Logging) bewusst breit angelegt — das spätere Velocity-Gewinn rechtfertigt das Investment.
 
 ---
 
@@ -132,7 +144,9 @@ Diese Punkte sind gegen die Codebase verifiziert und müssen die Phase-0-Planung
 
 **Aufgaben — Sensorik:**
 
-- **Tachometer-Upgrade**: Umstellung vom Count-over-Window-Verfahren (5 Hz) auf **ISR-Zeitstempel-Verfahren** (Pulse-to-Pulse-Intervall). Sauberer und skaliert besser zu höheren RPM. Effektive Sample-Rate steigt deutlich, nutzbar für 50-Hz-Feature-Sampling
+- **Tachometer-Upgrade (2–3 Tage, eigene Aufmerksamkeit)**: Umstellung vom Count-over-Window-Verfahren (5 Hz, aktuell ~5 Zeilen ISR mit `fgPulseCount++`) auf **ISR-Zeitstempel-Verfahren** (Pulse-to-Pulse-Intervall via `micros()`-Capture). Nicht-trivialer Eingriff in eine sicherheitsrelevante ISR — neue RPM-Berechnung, Ringbuffer-Management im ISR-Kontext, Tests für Wrap-Around-Verhalten erforderlich. **Datenübergabe ISR → Loop bzw. ML-Task über lock-free SPSC-Ringbuffer**, nicht über shared Variables. Damit ist auch der Dual-Core-Übergang in Phase 3 ohne nachträgliches Refactoring möglich
+- **I2C-Bus-Polling-Strategie**: INA226 und OLED teilen sich GPIO 8/9. Polling muss zeitlich versetzt zum OLED-Refresh erfolgen, sonst verlängert sich die Loop-Zeit messbar. Konkret: INA226-Read in eigenem Slot (z.B. zwischen Display-Updates) oder asynchron via I2C-Interrupt. Wird in Phase 0 entschieden basierend auf Loop-Timing-Messung
+- **Dynamischer Tachometer-Watchdog**: Aktivierung an die **Soll-Anweisung** des Motors gekoppelt (PWM-Duty > 0 UND Motor-Enable = true), nicht an die Ist-Drehzahl. Timeout aus erwarteter Pulse-Rate bei aktueller Duty + Kalibrierung berechnet. Mechanische Blockade führt damit korrekt zum Watchdog-Trip — siehe Design-Prinzip "Watchdog-Timeouts" oben für die volle Begründung
 - **Breadboard-INA226** an I2C-Bus (GPIO 8/9, auf J5-Header verfügbar) anschließen. **ALERT-Pin via Drahtverbindung an GPIO38** löten (nicht auf Header geführt, daher Lötaktion direkt am ESP32-Pin)
 - **Modul `current/` als Dispatcher anlegen** mit zwei Backend-Stubs:
   - `current_ina226/` — voll implementiert (I2C-Treiber, ALERT-Konfiguration, GPIO38-Interrupt)
@@ -235,7 +249,14 @@ Diese Punkte sind gegen die Codebase verifiziert und müssen die Phase-0-Planung
 - **NVS-Persistenz-Strategie**:
   - Cluster-Centroids und Adaption-State in RAM
   - Persistierung im `floor`-Namespace via Pre-Sleep-Callback (in Phase 0 eingeführt)
-  - Backup alle 60 Minuten als Power-Loss-Schutz
+  - **`State_Valid_Flag`-Check vor Persistierung**: nur wenn State Machine in `Normal`, sonst NVS-Inhalt unverändert lassen. Verhindert Korruption durch Notstopp während Anomalie- oder Suspicious-State
+  - Backup alle 60 Minuten als Power-Loss-Schutz, ebenfalls mit `State_Valid_Flag`-Check
+  - **Bewusster Trade-off:** Bleibt das System >60 Minuten in `Suspicious`, `Anomalie`, `Persistent` oder `Recovery`, wird kein Backup geschrieben. Bei Power-Loss in dieser Phase geht der Session-Lern-Fortschritt verloren. Das ist die richtige Entscheidung — korrumpierten State zu persistieren wäre schlimmer. Sollte dem Nutzer transparent kommuniziert werden ("System lernt seit letzter Persistierung neu")
+- **Boot-Sequenz mit Uncalibrated-Blockade**: Beim Start prüfen, ob `calib`-Namespace befüllt ist. Wenn leer → State Machine in `Uncalibrated`, Motor-Enable hart blockiert, UI zeigt "Kalibrierung erforderlich"-Screen
+- **Recovery-Mechanismen aus Persistent-Zustand**:
+  - Web-UI-Button "Anomalie quittiert" triggert `Persistent → Recovery → Normal`
+  - Auto-Cooldown-Timer (30 s) als Fallback, falls False-Positive
+  - LED-/Display-Anzeige bleibt während `Persistent` warnend, bis Recovery erfolgt
 - Web-UI: Cluster-Nutzungsstatistik, Eingabefeld zum Benennen, Re-Kalibrierungs-Empfehlung bei Bounding-Box, Spawn-Bestätigungs-Dialog
 - Benchmark: Inferenzzeit pro Iteration, Heap (konstant über Zeit), kein Memory-Leak
 - **1-Stunden-Dauerlauf**: kein Crash, kein Heap-Wachstum
@@ -272,6 +293,8 @@ Bewusst aus dem Prototyp ausgeschlossen, um den Scope kontrolliert zu halten:
 
 - **Wenn das in Phase 0 gemessene Loop-Timing zeigt, dass die Iteration knapp am Budget ist**: ML-Inferenz von vornherein auf Core 0 via `xTaskCreatePinnedToCore` verlagern, statt es als Phase-3-Optimierung zu behandeln
 - **Wenn das ISR-Zeitstempel-Verfahren am Tachometer auf bestimmten Motoren ungewöhnliches Jitter zeigt**: Fallback auf 20-ms-Count-over-Window-Verfahren, dafür verrauschter, aber robust
+- **Wenn die Kalibrierung schief ist** (verschlissener Motor, falsches Laufrad, Drift): wird der dynamische Tachometer-Watchdog-Timeout falsch berechnet — entweder zu lose (Blockade nicht erkannt) oder zu strikt (False Trips). Risikominderung: Re-Kalibrierungs-Empfehlung in der UI bei Bounding-Box-Anschlag (bereits in Phase 2 vorgesehen) plus untere/obere Sanity-Bounds auf den berechneten Timeout
+- **Wenn INA226 und OLED auf dem geteilten I2C-Bus interferieren**: Loop-Zeit verlängert sich messbar. Lösung in Phase 0: zeitlich versetzte Polling-Slots oder asynchroner I2C-Interrupt — Entscheidung basierend auf Loop-Timing-Messung
 - **Wenn die Pin-Mapping-Verifikation Konflikte aufdeckt** (z.B. OLED kommuniziert tatsächlich auf vertauschten Pins): Verzögerung um 0,5–1 Tag plus eventuell Firmware-Korrektur
 - **Wenn `[env:native]` Konflikte mit Arduino-Dependencies in Nachbar-Modulen produziert**: Striktes Trennen via Header-Interface zwischen Sensor-Layer und ML-Layer
 - **Wenn in Phase 1 die Cluster sich nicht sauber trennen lassen**: IMU als zusätzliches Backend-Modul am gemeinsamen I2C-Bus. Eine Woche extra
