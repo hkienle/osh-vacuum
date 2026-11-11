@@ -1,0 +1,41 @@
+(version 1)
+# JLCPCB-Regeln für Variante B: 4 Lagen, außen 2 oz (70 µm), innen 1 oz (35 µm), Bohrungen ohne Aufpreis.
+# Quelle: jlcpcb.com/capabilities/pcb-capabilities, abgerufen 2026-11-07.
+# Die Grundwerte (Abstand 0,15, Bahn 0,15, Bohrung 0,3 – seit 2026-11-08, vorher 0,2 –, Via 0,45, Kante 0,3, Text 1,0/0,15) stehen in den Board-Einstellungen.
+
+# 2026-11-08: JLC-Kalkulator berechnet 0,2-mm-Vias mit Aufpreis (+ Kelvin-Test, Tg155) – Standard ist 0,3/0,45.
+(rule "JLC: Via ohne Aufpreis (Bohrung >= 0,3 mm, Durchmesser >= 0,45 mm)"
+	(condition "A.Type == 'Via'")
+	(constraint hole_size (min 0.3mm))
+	(constraint via_diameter (min 0.45mm)))
+
+(rule "JLC: Restring an bedrahteten Pads, 2 oz außen (0,254 mm)"
+	(layer outer)
+	(condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole'")
+	(constraint annular_width (min 0.254mm)))
+
+# Thermal-Vias in Footprints (U1, U10, 0,3 mm) zählen als Vias: dort gilt der JLC-Via-Abstand (Board-Minimum)
+(rule "JLC: Bohrung zu Bohrung zwischen Pads (0,45 mm)"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad' && (A.Hole_Size_X > 0.35mm || B.Hole_Size_X > 0.35mm)")
+	(constraint hole_to_hole (min 0.45mm)))
+
+(rule "JLC: PTH-Bohrung zu Leiterbahn (0,28 mm)"
+	(condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole' && B.Type == 'Track'")
+	(constraint hole_clearance (min 0.28mm)))
+
+# Nur Texte: Konturlinien der Bibliotheks-Footprints schneidet JLC selbst an den Pads ab.
+(rule "JLC: Bestückungsdruck-Text zu Pad (0,15 mm)"
+	(layer outer)
+	(condition "A.Type == 'Pad' && B.Layer == '?.Silkscreen' && (B.Type == 'Text' || B.Type == 'Field' || B.Type == 'Text Box')")
+	(constraint silk_clearance (min 0.15mm)))
+
+(rule "JLC: Schlitz bedrahtet >= 0,35 mm, unbedrahtet >= 1,0 mm"
+	(condition "A.Type == 'Pad' && A.Pad_Type == 'NPTH, mechanical' && A.Hole_Size_X != A.Hole_Size_Y")
+	(constraint hole_size (min 1.0mm)))
+
+# Projektregel (über JLC hinaus): Leistungsnetze (bis 53 V Klemmspannung) mit 0,3 mm Abstand
+# für Flächen, breite Bahnen (≥ 0,5 mm) und Leistungs-Vias; dünne Mess- und Versorgungsleitungen an den
+# Feinraster-ICs (U13, U20) halten den Grundabstand 0,15 mm (mit Lötstopplack nach IPC-2221 B4 ausreichend).
+(rule "Projekt: Leistung und Bürste, Bahnen und Flächen 0,3 mm"
+	(condition "(A.NetClass == 'Leistung' || A.NetClass == 'Buerste') && (A.Type == 'Zone' || (A.Type == 'Track' && A.Width >= 0.5mm) || (A.Type == 'Via' && A.Via_Diameter >= 0.8mm)) && A.Net != B.Net")
+	(constraint clearance (min 0.3mm)))

@@ -1,0 +1,6 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "OSH_Power")(type "KiCad")(uri "${KIPRJMOD}/OSH_Power.kicad_sym")(options "")(descr "Projektsymbole Versorgung"))
+  (lib (name "OSH_Motor")(type "KiCad")(uri "${KIPRJMOD}/OSH_Motor.kicad_sym")(options "")(descr "Projektsymbole Motor und Bürste"))
+  (lib (name "OSH_Bedien")(type "KiCad")(uri "${KIPRJMOD}/OSH_Bedien.kicad_sym")(options "")(descr "Projektsymbole Bedienung, CAN, Erweiterung"))
+)

@@ -1,0 +1,252 @@
+(footprint "TI_DNK0008A_VSON-CLIP-8_5x6mm_P1.27mm"
+	(version 20260206)
+	(generator "osh_gen_motor")
+	(layer "F.Cu")
+	(descr "TI DNK0008A VSON-CLIP-8 5x6mm (CSD18532Q5B), Land Pattern und Schablone nach TI 4226669/A, https://www.ti.com/lit/ds/symlink/csd18532q5b.pdf (S. 13-15); Pad 5 = Drain")
+	(tags "SON VSON-CLIP DNK Q5B NexFET CSD18532Q5B")
+	(property "Reference" "REF**"
+		(at 0 -3.7 0)
+		(layer "F.SilkS")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "TI_DNK0008A_VSON-CLIP-8_5x6mm_P1.27mm"
+		(at 0 3.7 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -3.11 -2.61)
+		(end -1.25 -2.61)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -0.46 -2.61)
+		(end 3.11 -2.61)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -3.11 2.61)
+		(end -1.25 2.61)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -0.46 2.61)
+		(end 3.11 2.61)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts
+			(xy -2.82 -2.66) (xy -3.06 -2.99) (xy -2.58 -2.99)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+	)
+	(fp_rect
+		(start -3.45 -2.95)
+		(end 3.45 2.95)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_poly
+		(pts
+			(xy -2 -2.5) (xy 3 -2.5) (xy 3 2.5) (xy -3 2.5) (xy -3 -1.5)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0.6 0 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -2.82 -1.905)
+		(size 0.76 0.41)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "2" smd roundrect
+		(at -2.82 -0.635)
+		(size 0.76 0.41)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "3" smd roundrect
+		(at -2.82 0.635)
+		(size 0.76 0.41)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "4" smd roundrect
+		(at -2.82 1.905)
+		(size 0.76 0.41)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "5" smd custom
+		(at 0.75 0)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(zone_connect 2)
+		(options
+			(clearance outline)
+			(anchor rect)
+		)
+		(primitives
+			(gr_poly
+				(pts
+					(xy -1.79 -2.7) (xy -1.421 -2.7) (xy -1.421 -2) (xy 1.584 -2) (xy 1.584 -2.11) (xy 2.45 -2.11) (xy 2.45 -1.7) (xy 1.79 -1.7) (xy 1.79 -0.84) (xy 2.45 -0.84) (xy 2.45 -0.43) (xy 1.79 -0.43) (xy 1.79 0.43) (xy 2.45 0.43) (xy 2.45 0.84) (xy 1.79 0.84) (xy 1.79 1.7) (xy 2.45 1.7) (xy 2.45 2.11) (xy 1.584 2.11) (xy 1.584 2) (xy -1.421 2) (xy -1.421 2.7) (xy -1.79 2.7)
+				)
+				(width 0)
+				(fill yes)
+			)
+		)
+	)
+	(pad "" smd roundrect
+		(at -0.48 -1.33)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at -0.48 0)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at -0.48 1.33)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at 0.75 -1.33)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at 0.75 0)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at 0.75 1.33)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at 1.98 -1.33)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at 1.98 0)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at 1.98 1.33)
+		(size 1.03 1.13)
+		(layers "F.Paste")
+		(roundrect_rratio 0.0485)
+	)
+	(pad "" smd roundrect
+		(at -0.855 -2.398)
+		(size 0.369 0.605)
+		(layers "F.Paste")
+		(roundrect_rratio 0.1355)
+	)
+	(pad "" smd roundrect
+		(at -0.855 2.398)
+		(size 0.369 0.605)
+		(layers "F.Paste")
+		(roundrect_rratio 0.1355)
+	)
+	(pad "" smd roundrect
+		(at 2.948 -1.905)
+		(size 0.505 0.41)
+		(layers "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "" smd roundrect
+		(at 2.948 -0.635)
+		(size 0.505 0.41)
+		(layers "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "" smd roundrect
+		(at 2.948 0.635)
+		(size 0.505 0.41)
+		(layers "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(pad "" smd roundrect
+		(at 2.948 1.905)
+		(size 0.505 0.41)
+		(layers "F.Paste")
+		(roundrect_rratio 0.122)
+	)
+	(embedded_fonts no)
+	(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/TDSON-8-1.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

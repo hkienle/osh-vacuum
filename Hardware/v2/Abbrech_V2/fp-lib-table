@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "Abbrech_V2")(type "KiCad")(uri "${KIPRJMOD}/Abbrech_V2.pretty")(options "")(descr "Projekt-Footprints Abbrechplatine V2"))
+)

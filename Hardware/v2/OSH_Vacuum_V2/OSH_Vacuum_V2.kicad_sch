@@ -1,0 +1,1005 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "c4f19fa3-e2fb-44b9-99bd-c3ab81054a28")
+	(paper "A3")
+	(title_block
+		(title "OSH Vacuum – Mainboard V2 (Übersicht)")
+		(date "2026-11-06")
+		(rev "V2-A (Entwurf)")
+		(company "intuity · Caznic – OSH Vacuum")
+		(comment 1 "Hierarchie: ein Blatt je Funktionsblock")
+		(comment 2 "Konzept und Bauteilwahl: Elektronik V2/03_Architektur, 04_Komponenten")
+		(comment 3 "Funktionsbeschreibung: 05_Hardware/Review/Funktionsbeschreibung.md")
+		(comment 4 "Nur JLCPCB-lagernde Teile (Regel F-01)")
+	)
+	(lib_symbols
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Mechanical:MountingHole_Pad"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 0 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole_Pad"
+				(at 0 4.445 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Mounting Hole with connection"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*Pad*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MountingHole_Pad_0_1"
+				(circle
+					(center 0 1.27)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MountingHole_Pad_1_1"
+				(pin input line
+					(at 0 -2.54 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		
+	)
+	(text "ESP32-S3-WROOM-1-N16R8 (8 MB PSRAM) · USB-C (USB-Serial-JTAG)\nRESET / BOOT · Status-LED\nStrapping-Pull-downs MOT_EN, BRUSH_EN"
+		(exclude_from_sim no)
+		(at 129.54 60.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "05464075-4bfd-4483-8edd-7deee1e9298d")
+	)
+	(text "OSH Vacuum – Mainboard V2"
+		(exclude_from_sim no)
+		(at 25.4 20.78 0)
+		(effects
+			(font
+				(size 3 3)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "0e628dfd-9f17-453d-b333-0087b73a6ce6")
+	)
+	(text "Motor-High-Side 15 A: LM74502 + HYG025N06LS1C2 (Sanftanlauf)\nnur ESC (BLDC) am XT60, ESC-Minus direkt an GND (Variante B)\nBürste ≤ 30 W (P-FET) · Status-LEDs"
+		(exclude_from_sim no)
+		(at 231.14 60.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "190fab01-2d9d-44da-b353-c3269bb3058f")
+	)
+	(text "Signale zwischen den Blättern laufen über globale Labels (gleicher Name = gleiches Netz),\nVersorgungsschienen über Power-Symbole: VBAT_PROT, VBAT_OUT, VBAT_SW (MOT+), VBAT_SW2 (BRUSH+),\n5V_BUCK, 5V_SYS, +3V3, VBUS, 3V3_EXT, 5V_EXT, GND.\nDefault nach Reset, Boot und Deep Sleep: alle Ausgänge und Extension-Schienen AUS."
+		(exclude_from_sim no)
+		(at 25.4 34.32 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left bottom)
+		)
+		(uuid "287cac9c-caa8-4da6-b613-e3cc998c7801")
+	)
+	(text "MOTOR-SIG (JST PH 5P): TX/PWM, RX, TACHO, V_MOT 3,3/5 V\nI2C: ein Bus, 4 × Qwiic, fest 3,3 V\nNTC-Eingang"
+		(exclude_from_sim no)
+		(at 27.94 141.35 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2f01e08d-fedd-48fc-b3ac-9159977347c1")
+	)
+	(text "Akku 9–29,4 V (3s–7s), TVS-Klemmung 53,3 V → alle Teile am Akkuknoten ≥ 60 V.\nMotor 15 A dauernd, Bürste ≤ 30 W, Deep Sleep ≈ 0,2–0,35 mA (LDO-Iq, F-23).\nFunktionsbeschreibung: 05_Hardware/Review/Funktionsbeschreibung.md"
+		(exclude_from_sim no)
+		(at 228.6 138.53 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left bottom)
+		)
+		(uuid "77896ecb-d3a2-4d52-8e7f-07f6df2aaa7b")
+	)
+	(text "WS2812B-Ausgang (5V_EXT, Pegelwandler)\nTaster Trigger / + / − (onboard + extern)\nErweiterungsheader 2×7 (CAN entfällt, F-09)"
+		(exclude_from_sim no)
+		(at 129.54 141.35 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7a92297c-2a50-4540-97da-3591c3f1c1a9")
+	)
+	(text "Befestigung: 4 × M3, metallisiert, an GND (Lage im Layout festgelegt)"
+		(exclude_from_sim no)
+		(at 228.6 189.46 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left bottom)
+		)
+		(uuid "8d197724-7ee6-4c74-afcd-3f03a07327f7")
+	)
+	(text "Akku 9–29,4 V → Sicherung 25 A, TVS (kein Verpolschutz)\nShunt 1 mΩ + INA237 (Strom, Akkuspannung)\n5V_BUCK (LMR36520) · Dioden-ODER mit USB → 5V_SYS\n+3V3 (LDO LDL1117S33R)\nLoad-Switches: 3V3_EXT, 5V_EXT"
+		(exclude_from_sim no)
+		(at 27.94 64.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "be3b2866-b078-4c7a-a8ff-ec4cc6cb12c5")
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 281.94 200.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "091af738-cad4-5360-9a7f-27c373be4028")
+		(property "Reference" "MH4"
+			(at 284.48 199.39 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Value" "M3"
+			(at 284.48 201.93 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_Via"
+			(at 281.94 200.66 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Datasheet" ""
+			(at 281.94 200.66 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Description" "Befestigungsloch M3 (3,2 mm), metallisiert mit Via-Kranz, an GND"
+			(at 281.94 200.66 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(pin "1" (uuid "f775dc11-d828-451d-914b-4fe06d1be313"))
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(reference "MH4") (unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 266.7 200.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "8a547e92-b26d-5c2d-8c8e-7c1ea928c51d")
+		(property "Reference" "MH3"
+			(at 269.24 199.39 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Value" "M3"
+			(at 269.24 201.93 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_Via"
+			(at 266.7 200.66 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Datasheet" ""
+			(at 266.7 200.66 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Description" "Befestigungsloch M3 (3,2 mm), metallisiert mit Via-Kranz, an GND"
+			(at 266.7 200.66 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(pin "1" (uuid "722a8ab1-7409-44d5-92f6-c62e0b2ff41c"))
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(reference "MH3") (unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 236.22 200.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "98fa75f1-56e5-5002-8d97-9b1c46ce06cd")
+		(property "Reference" "MH1"
+			(at 238.76 199.39 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 238.76 201.93 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "OSH_Vacuum_V2:MountingHole_3.2mm_M3_SilkRing"
+			(at 236.22 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Befestigungsloch M3 (3,2 mm) ohne Kupfer, Siebdruckring 2 mm um die Bohrung"
+			(at 236.22 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(reference "MH1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 251.46 200.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "fb9ae97a-99d7-5190-b765-47f1a44f3d9b")
+		(property "Reference" "MH2"
+			(at 254 199.39 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 254 201.93 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "OSH_Vacuum_V2:MountingHole_3.2mm_M3_SilkRing"
+			(at 251.46 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 251.46 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Befestigungsloch M3 (3,2 mm) ohne Kupfer, Siebdruckring 2 mm um die Bohrung"
+			(at 251.46 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(reference "MH2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 132.08)
+		(size 76.2 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "331b1468-9f69-4bf7-a699-d27dacbc5174")
+		(property "Sheetname" "04 Motor-Signale, I2C, NTC"
+			(at 25.4 131.3684 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Motorsignale_I2C_NTC.kicad_sch"
+			(at 25.4 168.2246 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 228.6 50.8)
+		(size 76.2 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "5d81f751-c216-4194-8cc1-397ffacbfee1")
+		(property "Sheetname" "03 Motor und Bürste"
+			(at 228.6 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Motor_Buerste.kicad_sch"
+			(at 228.6 86.9446 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 127 50.8)
+		(size 76.2 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "97363e29-352f-4d1c-ab3c-86bec8cb4946")
+		(property "Sheetname" "02 MCU und USB"
+			(at 127 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "MCU_USB.kicad_sch"
+			(at 127 86.9446 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 50.8)
+		(size 76.2 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "e99ed671-ff85-43d5-9b85-4fe96a5e813e")
+		(property "Sheetname" "01 Versorgung"
+			(at 25.4 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Versorgung.kicad_sch"
+			(at 25.4 86.9446 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 127 132.08)
+		(size 76.2 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "f7801e40-92d0-4fc4-a11b-9558fc514475")
+		(property "Sheetname" "05 Bedienung, LED, Erweiterung"
+			(at 127 131.3684 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Bedienung_CAN_EXP.kicad_sch"
+			(at 127 168.2246 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(page "6")
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 266.7 205.74 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "e6e3ce44-d763-5c91-921a-e4973ce8b4d3")
+		(property "Reference" "#PWR0981"
+			(at 266.7 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Value" "GND"
+			(at 266.7 209.55 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 266.7 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Datasheet" "~"
+			(at 266.7 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Description" ""
+			(at 266.7 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(pin "1" (uuid "63ff8ac7-c736-473b-b2b1-d5ca85d8ed20"))
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(reference "#PWR0981") (unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 281.94 205.74 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "340d14e5-eded-5a81-afcc-e0719e5f1053")
+		(property "Reference" "#PWR0982"
+			(at 281.94 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Value" "GND"
+			(at 281.94 209.55 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 281.94 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Datasheet" "~"
+			(at 281.94 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(property "Description" ""
+			(at 281.94 205.74 0)
+			(effects (font (size 1.27 1.27)) (hide yes))
+		)
+		(pin "1" (uuid "e126cf4b-3063-409c-b77c-61686a99c8df"))
+		(instances
+			(project "OSH_Vacuum_V2"
+				(path "/c4f19fa3-e2fb-44b9-99bd-c3ab81054a28"
+					(reference "#PWR0982") (unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 266.7 203.2) (xy 266.7 205.74))
+		(stroke (width 0) (type default))
+		(uuid "0fb49807-4eac-44ed-9e50-d9fcf629e785")
+	)
+	(wire
+		(pts (xy 281.94 203.2) (xy 281.94 205.74))
+		(stroke (width 0) (type default))
+		(uuid "0e730632-b1a9-477e-8b22-0444798987d8")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

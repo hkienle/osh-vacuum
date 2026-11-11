@@ -15,9 +15,13 @@ The system is designed to control high RPM impellers for vacuum machines, featur
 ```
 osh-vacuum/
 ├── Hardware/              # PCB designs and hardware documentation
-│   └── PCB_Bench_Prototype/  # Benchtop prototype board design
-│       ├── README.md         # Hardware documentation and BOM
-│       └── Production/       # Manufacturing files
+│   ├── v1/                   # Benchtop prototype board design (V1)
+│   │   ├── README.md         # Hardware documentation and BOM
+│   │   └── Production/       # Manufacturing files
+│   └── v2/                   # V2 main board and breakaway boards (KiCad 10)
+│       ├── OSH_Vacuum_V2/    # Main board
+│       ├── Abbrech_V2/       # Breakaway LED strips and buttons
+│       └── Fertigung/        # JLCPCB manufacturing files (Gerber, BOM, CPL)
 ├── Firmware/              # ESP32-S3 firmware and web interface
 │   ├── README.md          # Firmware documentation, pin assignments, build instructions
 │   ├── src/               # Firmware source code
@@ -36,7 +40,7 @@ The hardware design includes:
 - Tachometer input for RPM measurement
 - Break-off sections for flexible form factors
 
-📖 **[Hardware Documentation →](Hardware/PCB_Bench_Prototype/README.md)**
+📖 **[Hardware Documentation →](Hardware/v1/README.md)**
 
 ### Firmware
 
@@ -51,7 +55,7 @@ The firmware provides:
 
 ## Quick Start
 
-1. **Hardware**: Review the [PCB documentation](Hardware/PCB_Bench_Prototype/README.md) for board assembly
+1. **Hardware**: Review the [PCB documentation](Hardware/v1/README.md) for board assembly
 2. **Firmware**: Follow the [firmware build and upload instructions](Firmware/README.md)
 3. **Frontend**: Build and upload the web interface as described in the firmware README
 
