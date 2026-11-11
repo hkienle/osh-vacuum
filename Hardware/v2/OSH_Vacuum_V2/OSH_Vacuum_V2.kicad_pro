@@ -909,7 +909,7 @@
     ],
     [
       "5d81f751-c216-4194-8cc1-397ffacbfee1",
-      "03 Motor und Bürste"
+      "03 Motor und B\u00fcrste"
     ],
     [
       "331b1468-9f69-4bf7-a699-d27dacbc5174",
@@ -920,7 +920,9 @@
       "05 Bedienung, LED, Erweiterung"
     ]
   ],
-  "text_variables": {},
+  "text_variables": {
+    "COMMIT": "0000000"
+  },
   "tuning_profiles": {
     "meta": {
       "version": 0
