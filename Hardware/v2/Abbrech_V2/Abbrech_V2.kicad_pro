@@ -724,7 +724,9 @@
       "Root"
     ]
   ],
-  "text_variables": {},
+  "text_variables": {
+    "COMMIT": "0000000"
+  },
   "tuning_profiles": {
     "meta": {
       "version": 0

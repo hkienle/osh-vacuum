@@ -7,7 +7,7 @@ Taster sind nicht untereinander verdrahtet: jede/jeder hat eigene Netze, auch di
 |---|---|
 | 0 | LED A 56 mm: 10 × WS2812B-2020 (V6, C52917434) |
 | 1 | LED B 56 mm: 5 × WS2812B-5050 (V6, C52917433), Raster 7,8 mm wie V1, Pads quer |
-| 2 | Einzeltaster T1 (17,3 mm) · Doppeltaster T5/T6 (36,7 mm, zwei Stecker) |
+| 2 | Einzeltaster T1 (17,3 mm) · Doppeltaster T5/T6 (32,5 mm, zwei Stecker) |
 | 3 | Einzeltaster T2 · T3 · T4 |
 
 Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, Stege 3 mm mit Mouse Bites.
@@ -25,7 +25,9 @@ Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, St
 - 2026-11-11 (später): LED-Streifen zusätzlich mit THT-PH, um 90° gedreht neben den LEDs (u 7 / 49); SMD-PH nach innen; Doppeltaster ebenfalls mit THT-PH.
 - 2026-11-11 (später): Einzeltaster zusätzlich mit THT-PH (B2B-PH-K, stehend, bestückt, Unterseite, bündig mit
   der Kante) dort, wo vorher die Beschriftung stand; der SMD-PH bleibt als Footprint, DNP; alle Taster-Platinen gleich
-  ausgerichtet.
+  ausgerichtet. (Kurz danach geändert: alle Stecker der Unterseite DNP, auch die THT-PH, siehe unten.)
+- 2026-11-12 (später): Doppeltaster-Platine 32,5 mm statt 36,67 mm lang, an beiden Enden je 2,08 mm kürzer; Taster,
+  Stecker, Leiterbahnen und Stege bleiben exakt an ihrem Platz.
 - 2026-11-12: Doppeltaster näher zusammen: Tastermitten 15,00 mm (vorher 19,33 mm); Stege an der Steckerseite und
   Siebdruck unten (Figma, Beschriftung der Doppeltaster mitgerückt) angepasst.
 - 2026-11-11 (Umbau Rev B): alle Ecken so groß wie sinnvoll gerundet; Platinen mit Mouse Bites verbinden (V1 brach viel zu
@@ -37,8 +39,8 @@ Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, St
 ## Umsetzung
 - **Maße**: Breite 15,3 mm, LED-Streifen 56 mm (V1), Eckradius 5 mm. An jedem Ende mittig eine Halbbohrung Ø 3,0 mm.
   Einzeltaster 17,33 mm (drei Stück plus zwei Nuten = 56 mm), Eckradius 4,5 mm (sonst lägen die Haltelaschen des
-  SMD-Steckers in der Ecke), Taster mittig mit Pads längs. Doppeltaster 36,67 mm lang (wie zwei Einzeltaster am Stück), Tastermitten
-  15,00 mm auseinander (je 10,83 mm vom Ende), GND-Fläche in der Mitte geteilt.
+  SMD-Steckers in der Ecke), Taster mittig mit Pads längs. Doppeltaster 32,5 mm lang (seit 2026-11-12; vorher 36,67 mm wie zwei Einzeltaster am Stück), mittig im alten Feld,
+  Tastermitten 15,00 mm auseinander (je 8,75 mm vom Ende), GND-Fläche in der Mitte geteilt.
 - **Schraubenkopf Ø 6 mm**: oben im Umkreis 3 mm um jede Halbbohrung keine Bauteile und keine Lötstellen.
 - **Pinbelegung 1:1 wie Hauptplatine** (gerade PH-Kabel): LED 1 GND, 2 Daten, 3 5V (J60); Taster 1 Schalter, 2 GND
   (J50–J52). Beschriftung unten je Pin `G D +` bzw. `S G`, dazu `IN`/`OUT` oben und unten.
