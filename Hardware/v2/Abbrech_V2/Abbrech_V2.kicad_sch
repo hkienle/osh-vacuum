@@ -1859,13 +1859,13 @@
 	(rectangle (start 20.32 12.7) (end 401.32 76.2)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "b2c01f52-25e1-4976-812f-e8f2679547e2")
+		(uuid "e4495872-92ca-4584-b164-f90f17eaa554")
 	)
 	(text "LED-Streifen A: 10 × WS2812B-2020 (Teilplatine 15,3 × 56 mm)"
 		(exclude_from_sim no)
 		(at 21.59 16.51 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "f9d6c422-56d2-4f27-8fc5-110ddc9e0b3f")
+		(uuid "5649e8b6-5761-4713-a5b1-770e40404522")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
@@ -1908,9 +1908,9 @@
 			(at 45.72 33.02 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "fb554687-bc3b-45ac-ac3d-7d48a7f6ff59"))
-		(pin "2" (uuid "437ece55-5135-42aa-9b08-dc3b7406c421"))
-		(pin "3" (uuid "a1820dc0-2f99-4267-b764-6d13b8c03e8d"))
+		(pin "1" (uuid "bc0a77e2-b683-4cfb-bf31-04cf14036ec4"))
+		(pin "2" (uuid "878f4e51-e5c4-401e-a5b0-6c87a13d1d4b"))
+		(pin "3" (uuid "028f2e9b-dff1-49a8-9477-2caf6d44eae8"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -1922,35 +1922,35 @@
 	(wire
 		(pts (xy 40.64 30.48) (xy 38.1 30.48))
 		(stroke (width 0) (type default))
-		(uuid "e81ad397-7f8d-430c-b5ba-67b14466f0b0")
+		(uuid "7679bba8-663d-4fdd-8751-55d2885ce8f8")
 	)
 	(label "A_GND"
 		(at 38.1 30.48 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "3f2e29ba-9158-42d7-9678-6384d8d4d404")
+		(uuid "78910d16-f84e-468b-a4ad-416b19318a8a")
 	)
 	(wire
 		(pts (xy 40.64 33.02) (xy 38.1 33.02))
 		(stroke (width 0) (type default))
-		(uuid "f606ea80-f7bf-4029-8626-427178750f85")
+		(uuid "26ef9738-73a8-4a39-9b94-5e165a2ce228")
 	)
 	(label "A_DIN"
 		(at 38.1 33.02 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "31068efa-4f62-4f25-a362-c4c7237749bc")
+		(uuid "c7fd5314-e252-42e4-bb88-e41b38c310c7")
 	)
 	(wire
 		(pts (xy 40.64 35.56) (xy 38.1 35.56))
 		(stroke (width 0) (type default))
-		(uuid "ec2ce9c5-3def-46cf-97f0-13d84f0573cc")
+		(uuid "301863e8-6c89-4f4f-8064-4ba0e3fd6d1d")
 	)
 	(label "A_5V"
 		(at 38.1 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "41e1f8f6-d1e6-4e80-be91-2549f1b8a168")
+		(uuid "ab74264b-554b-4066-a62e-ef023e7d82b2")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
@@ -1993,9 +1993,9 @@
 			(at 365.76 33.02 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "f3d059c8-5e93-46d6-a5d7-ff339e7c76e4"))
-		(pin "2" (uuid "136af11e-d2b8-4f8b-acff-5e99f4e53df3"))
-		(pin "3" (uuid "dabfaed3-1a11-4471-82ac-7cfec6d7fb47"))
+		(pin "1" (uuid "f3962282-47a1-4288-b668-4f44ddecd78c"))
+		(pin "2" (uuid "102f9655-2dbb-4b40-a1b2-792850b9a66f"))
+		(pin "3" (uuid "27897e57-6cc4-4beb-8949-8a140d8941f2"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2007,35 +2007,35 @@
 	(wire
 		(pts (xy 360.68 30.48) (xy 358.14 30.48))
 		(stroke (width 0) (type default))
-		(uuid "e1c89aaa-8f43-462c-8e30-365299403961")
+		(uuid "515cf3c0-5d95-45c0-be6c-f29fabe263a5")
 	)
 	(label "A_GND"
 		(at 358.14 30.48 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "77fc8f47-a548-4800-a046-61cd96f48ba7")
+		(uuid "241cdc38-29e0-4a65-9d12-c1e3bf20d5d0")
 	)
 	(wire
 		(pts (xy 360.68 33.02) (xy 358.14 33.02))
 		(stroke (width 0) (type default))
-		(uuid "b61fb02d-180a-4b9b-a53a-faf4dae7e160")
+		(uuid "4660efe1-d7f4-4e21-affe-1e938e58abfd")
 	)
 	(label "A_DOUT"
 		(at 358.14 33.02 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a30cd1f9-f451-4b91-a9b7-3be69ac7423d")
+		(uuid "22e696a0-a748-4ed3-be00-f8e380ff96cb")
 	)
 	(wire
 		(pts (xy 360.68 35.56) (xy 358.14 35.56))
 		(stroke (width 0) (type default))
-		(uuid "2d329883-94a8-414d-8eb8-2654b1a3e751")
+		(uuid "ab57bc8b-b55b-4c1d-9efc-9b739780389c")
 	)
 	(label "A_5V"
 		(at 358.14 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "e72db022-afb6-4672-ae30-92b7d5bcc904")
+		(uuid "46b0472e-8d70-4524-a573-8352396c152b")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x03_MountingPin")
@@ -2078,10 +2078,10 @@
 			(at 30.48 33.02 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "8e0402bb-3d0b-4737-a688-243e560c0c55"))
-		(pin "2" (uuid "573196f1-ff0b-4cc3-a72e-c0c055f4c043"))
-		(pin "3" (uuid "b2a0000e-8585-4647-8695-b4056b3596bf"))
-		(pin "MP" (uuid "463af720-d71d-40a7-9159-81a4deea6b24"))
+		(pin "1" (uuid "94750f83-b7e1-4b08-a7fc-325f0bf5cbcd"))
+		(pin "2" (uuid "8b97d57f-d4ca-4ac4-bbaa-5079a3405a29"))
+		(pin "3" (uuid "7086dc15-7714-4716-a65c-fc878c51b366"))
+		(pin "MP" (uuid "51aacab1-c38a-467b-8aaf-7581dc5a23bf"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2093,52 +2093,52 @@
 	(wire
 		(pts (xy 25.4 30.48) (xy 22.86 30.48))
 		(stroke (width 0) (type default))
-		(uuid "bd9817ed-ef3d-483c-847b-9b92d6c013f3")
+		(uuid "b98b0046-eef0-4c80-80de-cae22353def1")
 	)
 	(label "A_GND"
 		(at 22.86 30.48 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7c5793ac-968e-4184-86b3-6a2ad3155ed4")
+		(uuid "9e51525d-21ca-4103-b16f-49255f012d66")
 	)
 	(wire
 		(pts (xy 25.4 33.02) (xy 22.86 33.02))
 		(stroke (width 0) (type default))
-		(uuid "23adbd1f-c3ce-48cc-a825-5cea4e11cdf8")
+		(uuid "f06b7f0e-7a32-409f-9e5a-cf26883bf677")
 	)
 	(label "A_DIN"
 		(at 22.86 33.02 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f644f5a0-3ce9-454b-9cbf-734e862ecb85")
+		(uuid "8f1df115-ec7e-4a8b-9b46-d2d032de5f46")
 	)
 	(wire
 		(pts (xy 25.4 35.56) (xy 22.86 35.56))
 		(stroke (width 0) (type default))
-		(uuid "a9085aea-27f0-4568-9a40-0fc73672ff16")
+		(uuid "8562408f-4adf-4451-9584-f7ce99a00623")
 	)
 	(label "A_5V"
 		(at 22.86 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ea3d0103-2630-4802-b1d4-698fb8757bad")
+		(uuid "80db31d3-7f0f-462b-ab79-f82522423471")
 	)
 	(wire
 		(pts (xy 30.48 40.64) (xy 30.48 43.18))
 		(stroke (width 0) (type default))
-		(uuid "b455e79e-0e1f-45fb-b748-71981e1e431b")
+		(uuid "37df8e6e-46ad-4b57-b97c-2ea554960650")
 	)
 	(label "A_GND"
 		(at 30.48 43.18 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "224c7d0c-c57b-4dfd-8a11-f7b2d7c2bfe7")
+		(uuid "3c8757a8-eeb1-4506-8727-a36a9143d4d4")
 	)
 	(text "Eingang"
 		(exclude_from_sim no)
 		(at 27.94 25.4 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "0b821362-8377-4026-a4c6-bda10ac46908")
+		(uuid "94066152-165f-4b25-95b1-ccccdb0560f7")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x03_MountingPin")
@@ -2181,10 +2181,10 @@
 			(at 350.52 33.02 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "371435d1-134d-4758-adac-8be785ef60f3"))
-		(pin "2" (uuid "a7614e08-0bbb-467b-be06-4376a3bb022e"))
-		(pin "3" (uuid "971a8e86-74ee-4f88-8be7-75f1b6474ec9"))
-		(pin "MP" (uuid "f875b524-a1c4-45a1-a099-bb0ea934ac3a"))
+		(pin "1" (uuid "e691e65a-aefd-4c44-9a93-aa583c495440"))
+		(pin "2" (uuid "ce1b9123-e2a5-4b1c-98d6-bfbdae9d071a"))
+		(pin "3" (uuid "d83a20f5-2ce4-4bc0-8b54-9d4a43fae622"))
+		(pin "MP" (uuid "6649086a-8488-483b-ba6b-0684c5df1e00"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2196,52 +2196,52 @@
 	(wire
 		(pts (xy 345.44 30.48) (xy 342.9 30.48))
 		(stroke (width 0) (type default))
-		(uuid "c3dd987b-1713-4407-aa45-7770169b295b")
+		(uuid "1fc0ee86-eb9b-4891-8468-0ebe5d9030f1")
 	)
 	(label "A_GND"
 		(at 342.9 30.48 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "656f75fa-3ed0-44e5-a01a-97df9f0c15f1")
+		(uuid "cb5c2de3-bfe2-4521-8710-70a59c710acd")
 	)
 	(wire
 		(pts (xy 345.44 33.02) (xy 342.9 33.02))
 		(stroke (width 0) (type default))
-		(uuid "1e70b501-4c6d-4c8f-880f-c3dc8d99a41c")
+		(uuid "7725c3d4-b0ba-403d-b672-fc1c55e1314b")
 	)
 	(label "A_DOUT"
 		(at 342.9 33.02 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "af21b994-d144-4104-96fb-50020e948275")
+		(uuid "f32893cb-2c7a-4acb-8409-b9cddb4327b6")
 	)
 	(wire
 		(pts (xy 345.44 35.56) (xy 342.9 35.56))
 		(stroke (width 0) (type default))
-		(uuid "40c0f980-4f09-4846-b1d9-be55782834bc")
+		(uuid "1464ce02-67e7-49e2-b9a8-8d7d69dc50bc")
 	)
 	(label "A_5V"
 		(at 342.9 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d765e790-d29f-4bd1-8c1f-fd1371d76249")
+		(uuid "2357520e-bbd5-4356-a57e-083cd419f47b")
 	)
 	(wire
 		(pts (xy 350.52 40.64) (xy 350.52 43.18))
 		(stroke (width 0) (type default))
-		(uuid "0aae26d5-95ca-4835-a4ed-0919b18a98b3")
+		(uuid "71e03e35-66ec-4c5f-a311-6af445f9b821")
 	)
 	(label "A_GND"
 		(at 350.52 43.18 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6aefd8d2-6f88-4011-b4d2-574daa3ff5a0")
+		(uuid "5cf2fa11-ee36-4f24-9aa0-5743ebfc1ac6")
 	)
 	(text "Ausgang"
 		(exclude_from_sim no)
 		(at 347.98 25.4 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "a086e85e-2697-4442-9523-ad0e978b97d1")
+		(uuid "cb43e90b-6b7b-4b86-bbce-289f8ee75dc2")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -2284,10 +2284,10 @@
 			(at 86.36 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "6693bfbe-870d-4de2-88f9-62972597dc51"))
-		(pin "2" (uuid "7c95aab7-a1e9-4572-a39d-8cf89e8e8c39"))
-		(pin "3" (uuid "96af3854-fdea-4f65-9538-1be846efcf2a"))
-		(pin "4" (uuid "fab5b134-b40a-412d-a3d5-b9688d1b30d0"))
+		(pin "1" (uuid "812b3c62-c52a-4e36-98bc-cd41c76ba764"))
+		(pin "2" (uuid "5307eec7-34b8-41c2-a698-e1e88359fc4f"))
+		(pin "3" (uuid "f8b73ec1-d978-459a-a998-7fe1c830228a"))
+		(pin "4" (uuid "72567ad1-2d36-4d3a-acef-0eabeb0591a6"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2299,46 +2299,46 @@
 	(wire
 		(pts (xy 93.98 35.56) (xy 96.52 35.56))
 		(stroke (width 0) (type default))
-		(uuid "ba1e7b12-363c-4ee9-9780-300ddb056f73")
+		(uuid "45aec02c-a2ad-4ac7-9244-dce4a2fd3780")
 	)
 	(label "A_D1"
 		(at 96.52 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "cf0afd8e-3e87-47e9-9f95-8ea7b62fb193")
+		(uuid "aaaf26ed-52fb-4833-a73a-aadb9c9cb7d5")
 	)
 	(wire
 		(pts (xy 86.36 43.18) (xy 86.36 45.72))
 		(stroke (width 0) (type default))
-		(uuid "ca441f20-83d7-495a-ba14-4b94ba0cced9")
+		(uuid "3a58a2bc-0f21-4dd8-b394-676cac60a206")
 	)
 	(label "A_GND"
 		(at 86.36 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "398974ca-8c3b-43c9-b0a6-263abd34e0a8")
+		(uuid "816cd4f5-de3c-4c6c-9436-0e8261d8c2a2")
 	)
 	(wire
 		(pts (xy 78.74 35.56) (xy 76.2 35.56))
 		(stroke (width 0) (type default))
-		(uuid "8cd4419f-7633-407f-8bce-c36b23e37ef1")
+		(uuid "dc2e52ea-aae1-4a71-9c4e-3f600857fbab")
 	)
 	(label "A_DIN"
 		(at 76.2 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "30174da3-fd0b-440e-a945-98c739b7769d")
+		(uuid "f238449d-4008-43c5-8ca1-c26b84f9f4d0")
 	)
 	(wire
 		(pts (xy 86.36 27.94) (xy 86.36 25.4))
 		(stroke (width 0) (type default))
-		(uuid "4807ccb4-094b-4acc-ad0f-d71e22d90c9d")
+		(uuid "02752f1b-757b-44ae-8cee-0c955a29faa1")
 	)
 	(label "A_5V"
 		(at 86.36 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "00c00ac6-023f-4024-8f7a-2978ad104012")
+		(uuid "e21e8bea-3f6c-47dd-a8ae-f4a83500fd33")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -2381,8 +2381,8 @@
 			(at 86.36 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "917a7fc6-83ec-432d-926a-cdab45732240"))
-		(pin "2" (uuid "11c9b756-0a7b-4915-9169-58fd2b8e8678"))
+		(pin "1" (uuid "55fa2a97-2d22-4a94-9e24-d104322ca076"))
+		(pin "2" (uuid "63b982e1-5a4b-4641-a468-e29a83a3e717"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2394,24 +2394,24 @@
 	(wire
 		(pts (xy 86.36 58.42) (xy 86.36 55.88))
 		(stroke (width 0) (type default))
-		(uuid "ef8bd6bc-061d-4156-844e-166980a3e312")
+		(uuid "0e9be7c1-ad92-4f50-81a4-308119c033c5")
 	)
 	(label "A_5V"
 		(at 86.36 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f4dfc366-1edb-403b-950f-e1b3432f942b")
+		(uuid "ad195d5b-545e-4ace-b96f-492f316b4022")
 	)
 	(wire
 		(pts (xy 86.36 63.5) (xy 86.36 66.04))
 		(stroke (width 0) (type default))
-		(uuid "c74b9684-2e68-4d02-85ea-d4ea9e785cad")
+		(uuid "a5df66b6-9910-4be3-adc8-a5c34f24afcc")
 	)
 	(label "A_GND"
 		(at 86.36 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4b0855bb-f019-4897-82ec-f1c878f49351")
+		(uuid "a106d945-bd2c-46d5-9887-9659894d081e")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -2454,10 +2454,10 @@
 			(at 111.76 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "57562640-89a5-456a-a4db-82d71bd0b0b7"))
-		(pin "2" (uuid "a98f10b6-7cfd-4004-9d1b-fc061ea53cd1"))
-		(pin "3" (uuid "252e9861-d502-4710-a0b5-a8de64c467fd"))
-		(pin "4" (uuid "685efc4a-6fb8-42a4-bce4-537541d115d9"))
+		(pin "1" (uuid "9f3e2b17-b00a-4b3a-b5ae-4750feebde25"))
+		(pin "2" (uuid "36e55c5c-df8d-462f-802f-44c6be6527ff"))
+		(pin "3" (uuid "d9c3d37c-0c2c-4775-a839-e9ad2f1d604b"))
+		(pin "4" (uuid "6a8cca46-30db-469d-9eb8-08cfec313965"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2469,46 +2469,46 @@
 	(wire
 		(pts (xy 119.38 35.56) (xy 121.92 35.56))
 		(stroke (width 0) (type default))
-		(uuid "8b57322e-98b8-43fd-b4d0-dcabf72d3539")
+		(uuid "a8c46df9-cde4-4ded-87e7-4c224a7f5830")
 	)
 	(label "A_D2"
 		(at 121.92 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "836f1d8e-1bd0-488c-9b1b-e387b59976dc")
+		(uuid "35d25000-dfdb-40a3-870e-1ee0e864df28")
 	)
 	(wire
 		(pts (xy 111.76 43.18) (xy 111.76 45.72))
 		(stroke (width 0) (type default))
-		(uuid "1f3fd7fc-6ada-48e9-90cb-1b541203e368")
+		(uuid "7711d293-de39-438c-803d-6bcef43550f5")
 	)
 	(label "A_GND"
 		(at 111.76 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "3d05a9d7-ee51-483c-a45b-345cb9b6ae8e")
+		(uuid "1a753b3e-cc4b-4d16-9e0d-0dd71cf1e993")
 	)
 	(wire
 		(pts (xy 104.14 35.56) (xy 101.6 35.56))
 		(stroke (width 0) (type default))
-		(uuid "89fcc8c0-4ee5-42bc-9800-a73c09a32819")
+		(uuid "abe8ca43-a760-483c-b326-1b99169aeb5d")
 	)
 	(label "A_D1"
 		(at 101.6 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "4ae21cfc-5c98-4a50-b3ee-f8f866012c8e")
+		(uuid "e666607a-9cee-4c21-afd7-f254082b1c55")
 	)
 	(wire
 		(pts (xy 111.76 27.94) (xy 111.76 25.4))
 		(stroke (width 0) (type default))
-		(uuid "d3aca7c2-152f-4702-b347-f2dfac975b03")
+		(uuid "8f3d7968-7a5b-4a89-ad0a-66f0a9d257fb")
 	)
 	(label "A_5V"
 		(at 111.76 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "131e7239-5ab8-4746-b893-9502d34986ff")
+		(uuid "d97bc2cf-fdf3-4250-9080-0b78314b5e72")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -2551,8 +2551,8 @@
 			(at 111.76 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "3667fe18-3e6f-4386-a79f-bf928ebced20"))
-		(pin "2" (uuid "ba1e7e70-f255-4212-a03d-7cce92e78b61"))
+		(pin "1" (uuid "38247ef1-b4ac-433a-95e7-dd63413a56cc"))
+		(pin "2" (uuid "f6577790-23ec-430d-a8e8-fa8d26037553"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2564,24 +2564,24 @@
 	(wire
 		(pts (xy 111.76 58.42) (xy 111.76 55.88))
 		(stroke (width 0) (type default))
-		(uuid "f0ca3449-6c89-4595-ac4a-fb5c253bcfda")
+		(uuid "594ed059-708c-4afa-85b8-190b15429ad4")
 	)
 	(label "A_5V"
 		(at 111.76 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b1530db3-23fa-4b05-881b-f6286c62e8a1")
+		(uuid "66ac7fbf-2287-426d-9349-161560143e5e")
 	)
 	(wire
 		(pts (xy 111.76 63.5) (xy 111.76 66.04))
 		(stroke (width 0) (type default))
-		(uuid "510b3025-c621-47cf-bbb5-5ac55c68d0fe")
+		(uuid "e15b71bf-e843-4b61-bb94-4abb2bf1f4d1")
 	)
 	(label "A_GND"
 		(at 111.76 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f52f4951-eb75-4b67-9fb2-8c8011ebd149")
+		(uuid "fabae187-c014-4837-bdd0-aecfa841f749")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -2624,10 +2624,10 @@
 			(at 137.16 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "0c9ddb09-11c6-4f90-809b-8e89f8cc1236"))
-		(pin "2" (uuid "4c2016db-35a6-47e2-b183-d20e3fbb7a01"))
-		(pin "3" (uuid "d9f3428e-d2ca-4c15-9765-4381d08837ff"))
-		(pin "4" (uuid "98022f3d-f358-449c-babd-50a74cd809ef"))
+		(pin "1" (uuid "24d59636-f5ea-4043-a1ba-df1f833b1ddd"))
+		(pin "2" (uuid "659401a9-c4b7-4825-b363-ec7bef7ffc75"))
+		(pin "3" (uuid "bf515dda-fc62-4a4d-b67d-51e0a82dca19"))
+		(pin "4" (uuid "a48931c7-3ae2-411b-9ab7-a5df83694dfd"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2639,46 +2639,46 @@
 	(wire
 		(pts (xy 144.78 35.56) (xy 147.32 35.56))
 		(stroke (width 0) (type default))
-		(uuid "9366cd2f-f96c-45c0-b137-ca4a0ac5aa1a")
+		(uuid "60559de2-a91e-4926-8b01-627beef1e4a3")
 	)
 	(label "A_D3"
 		(at 147.32 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "85795a82-9c30-4614-aa36-8369c356e0c0")
+		(uuid "d6847eb7-de0a-4ec3-94d1-c998d5908b65")
 	)
 	(wire
 		(pts (xy 137.16 43.18) (xy 137.16 45.72))
 		(stroke (width 0) (type default))
-		(uuid "f3e07fdd-c619-43ad-909e-56dfa5363e56")
+		(uuid "10c1ca69-ab06-4b70-bfba-cd2b0b8323b7")
 	)
 	(label "A_GND"
 		(at 137.16 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a689f0e9-0ca8-44ed-a7a0-59d44191d135")
+		(uuid "3aa20edf-89fb-41c2-a974-2d7c19ffc48b")
 	)
 	(wire
 		(pts (xy 129.54 35.56) (xy 127 35.56))
 		(stroke (width 0) (type default))
-		(uuid "a10da645-b367-4dae-bfb8-48d8a5781ac4")
+		(uuid "268388b3-6d59-45d7-bf83-cfa615625d4f")
 	)
 	(label "A_D2"
 		(at 127 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "84c6b7cb-5261-483d-9077-2912574fad30")
+		(uuid "9f4bc140-1df4-4518-a29e-577d554ffc75")
 	)
 	(wire
 		(pts (xy 137.16 27.94) (xy 137.16 25.4))
 		(stroke (width 0) (type default))
-		(uuid "dcbb4100-eb3c-4509-bb2b-2d5eb743e03f")
+		(uuid "33726d0e-1223-43b3-8308-119da8894899")
 	)
 	(label "A_5V"
 		(at 137.16 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6842bab2-ce03-4098-b254-8bce9f83b98e")
+		(uuid "551245dd-cb49-421d-a8eb-138081ce8aa5")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -2721,8 +2721,8 @@
 			(at 137.16 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "c4e321c0-687a-4b77-8ede-ef365ee83c6e"))
-		(pin "2" (uuid "9b416b41-bc9f-4e64-8d81-10f299f2dca9"))
+		(pin "1" (uuid "8db31973-b2dc-49f1-8c7e-6d6541b74e2d"))
+		(pin "2" (uuid "cea0ac98-a7e1-4482-9956-79d198febc62"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2734,24 +2734,24 @@
 	(wire
 		(pts (xy 137.16 58.42) (xy 137.16 55.88))
 		(stroke (width 0) (type default))
-		(uuid "0e967aea-407b-435a-b3b0-fe8bd2fbf80a")
+		(uuid "86850bac-586c-48f0-84e4-ecdfd99ba188")
 	)
 	(label "A_5V"
 		(at 137.16 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "02da2982-7909-4c11-b257-b1b47adeb3db")
+		(uuid "90ad07fd-3e96-4b32-8e66-2c50f521d096")
 	)
 	(wire
 		(pts (xy 137.16 63.5) (xy 137.16 66.04))
 		(stroke (width 0) (type default))
-		(uuid "65db0ca1-0895-476a-a6c6-ae6e79cf132e")
+		(uuid "d731b717-a6f0-42f9-9405-ced5099b99b4")
 	)
 	(label "A_GND"
 		(at 137.16 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "fac27f3b-bbf9-4d6e-95ec-54142ef1c5cc")
+		(uuid "f9b070ad-d3f0-469c-8a48-7a96f3d6f0ba")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -2794,10 +2794,10 @@
 			(at 162.56 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "0aea767e-b563-4b77-993f-46110f28c2c2"))
-		(pin "2" (uuid "fbea6635-9390-4010-b50b-bcb2369325f7"))
-		(pin "3" (uuid "88f3333b-d856-49d1-bc19-cd1b471a03aa"))
-		(pin "4" (uuid "89766d04-3c2c-4b19-ad9d-1a4f4c1c8e87"))
+		(pin "1" (uuid "f6a4f2b3-869d-44b1-82a2-0f221b66566a"))
+		(pin "2" (uuid "8566ed2a-2df9-4cb9-83b5-725c395ba522"))
+		(pin "3" (uuid "26479868-f953-4191-bbb6-64b11320186f"))
+		(pin "4" (uuid "13700963-dc2c-495e-93fb-4a36119b00b0"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2809,46 +2809,46 @@
 	(wire
 		(pts (xy 170.18 35.56) (xy 172.72 35.56))
 		(stroke (width 0) (type default))
-		(uuid "7731af75-2ada-4c14-8e7d-a2beb241da83")
+		(uuid "3560b715-d64c-4132-9507-17316683c77c")
 	)
 	(label "A_D4"
 		(at 172.72 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a1a83876-09a5-4037-94de-680ddb51b63d")
+		(uuid "811a522c-affd-40e6-8a6f-9a4b44ee65e1")
 	)
 	(wire
 		(pts (xy 162.56 43.18) (xy 162.56 45.72))
 		(stroke (width 0) (type default))
-		(uuid "3a0a6e4b-0cfd-4190-b8b5-4e783a31f1a9")
+		(uuid "50e11b69-6fb2-46d0-8442-d7a8a1b10e70")
 	)
 	(label "A_GND"
 		(at 162.56 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "508fe666-38f1-4bdb-aeb1-d567ccfc25d4")
+		(uuid "e587606d-4e58-4eff-86c4-bc52a7eb8a35")
 	)
 	(wire
 		(pts (xy 154.94 35.56) (xy 152.4 35.56))
 		(stroke (width 0) (type default))
-		(uuid "dad1c31b-5b95-4c03-b757-4d4f2ed3689a")
+		(uuid "89c4307d-25d2-4be3-9460-3074b9b66d00")
 	)
 	(label "A_D3"
 		(at 152.4 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b101f9a0-ee42-429f-b53e-4e6460ae67fd")
+		(uuid "a1cbf443-cb33-4f3d-aa65-e97cb64b452e")
 	)
 	(wire
 		(pts (xy 162.56 27.94) (xy 162.56 25.4))
 		(stroke (width 0) (type default))
-		(uuid "3e4ddc6a-8a91-48d0-8742-a9961689e473")
+		(uuid "86e12c1d-547b-41a9-84b4-715c66d46383")
 	)
 	(label "A_5V"
 		(at 162.56 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "331cf21f-bfee-4e61-8bf6-bacf019251f9")
+		(uuid "c7480ab8-2724-4756-a6ce-ee552189ea2c")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -2891,8 +2891,8 @@
 			(at 162.56 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "05fe60df-bf8e-4439-b4b8-0fd49a74afd1"))
-		(pin "2" (uuid "9d6d76b7-d0da-4c6a-8e69-cdea3035ca5f"))
+		(pin "1" (uuid "e6385b06-d3cb-418c-83ef-ee8636419207"))
+		(pin "2" (uuid "f6f52315-e0d2-408c-bac5-edb09b5b4124"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2904,24 +2904,24 @@
 	(wire
 		(pts (xy 162.56 58.42) (xy 162.56 55.88))
 		(stroke (width 0) (type default))
-		(uuid "9a54968f-4e85-402c-8614-de3587ef1e79")
+		(uuid "a5bf4120-b5ce-4c13-af0e-2d8c9d19f251")
 	)
 	(label "A_5V"
 		(at 162.56 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "0d03873f-8503-4196-8ab8-bffb9d3f1668")
+		(uuid "c2d1d696-75ae-4a2f-bb0c-96f5424b3a42")
 	)
 	(wire
 		(pts (xy 162.56 63.5) (xy 162.56 66.04))
 		(stroke (width 0) (type default))
-		(uuid "77a2bfe4-af7c-47f0-a1f2-67df2d435c08")
+		(uuid "5d468d26-5048-47ed-9daf-190489005c83")
 	)
 	(label "A_GND"
 		(at 162.56 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "809cf734-c24f-44ed-8c6c-127da356e089")
+		(uuid "d290efc2-a62a-46a4-ac76-dd41724ae6b7")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -2964,10 +2964,10 @@
 			(at 187.96 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "b67184a4-f628-4b91-ab47-7917385db0de"))
-		(pin "2" (uuid "e78bd92e-6f03-4303-8207-8fcded2388dd"))
-		(pin "3" (uuid "2babc6af-c222-4270-9476-9162ea64a934"))
-		(pin "4" (uuid "352fa444-7f41-4bf0-9df6-45ad89e825b2"))
+		(pin "1" (uuid "292f6a04-1388-4da4-9a19-4a7071ffab2b"))
+		(pin "2" (uuid "07cc6e8c-ddc5-4f05-b3fa-e5d12a84fa27"))
+		(pin "3" (uuid "cc5da739-e88c-41e3-8b46-97a8a5323d94"))
+		(pin "4" (uuid "ec966008-dd56-4451-af3b-0c06e9a0d05b"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -2979,46 +2979,46 @@
 	(wire
 		(pts (xy 195.58 35.56) (xy 198.12 35.56))
 		(stroke (width 0) (type default))
-		(uuid "e0938743-36b1-4b0a-b201-ec02ebcee062")
+		(uuid "58c0ad8d-2423-4dee-8959-b29f7e372e7b")
 	)
 	(label "A_D5"
 		(at 198.12 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "3a87fb47-a972-4be5-8646-e5e7faa474c1")
+		(uuid "5ee7d676-0903-4838-889a-52a33bc0e927")
 	)
 	(wire
 		(pts (xy 187.96 43.18) (xy 187.96 45.72))
 		(stroke (width 0) (type default))
-		(uuid "f72a01c4-dbf5-46ab-906d-957f67ef1fb2")
+		(uuid "3bcdd739-e495-47a3-905c-7cde401a86d9")
 	)
 	(label "A_GND"
 		(at 187.96 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "de219a68-6421-4d64-8df4-6cefbbe355b7")
+		(uuid "3b9a3739-9f49-439b-8d94-2606dc84ed66")
 	)
 	(wire
 		(pts (xy 180.34 35.56) (xy 177.8 35.56))
 		(stroke (width 0) (type default))
-		(uuid "c7e4bcb6-3098-4a4c-8274-e40f034742d0")
+		(uuid "77036cf1-ec9f-4303-8d22-192aec152200")
 	)
 	(label "A_D4"
 		(at 177.8 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "1f105483-f1b4-4134-98a7-38c19b17c7ac")
+		(uuid "06be1ca1-ef2a-4d9f-b7e8-ef3c6a1a616d")
 	)
 	(wire
 		(pts (xy 187.96 27.94) (xy 187.96 25.4))
 		(stroke (width 0) (type default))
-		(uuid "1220a45d-c787-4822-b3cf-6504f5be5a02")
+		(uuid "254b88c7-a536-443f-b911-c585e9e93af2")
 	)
 	(label "A_5V"
 		(at 187.96 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "c5ca652b-8697-40bc-b27d-9137646b4482")
+		(uuid "69f7d50a-f093-4c44-ab41-343f22a1acbf")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3061,8 +3061,8 @@
 			(at 187.96 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "011afcad-b43d-4800-be64-1b555f3ab2bf"))
-		(pin "2" (uuid "5837c77d-48e6-4460-9cd8-c981b9be35a9"))
+		(pin "1" (uuid "db433560-84d2-48d2-9fdb-e10194dbd144"))
+		(pin "2" (uuid "0f27099a-c4e5-49b9-a06e-b297aa026a7f"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3074,24 +3074,24 @@
 	(wire
 		(pts (xy 187.96 58.42) (xy 187.96 55.88))
 		(stroke (width 0) (type default))
-		(uuid "059c339f-118c-4f99-8dc7-01389ea211d2")
+		(uuid "48527c85-7075-43ea-a371-c2671a4b9bc6")
 	)
 	(label "A_5V"
 		(at 187.96 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "102f38c4-4b92-4677-813c-6a56d3c730e1")
+		(uuid "2d139943-d176-438d-82e1-3091b8b36a53")
 	)
 	(wire
 		(pts (xy 187.96 63.5) (xy 187.96 66.04))
 		(stroke (width 0) (type default))
-		(uuid "f9090771-b459-442a-994d-2cdc84af425e")
+		(uuid "fdd07b90-03b0-43ed-8b7d-e501e0bb6be3")
 	)
 	(label "A_GND"
 		(at 187.96 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "be242f2f-4270-411c-ad6e-50ee26dcba3b")
+		(uuid "778f7396-4f24-45f2-8bad-3e4bd8221624")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -3134,10 +3134,10 @@
 			(at 213.36 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "969a5a6c-c25b-40b7-89e7-f39238655719"))
-		(pin "2" (uuid "e79ced15-6bc0-40e4-b019-c62089e4269c"))
-		(pin "3" (uuid "bf1cbf88-c26a-49bb-8ff2-d8f71f7a2f3a"))
-		(pin "4" (uuid "28678e66-da5b-47b3-9779-7cb9ab0fd31d"))
+		(pin "1" (uuid "6b15fe88-553e-47d1-878a-62eeeb578279"))
+		(pin "2" (uuid "dbda7371-5da9-47db-a2f4-6257042f2300"))
+		(pin "3" (uuid "e9ab5251-5e9a-4da6-98b8-75db93cc5110"))
+		(pin "4" (uuid "a9d2fb70-d4fa-4e4c-8c7a-a3291de963bf"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3149,46 +3149,46 @@
 	(wire
 		(pts (xy 220.98 35.56) (xy 223.52 35.56))
 		(stroke (width 0) (type default))
-		(uuid "02d21dad-01df-413a-a463-b230bf1bafd8")
+		(uuid "21e79783-aeff-4584-96c6-8c8c413baa5e")
 	)
 	(label "A_D6"
 		(at 223.52 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "75ea3b43-63ce-43d1-960d-671f8d47a9e3")
+		(uuid "42fc78da-2b4d-42d0-857f-c2a753b35557")
 	)
 	(wire
 		(pts (xy 213.36 43.18) (xy 213.36 45.72))
 		(stroke (width 0) (type default))
-		(uuid "c194c05a-82c8-41da-ac07-58c168ead87e")
+		(uuid "8837c114-19eb-4557-b077-abbd708d681d")
 	)
 	(label "A_GND"
 		(at 213.36 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "7a278994-770d-43cc-8091-8dd8d083d8aa")
+		(uuid "229a8eaa-b10f-475b-a5e3-69cdbe846854")
 	)
 	(wire
 		(pts (xy 205.74 35.56) (xy 203.2 35.56))
 		(stroke (width 0) (type default))
-		(uuid "6b5b4189-16fe-4c91-b891-39a42bbe04d3")
+		(uuid "d58d53c9-d960-48cb-8a75-07b78e27b8c0")
 	)
 	(label "A_D5"
 		(at 203.2 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fbbad20b-7b4f-4d8b-afeb-e90a9abdc570")
+		(uuid "69082080-d4d6-435e-b274-c7b1ca3c01fb")
 	)
 	(wire
 		(pts (xy 213.36 27.94) (xy 213.36 25.4))
 		(stroke (width 0) (type default))
-		(uuid "c6c03d8d-d949-413c-86f2-4d0275056ac0")
+		(uuid "3a5e39f5-831d-44fd-9e95-2129216b4872")
 	)
 	(label "A_5V"
 		(at 213.36 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "c7cf3dd8-5720-48dc-a85b-6474bf21c461")
+		(uuid "2be47dbe-13be-48fb-b584-c99b8e41d864")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3231,8 +3231,8 @@
 			(at 213.36 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "2dde9e26-423f-4384-b297-82ebe88f4590"))
-		(pin "2" (uuid "6ff452e7-6d82-4872-bed9-1fa6037ac809"))
+		(pin "1" (uuid "02ca4fc8-46f3-46c9-9365-418085dab9ed"))
+		(pin "2" (uuid "3a69ff80-4fcd-48e4-84f9-975802fefb3c"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3244,24 +3244,24 @@
 	(wire
 		(pts (xy 213.36 58.42) (xy 213.36 55.88))
 		(stroke (width 0) (type default))
-		(uuid "b3f55eaa-bf10-4a98-8e1f-e0891ac4c1dc")
+		(uuid "9687f889-400a-4c24-b9fb-1997a4eae572")
 	)
 	(label "A_5V"
 		(at 213.36 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "7dc8a8d3-f285-4109-905d-88a5fec616e5")
+		(uuid "47d91f78-4052-40c1-9645-73312b62f3ce")
 	)
 	(wire
 		(pts (xy 213.36 63.5) (xy 213.36 66.04))
 		(stroke (width 0) (type default))
-		(uuid "b492cbfb-3c76-4a78-a43b-81bf62247cb6")
+		(uuid "2c10bd64-652b-4df8-b489-284d2d7cfc55")
 	)
 	(label "A_GND"
 		(at 213.36 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2a85dcea-0c8a-4df5-96a1-e8dd60800a0d")
+		(uuid "0d06111b-03ab-4237-a702-5db5032945f3")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -3304,10 +3304,10 @@
 			(at 238.76 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "f1898df0-f3e3-4675-b77b-536bb2e52e1f"))
-		(pin "2" (uuid "f703bf29-36a5-4de5-a3a4-8d62c725cb97"))
-		(pin "3" (uuid "2896fc6c-a23d-4d9d-a4ac-b86aa69ee05c"))
-		(pin "4" (uuid "e8f76a81-c601-4fcc-b306-8fccc4c09b95"))
+		(pin "1" (uuid "acb0072b-7d3b-4e3a-b9ef-bb2325e1b9a2"))
+		(pin "2" (uuid "95640908-8e5a-43f0-899d-dca3ac27b0e6"))
+		(pin "3" (uuid "d6f45261-ff40-42f1-a0d5-14b9710a2f73"))
+		(pin "4" (uuid "fb84f5de-c1d9-478b-b62a-98e81a256459"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3319,46 +3319,46 @@
 	(wire
 		(pts (xy 246.38 35.56) (xy 248.92 35.56))
 		(stroke (width 0) (type default))
-		(uuid "53df2aa3-13fa-440c-95db-b8a5f6ac9897")
+		(uuid "75cf7f5f-7817-4c21-babb-397e9cb43f1a")
 	)
 	(label "A_D7"
 		(at 248.92 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "fa97a2c9-3183-4f92-8449-91ed49d1d438")
+		(uuid "3dd3d2b0-2d9e-465f-aa21-a9fdfc907002")
 	)
 	(wire
 		(pts (xy 238.76 43.18) (xy 238.76 45.72))
 		(stroke (width 0) (type default))
-		(uuid "52e45981-8ade-4b04-9782-498f916fcfa6")
+		(uuid "37b72fef-8184-4b5a-af36-230964e2909b")
 	)
 	(label "A_GND"
 		(at 238.76 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "dcfe8c02-712c-4b57-a072-c4c717a5b4c9")
+		(uuid "73e7d52b-6971-4c9f-a82b-5746313abc23")
 	)
 	(wire
 		(pts (xy 231.14 35.56) (xy 228.6 35.56))
 		(stroke (width 0) (type default))
-		(uuid "c593a3a8-fd98-49e4-925d-45b823e26df4")
+		(uuid "053d399c-561a-4043-9a61-f888dab8ed5c")
 	)
 	(label "A_D6"
 		(at 228.6 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "20163abe-1f95-4e92-8eb2-c16fc60bd8cd")
+		(uuid "1253df27-52b7-4f6f-a44d-acde3ab07594")
 	)
 	(wire
 		(pts (xy 238.76 27.94) (xy 238.76 25.4))
 		(stroke (width 0) (type default))
-		(uuid "d4a687f7-166a-487a-b2b0-b89dbca05f90")
+		(uuid "732cff6c-eb6e-4326-a5d2-4e71daab9a9c")
 	)
 	(label "A_5V"
 		(at 238.76 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a796ea25-6fb7-4efd-8d80-fe7927678351")
+		(uuid "d507e2d5-0a82-4069-8b9f-dda3d8b5e753")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3401,8 +3401,8 @@
 			(at 238.76 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "d35a9d8c-dbc5-4297-8923-dae1229138be"))
-		(pin "2" (uuid "04e17888-afa1-4fb8-a274-ff980af2679f"))
+		(pin "1" (uuid "dc2e3726-864c-48cc-8f4a-629b3eff9b9c"))
+		(pin "2" (uuid "0201a533-6a15-4ba9-9b5f-07a11b0bd8e1"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3414,24 +3414,24 @@
 	(wire
 		(pts (xy 238.76 58.42) (xy 238.76 55.88))
 		(stroke (width 0) (type default))
-		(uuid "ee026a87-113a-44d7-b455-87d0513ab9d6")
+		(uuid "68c8da08-e952-4a5c-8b3a-a51255457d92")
 	)
 	(label "A_5V"
 		(at 238.76 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9f38e71c-7b3a-4e37-a407-612091e7f070")
+		(uuid "cb5ebbf6-053e-4eed-bdfa-5d63b36f182c")
 	)
 	(wire
 		(pts (xy 238.76 63.5) (xy 238.76 66.04))
 		(stroke (width 0) (type default))
-		(uuid "c88f6ecf-f05d-4b0c-a669-70331728f685")
+		(uuid "5258e5ac-bf9d-47f3-a661-3d7e30f4a1d7")
 	)
 	(label "A_GND"
 		(at 238.76 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d2c012ee-add7-4a5f-9ff7-57f13b13f73c")
+		(uuid "3823be8a-250c-40f4-9901-84de7be37b4a")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -3474,10 +3474,10 @@
 			(at 264.16 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "bac901c2-68bb-44f4-b54e-63ad8cad9fed"))
-		(pin "2" (uuid "9989482b-29eb-435d-ac1f-36c7638eacd1"))
-		(pin "3" (uuid "13fa9d5d-2533-4e63-9699-172a566dfbaa"))
-		(pin "4" (uuid "f0580ff2-9b09-4fd6-ab6e-78100377ba05"))
+		(pin "1" (uuid "21ed653b-d6f9-4a90-86c7-34baf4230a54"))
+		(pin "2" (uuid "248e422b-c474-4fd7-b319-c809993168ef"))
+		(pin "3" (uuid "e5307ce9-ee1b-4c50-bee9-f1a8ee379461"))
+		(pin "4" (uuid "1a8b1221-7f85-4652-a7c7-898f5f7eecae"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3489,46 +3489,46 @@
 	(wire
 		(pts (xy 271.78 35.56) (xy 274.32 35.56))
 		(stroke (width 0) (type default))
-		(uuid "4defbf8c-1ea9-44ac-a720-b86a2b316228")
+		(uuid "832d9d20-fc96-4a8f-bd55-06c235d77664")
 	)
 	(label "A_D8"
 		(at 274.32 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2f066e47-bae6-4310-8064-b857748664be")
+		(uuid "38e751d1-d1c2-4b77-9cd2-acdc5b5ad16f")
 	)
 	(wire
 		(pts (xy 264.16 43.18) (xy 264.16 45.72))
 		(stroke (width 0) (type default))
-		(uuid "cbcc54d4-317f-49c0-9e48-f04a2b727907")
+		(uuid "bf22a361-379b-4535-b568-269f7396f6c2")
 	)
 	(label "A_GND"
 		(at 264.16 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d5c43452-0ed9-4df5-9c6f-6c6fc7dea80f")
+		(uuid "4b613706-57d4-45a2-8839-595f4b502858")
 	)
 	(wire
 		(pts (xy 256.54 35.56) (xy 254 35.56))
 		(stroke (width 0) (type default))
-		(uuid "f693fb10-7346-493f-98d6-d3d165366861")
+		(uuid "e17f8611-a83b-4469-83aa-fad90e24af3f")
 	)
 	(label "A_D7"
 		(at 254 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a8d1a474-37d8-49b8-895e-420c194acdd5")
+		(uuid "ed723e3d-26da-479f-9925-038db7e62745")
 	)
 	(wire
 		(pts (xy 264.16 27.94) (xy 264.16 25.4))
 		(stroke (width 0) (type default))
-		(uuid "b10a81a2-fcb0-435a-af7b-d42605e9ddcb")
+		(uuid "5fddc78f-2d55-4a4b-bb4a-23c3617a15b5")
 	)
 	(label "A_5V"
 		(at 264.16 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "504d6cb2-affb-4533-aa78-914af7489455")
+		(uuid "10d72356-e1c4-4371-a5ae-32663041100c")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3571,8 +3571,8 @@
 			(at 264.16 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "de7fb8a2-6de9-4090-9a68-0c491cd2d0d2"))
-		(pin "2" (uuid "be0d2d19-3019-4292-8323-50fd0e0f4605"))
+		(pin "1" (uuid "e5bfbd5e-3f46-40e3-a7d9-7fa7cf02c89c"))
+		(pin "2" (uuid "5f19dc0b-5c00-4adb-8b81-e6172bc934f3"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3584,24 +3584,24 @@
 	(wire
 		(pts (xy 264.16 58.42) (xy 264.16 55.88))
 		(stroke (width 0) (type default))
-		(uuid "4b539a25-adbf-44e2-8916-143dbf3ba67e")
+		(uuid "32962c28-3500-4e56-a5c8-f9544f6903c4")
 	)
 	(label "A_5V"
 		(at 264.16 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9969374b-3af0-4ce3-9f0c-f61a25ad2dc9")
+		(uuid "389cb16d-d10e-43a3-b995-27d4211152ad")
 	)
 	(wire
 		(pts (xy 264.16 63.5) (xy 264.16 66.04))
 		(stroke (width 0) (type default))
-		(uuid "67236bf1-ec52-4c8c-8026-58d7ef2515f3")
+		(uuid "e6c8bbbf-7738-42b4-997f-9a0e4b5e1893")
 	)
 	(label "A_GND"
 		(at 264.16 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "eb649721-fe9a-46fe-89d3-46b006249bfa")
+		(uuid "c3347ddf-b294-4b2b-bdde-b62993c471b1")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -3644,10 +3644,10 @@
 			(at 289.56 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "61ae84ef-a5e8-4dbe-b5d0-2338cb7059f3"))
-		(pin "2" (uuid "f62cc11b-83d2-48b2-9b36-1fdf3848786b"))
-		(pin "3" (uuid "28c6a4ff-8b77-4299-8968-daadcd8cdd28"))
-		(pin "4" (uuid "2936948c-7d45-409a-9267-5c3e83fa2462"))
+		(pin "1" (uuid "8b0e335c-8140-4c26-8206-ac55c2c51fbc"))
+		(pin "2" (uuid "2c1b35f6-c712-44c2-8437-8efe79e6d46d"))
+		(pin "3" (uuid "7458e1bb-dffe-4ace-84d2-dfc0ef6ab352"))
+		(pin "4" (uuid "52dc96f2-4c5f-4333-a991-3d0634e855b9"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3659,46 +3659,46 @@
 	(wire
 		(pts (xy 297.18 35.56) (xy 299.72 35.56))
 		(stroke (width 0) (type default))
-		(uuid "2d143e19-ffe3-4f23-be60-79da7570d1e1")
+		(uuid "d41816de-604c-460c-a389-05a28e03e6b4")
 	)
 	(label "A_D9"
 		(at 299.72 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "11473948-58b1-4150-ae54-e2114b9a577c")
+		(uuid "917c88ab-1897-4755-b592-86df5f8c8fb8")
 	)
 	(wire
 		(pts (xy 289.56 43.18) (xy 289.56 45.72))
 		(stroke (width 0) (type default))
-		(uuid "defe73a3-a2ba-4987-8a47-6ca03a2f31cd")
+		(uuid "4e45fadc-d27a-49cb-900a-bc6804138fb2")
 	)
 	(label "A_GND"
 		(at 289.56 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a649cdf8-9771-4af6-8f42-2d1b8c02a881")
+		(uuid "f806ec1a-8c76-4806-9f05-6864276ac7f0")
 	)
 	(wire
 		(pts (xy 281.94 35.56) (xy 279.4 35.56))
 		(stroke (width 0) (type default))
-		(uuid "87802c52-ad35-4372-87dd-2e734bd6c3d5")
+		(uuid "2e57bce6-0f02-4304-9a45-809573005789")
 	)
 	(label "A_D8"
 		(at 279.4 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5ac74dc6-b2bd-435a-b990-f68d8df7f27d")
+		(uuid "eb556457-9a5b-432a-b493-e3e34f66ecd8")
 	)
 	(wire
 		(pts (xy 289.56 27.94) (xy 289.56 25.4))
 		(stroke (width 0) (type default))
-		(uuid "bc018f92-d74d-460a-a498-61464e8060e3")
+		(uuid "17df6f76-1e59-4364-a517-3c16ce16155c")
 	)
 	(label "A_5V"
 		(at 289.56 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "3fdbdde2-e6b1-4ecc-a7c5-edc83c273b11")
+		(uuid "5ee1d799-e2f7-4cdd-a9fa-d00300954964")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3741,8 +3741,8 @@
 			(at 289.56 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "8b28b25d-f839-4253-bea0-64b0df8591f6"))
-		(pin "2" (uuid "294ae62f-a014-4ba4-b3f0-294dbfdff45f"))
+		(pin "1" (uuid "13a8fa23-ff3d-41e2-801a-f13821f22df3"))
+		(pin "2" (uuid "fa2990f1-924d-4217-99c7-bb8c0bad7dba"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3754,24 +3754,24 @@
 	(wire
 		(pts (xy 289.56 58.42) (xy 289.56 55.88))
 		(stroke (width 0) (type default))
-		(uuid "305ddb91-f5bf-44ba-9572-5144d7a61457")
+		(uuid "3286b100-5983-4e62-911d-41ae47b7c3f7")
 	)
 	(label "A_5V"
 		(at 289.56 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ceea0849-0ed2-4fa1-b06c-628575a4cb05")
+		(uuid "b5eb9812-c92d-4d63-9e9e-6b1f695a8ee5")
 	)
 	(wire
 		(pts (xy 289.56 63.5) (xy 289.56 66.04))
 		(stroke (width 0) (type default))
-		(uuid "17674b48-b018-442d-ac3a-b35feee0c353")
+		(uuid "57009565-7ab1-48f5-abbc-97007446f4bd")
 	)
 	(label "A_GND"
 		(at 289.56 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "af6c7695-b46e-4001-9fa5-ff4a38fc10bd")
+		(uuid "ededa751-d8fd-48dd-b8bd-139e9f888457")
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
@@ -3814,10 +3814,10 @@
 			(at 314.96 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "2a7ad97c-a008-41b0-92db-e5dbaec1edf7"))
-		(pin "2" (uuid "5cc8f86b-d6ef-462f-8b8d-2adb76d8690e"))
-		(pin "3" (uuid "ad4fa3e7-0207-4e9a-a4b3-a8bac0779e16"))
-		(pin "4" (uuid "715ca701-eb70-450a-874f-6dc4e853ef69"))
+		(pin "1" (uuid "9bf752e3-f9e0-4133-9191-5f9356ea3815"))
+		(pin "2" (uuid "718217db-525a-4e2e-86b8-e9938f5ca89f"))
+		(pin "3" (uuid "97045b46-69d2-44f8-82d1-644bcd1c7510"))
+		(pin "4" (uuid "750f0e7a-e121-419c-8ef5-412acb2693c0"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3829,46 +3829,46 @@
 	(wire
 		(pts (xy 322.58 35.56) (xy 325.12 35.56))
 		(stroke (width 0) (type default))
-		(uuid "6fa34ec7-ff00-47fe-860d-9a3d50c1303e")
+		(uuid "2e6feca1-2f85-46d1-ba32-d1db7274d2bb")
 	)
 	(label "A_DOUT"
 		(at 325.12 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "55e438ef-c53f-4f1d-a538-62d98aefd5d9")
+		(uuid "64566142-f404-44c1-8670-394c9875480c")
 	)
 	(wire
 		(pts (xy 314.96 43.18) (xy 314.96 45.72))
 		(stroke (width 0) (type default))
-		(uuid "4b402bb1-1bd7-457a-9026-9cf1e183a755")
+		(uuid "91bd7013-07fc-46e1-a55e-008f432f98cd")
 	)
 	(label "A_GND"
 		(at 314.96 45.72 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "5fb15c74-835f-46b1-92f8-95d114cbda5a")
+		(uuid "565afd3f-c608-41d7-b7e6-f3c6b56f5728")
 	)
 	(wire
 		(pts (xy 307.34 35.56) (xy 304.8 35.56))
 		(stroke (width 0) (type default))
-		(uuid "c78dec1f-e9e1-405c-80ff-98a28eb30d31")
+		(uuid "2a8ad225-16ae-4a83-ae2e-3dc039c924ba")
 	)
 	(label "A_D9"
 		(at 304.8 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "1bbba924-b0d1-4762-a9e8-b321e3438b32")
+		(uuid "f108fe12-66f9-4e50-aa1e-ac3b55bec92f")
 	)
 	(wire
 		(pts (xy 314.96 27.94) (xy 314.96 25.4))
 		(stroke (width 0) (type default))
-		(uuid "3e50c52b-d3b8-4131-ae5a-0f5ac9dbf80e")
+		(uuid "148ac140-8c81-4d8a-93a5-f3e407933de3")
 	)
 	(label "A_5V"
 		(at 314.96 25.4 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4aed9a63-2974-4f4a-8f25-0e042b03c496")
+		(uuid "955d341e-b4ba-4b05-aa7c-cec6868b8335")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3911,8 +3911,8 @@
 			(at 314.96 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "89c53d08-6850-43db-a6ae-755bafc59b53"))
-		(pin "2" (uuid "4b831a3b-1900-4a11-b486-c16483e8c844"))
+		(pin "1" (uuid "6a7c3641-d613-4ca9-8321-499e47b384f2"))
+		(pin "2" (uuid "a8eece06-57c5-4af9-a698-62b6b8f2a057"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3924,24 +3924,24 @@
 	(wire
 		(pts (xy 314.96 58.42) (xy 314.96 55.88))
 		(stroke (width 0) (type default))
-		(uuid "f5378f7a-9368-4c01-b087-46220001e0d8")
+		(uuid "33c9e445-c30c-41de-801c-bd4cfa1870bc")
 	)
 	(label "A_5V"
 		(at 314.96 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "badb781f-251e-44b9-8c31-b04e26ff0874")
+		(uuid "b07e4afc-3572-4649-a0dc-8f1a1f43fbcf")
 	)
 	(wire
 		(pts (xy 314.96 63.5) (xy 314.96 66.04))
 		(stroke (width 0) (type default))
-		(uuid "75a97e6b-a08d-4eab-8ee5-e8cf20e7297b")
+		(uuid "d57c219b-9a0b-4734-8ef9-74ed48a3970c")
 	)
 	(label "A_GND"
 		(at 314.96 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6484d646-fb5b-4f73-a6f4-b54de7988103")
+		(uuid "b1ed6c2a-b735-4a29-baf6-52dd3783675d")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -3984,8 +3984,8 @@
 			(at 66.04 60.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "ffe2e124-3a25-45bc-b074-5efafb70d165"))
-		(pin "2" (uuid "60610460-7cdc-4342-a355-b29b92d3c6a7"))
+		(pin "1" (uuid "f986366c-0e85-4279-85c0-a71e6812a17d"))
+		(pin "2" (uuid "2f374a3f-402f-431c-af7e-d66ee570812c"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -3997,24 +3997,24 @@
 	(wire
 		(pts (xy 66.04 58.42) (xy 66.04 55.88))
 		(stroke (width 0) (type default))
-		(uuid "d80d26d5-6e13-420c-9622-fed00c96faa2")
+		(uuid "1a43930d-00f9-407b-bcbc-ae81c5182f2e")
 	)
 	(label "A_5V"
 		(at 66.04 55.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e6559f85-8d0a-4141-9562-8fd3a9af671b")
+		(uuid "32c6ecd8-5e10-4da6-a18a-3e5b537c75b8")
 	)
 	(wire
 		(pts (xy 66.04 63.5) (xy 66.04 66.04))
 		(stroke (width 0) (type default))
-		(uuid "8cfff1ad-e4bc-4c9b-b076-c0d6a190fa74")
+		(uuid "f6ae12eb-d039-48a2-b789-d6af2cb72acc")
 	)
 	(label "A_GND"
 		(at 66.04 66.04 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "0842decc-640b-4dde-b0b6-8830cbe394ec")
+		(uuid "f473890f-4526-42ef-94f5-9c4c511edd7b")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -4045,7 +4045,7 @@
 			(at 45.72 68.58 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "41392885-cec3-462b-b7ea-cf7773cbf0af"))
+		(pin "1" (uuid "8c319b6c-8e1d-46cd-97c4-1d2fb916c29b"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4058,7 +4058,7 @@
 		(at 45.72 68.58 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b3760ac1-c3df-44f7-ab9c-65758837dd5e")
+		(uuid "41209414-6a0e-475c-927a-c8cd7b0d2422")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -4089,7 +4089,7 @@
 			(at 58.42 68.58 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "dce1c397-ed43-4275-b8d4-4550e9a8c21c"))
+		(pin "1" (uuid "887fd2fc-9768-4269-8af1-f90d94251c0e"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4102,18 +4102,18 @@
 		(at 58.42 68.58 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "520f5863-6013-4b1d-940b-5fbff66790b6")
+		(uuid "26c847a2-27cb-4444-a916-b6fa4491b264")
 	)
 	(rectangle (start 20.32 91.44) (end 401.32 154.94)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "5ca09b4f-de1f-4d44-8f49-a36fa7e6cf2c")
+		(uuid "812d6772-6252-4f5a-8253-51de809bd349")
 	)
 	(text "LED-Streifen B: 5 × WS2812B-5050 V6 (Teilplatine 15,3 × 56 mm)"
 		(exclude_from_sim no)
 		(at 21.59 95.25 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "4ce418e0-e4fd-4398-80c2-0e14497c090d")
+		(uuid "d5916164-34bc-452c-b35b-6c53beda7547")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
@@ -4156,9 +4156,9 @@
 			(at 45.72 111.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "bf151609-3fdb-417e-bd79-77e5e4985e10"))
-		(pin "2" (uuid "353c259d-603a-4415-b906-d70f223cc7ab"))
-		(pin "3" (uuid "6ed7aae1-bab3-44f8-a221-b0bab1fa9171"))
+		(pin "1" (uuid "068c16c9-5b4d-4554-8674-4dd6886fe981"))
+		(pin "2" (uuid "51f2f189-c896-4d16-b76e-8c5249e21627"))
+		(pin "3" (uuid "2af87257-cca6-4206-8964-25d3b66d6e6b"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4170,35 +4170,35 @@
 	(wire
 		(pts (xy 40.64 109.22) (xy 38.1 109.22))
 		(stroke (width 0) (type default))
-		(uuid "c8323aee-1b0d-453a-87ba-5d206e4e5e7d")
+		(uuid "7bdff05b-6e10-4153-be0f-e3fbc028f1e9")
 	)
 	(label "B_GND"
 		(at 38.1 109.22 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5a1c71bc-746f-416b-ab30-89c8411e22b8")
+		(uuid "a6c66249-2e5f-46c0-88e2-a7617b28af81")
 	)
 	(wire
 		(pts (xy 40.64 111.76) (xy 38.1 111.76))
 		(stroke (width 0) (type default))
-		(uuid "aa876480-c756-4a48-a9b5-44ed0d8c1b52")
+		(uuid "759b759e-2e6b-459d-973c-754120e5474d")
 	)
 	(label "B_DIN"
 		(at 38.1 111.76 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c115b650-fc5c-4c21-8426-05add191ee14")
+		(uuid "b73efd44-0c78-4ca7-a622-4c2cc578a0dd")
 	)
 	(wire
 		(pts (xy 40.64 114.3) (xy 38.1 114.3))
 		(stroke (width 0) (type default))
-		(uuid "24a0bd8d-8742-44d1-9763-20a371f82918")
+		(uuid "2b14b741-5a74-4d7f-9024-45a403b45499")
 	)
 	(label "B_5V"
 		(at 38.1 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "27af49d0-ba20-49d6-938c-0c21ef62e2df")
+		(uuid "65a8b5ed-06c5-446e-8c3e-26ea01d9a3c8")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
@@ -4241,9 +4241,9 @@
 			(at 365.76 111.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "8d27c55d-3444-49ac-a6cc-c2ab6a367318"))
-		(pin "2" (uuid "9114d4a3-0629-4d3f-affc-ca341ada86e5"))
-		(pin "3" (uuid "9593e040-ddb9-42a0-982a-039dac92887c"))
+		(pin "1" (uuid "efbc4e3d-9d67-4717-a710-58ba6ad1150c"))
+		(pin "2" (uuid "94860ba3-50e7-440b-a46e-550e8ca5d4e5"))
+		(pin "3" (uuid "7d3c5518-3502-4c7d-9958-226792e389c3"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4255,35 +4255,35 @@
 	(wire
 		(pts (xy 360.68 109.22) (xy 358.14 109.22))
 		(stroke (width 0) (type default))
-		(uuid "aaeabdb5-a1a2-464f-b5e2-9eee4830f35a")
+		(uuid "af312d08-e7e0-4030-9c34-859c879fb75b")
 	)
 	(label "B_GND"
 		(at 358.14 109.22 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "3fdb0ecf-97b8-4369-ace8-81c7a96b3b4b")
+		(uuid "988e4bfc-5601-4cff-a79f-53405afc0498")
 	)
 	(wire
 		(pts (xy 360.68 111.76) (xy 358.14 111.76))
 		(stroke (width 0) (type default))
-		(uuid "738bf587-3337-4179-8aca-c83bc09f77ef")
+		(uuid "51c94ad6-22d0-49f4-8af3-409004e46d14")
 	)
 	(label "B_DOUT"
 		(at 358.14 111.76 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5f0744df-9b8b-4e08-8ba4-da4db1253dc4")
+		(uuid "03e63d9b-8da2-49bf-8362-96b1aca8a89c")
 	)
 	(wire
 		(pts (xy 360.68 114.3) (xy 358.14 114.3))
 		(stroke (width 0) (type default))
-		(uuid "a3ef2d79-cf37-43ca-a2f6-196024a454dc")
+		(uuid "3e3db9d7-252a-4389-97df-f8472bb97ad8")
 	)
 	(label "B_5V"
 		(at 358.14 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "96241ea1-deaf-437a-b6c9-2d5d80e7c797")
+		(uuid "8fb91b50-5a22-493b-abdd-5b4fe9f66f47")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x03_MountingPin")
@@ -4326,10 +4326,10 @@
 			(at 30.48 111.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "35f77319-a73a-484f-be24-8f979af91b8f"))
-		(pin "2" (uuid "57f0af1c-bb84-4dcb-a9b4-8c2c36f619ff"))
-		(pin "3" (uuid "e26b4964-6920-489b-81f2-7a53a0fab732"))
-		(pin "MP" (uuid "35c21734-e3ee-44b9-8025-de71f238c513"))
+		(pin "1" (uuid "af98c4fb-75ed-4280-98c5-bfc0f2f4b3c2"))
+		(pin "2" (uuid "c8bcf890-3e06-4194-a27f-a105dd57e7cc"))
+		(pin "3" (uuid "3722024a-f665-453d-b2f0-dccc02ad74be"))
+		(pin "MP" (uuid "f3620908-6bcd-48c7-9df2-a61e031f90f9"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4341,52 +4341,52 @@
 	(wire
 		(pts (xy 25.4 109.22) (xy 22.86 109.22))
 		(stroke (width 0) (type default))
-		(uuid "7018bb73-da70-4236-85b0-e95c556e5941")
+		(uuid "b9832eb4-3dca-44ff-b0be-a023b40a5af7")
 	)
 	(label "B_GND"
 		(at 22.86 109.22 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a375a1ad-2314-4e66-a8b7-ccc320483351")
+		(uuid "3121dfbf-e08a-4b32-8368-cbfcf713628f")
 	)
 	(wire
 		(pts (xy 25.4 111.76) (xy 22.86 111.76))
 		(stroke (width 0) (type default))
-		(uuid "aebc3e3d-f866-438a-bbb0-4fe3c8d0606d")
+		(uuid "2a4b453d-4832-4b88-8581-6852b1371a5a")
 	)
 	(label "B_DIN"
 		(at 22.86 111.76 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "87d27c55-9476-4ff2-b9f5-cdbbe76b50d0")
+		(uuid "79b3fba5-8295-445d-8bfb-2335f8acf543")
 	)
 	(wire
 		(pts (xy 25.4 114.3) (xy 22.86 114.3))
 		(stroke (width 0) (type default))
-		(uuid "2cc0636f-8f7c-480d-a45a-99e3f9ebd3fc")
+		(uuid "d647835f-6bf6-4bed-8033-53a321088dca")
 	)
 	(label "B_5V"
 		(at 22.86 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "dec64196-0dc3-47ed-8aa0-5983c0438e7e")
+		(uuid "50a4b0d5-4783-4a38-b455-87a150203523")
 	)
 	(wire
 		(pts (xy 30.48 119.38) (xy 30.48 121.92))
 		(stroke (width 0) (type default))
-		(uuid "f19f92e7-552b-4468-82ab-d87ffcee45a3")
+		(uuid "68a39b78-4b20-4b29-bb35-7cb32cc5c427")
 	)
 	(label "B_GND"
 		(at 30.48 121.92 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a38b2619-7666-43e7-95b3-f28ff224ea4d")
+		(uuid "64f0d5f9-9e09-4190-9baf-b6b16d6e2de9")
 	)
 	(text "Eingang"
 		(exclude_from_sim no)
 		(at 27.94 104.14 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "0d745472-5eac-4700-97cf-4330e87e608d")
+		(uuid "80b46fa7-353c-4747-a144-95f485810444")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x03_MountingPin")
@@ -4429,10 +4429,10 @@
 			(at 350.52 111.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "f06fdad2-6059-42b5-9efe-216b41235f07"))
-		(pin "2" (uuid "6722aab7-975c-44a6-b83b-196517ac6294"))
-		(pin "3" (uuid "f8a70043-3bfc-49cd-8d3d-78372325a5f1"))
-		(pin "MP" (uuid "8ddaea3b-405d-4a83-b08c-5b680e8cf41b"))
+		(pin "1" (uuid "380f0391-f7f1-4e20-9735-94f2374e550f"))
+		(pin "2" (uuid "795e8e57-2929-467b-b907-bbe92e6bb4be"))
+		(pin "3" (uuid "27bcb66e-8bb2-499c-bbd1-836401ab04e0"))
+		(pin "MP" (uuid "f675c3eb-b559-47e8-85f5-b5cfac09e565"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4444,52 +4444,52 @@
 	(wire
 		(pts (xy 345.44 109.22) (xy 342.9 109.22))
 		(stroke (width 0) (type default))
-		(uuid "19a44d6e-d8db-4ea1-888f-048a546d692f")
+		(uuid "fdb39498-95e8-42bb-8749-8f184853123e")
 	)
 	(label "B_GND"
 		(at 342.9 109.22 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6c8949ce-5ae1-4d24-b471-5de79b182dcd")
+		(uuid "8df5df4b-5f86-489f-bfbb-e90a597c4101")
 	)
 	(wire
 		(pts (xy 345.44 111.76) (xy 342.9 111.76))
 		(stroke (width 0) (type default))
-		(uuid "c45236b9-f62d-4180-9572-483e8fbcb895")
+		(uuid "79a43500-7386-437f-8e6d-8a863faecec5")
 	)
 	(label "B_DOUT"
 		(at 342.9 111.76 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "03741ba0-23b0-4c6e-bc17-1143f1cb5218")
+		(uuid "651d7b7d-11a7-4828-88c4-9ef74db3cffb")
 	)
 	(wire
 		(pts (xy 345.44 114.3) (xy 342.9 114.3))
 		(stroke (width 0) (type default))
-		(uuid "e7ee0fc7-0278-43ee-a98e-89670fa9ae61")
+		(uuid "efc8a7bc-41f2-4e64-af79-52f719e184f3")
 	)
 	(label "B_5V"
 		(at 342.9 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5416449a-96bc-4aa8-bc40-8fe6e30c605e")
+		(uuid "286418e5-52b4-4ab3-a94a-a9388868a29a")
 	)
 	(wire
 		(pts (xy 350.52 119.38) (xy 350.52 121.92))
 		(stroke (width 0) (type default))
-		(uuid "0a828d29-16d0-4c62-9ef2-26a9cf4a38b8")
+		(uuid "b7a9d592-909b-4700-87ec-eed2ac640ced")
 	)
 	(label "B_GND"
 		(at 350.52 121.92 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9ecfc6fb-4366-4f62-82b1-f11bd5c5cc47")
+		(uuid "b661ccdf-b3e0-4b0d-b0ae-7ce25d2c1dfe")
 	)
 	(text "Ausgang"
 		(exclude_from_sim no)
 		(at 347.98 104.14 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "5e7d1118-27d2-4a78-a274-39d36c50bb89")
+		(uuid "199f699e-44e8-4441-af50-4e0d94babe3a")
 	)
 	(symbol
 		(lib_id "LED:WS2812B")
@@ -4532,10 +4532,10 @@
 			(at 86.36 114.3 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "395bff9e-2d55-4e61-9eae-590ba1e0a582"))
-		(pin "2" (uuid "6712871d-835b-469e-a873-b8d5cec315fa"))
-		(pin "3" (uuid "d488e9a1-d3d5-480f-8d89-3d0e5af556cf"))
-		(pin "4" (uuid "35f4cb41-4f3c-400f-baf1-d7b70bcd32a2"))
+		(pin "1" (uuid "a310cc5a-244e-420c-a87e-2b79873f1f38"))
+		(pin "2" (uuid "bce99ebc-ac20-487a-8512-576f0d2afeed"))
+		(pin "3" (uuid "fe0e2111-2388-4fe5-a548-fe2ca90a00a1"))
+		(pin "4" (uuid "e1c052d1-cfaa-46b9-9cd5-e3e7adde8b7f"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4547,46 +4547,46 @@
 	(wire
 		(pts (xy 86.36 106.68) (xy 86.36 104.14))
 		(stroke (width 0) (type default))
-		(uuid "8fbadaeb-9b21-405e-8897-95ec22fdf885")
+		(uuid "e83ceab4-037a-4a23-b962-c7f90853d947")
 	)
 	(label "B_5V"
 		(at 86.36 104.14 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "bbd4a90b-a7de-43f6-8fb0-75bbd4b3e145")
+		(uuid "34dedbed-e9f5-4f6c-ba3e-5cc583e329a6")
 	)
 	(wire
 		(pts (xy 93.98 114.3) (xy 96.52 114.3))
 		(stroke (width 0) (type default))
-		(uuid "1b0d46e8-1049-4dc1-aaa9-86d126845cbc")
+		(uuid "49d34d48-f662-4057-97af-09c678a8ea03")
 	)
 	(label "B_D1"
 		(at 96.52 114.3 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ae458ae5-481d-4fe2-8a6f-d33477bbb75f")
+		(uuid "0ba4e1fc-3c80-4414-9c42-7ebc29b90f6a")
 	)
 	(wire
 		(pts (xy 86.36 121.92) (xy 86.36 124.46))
 		(stroke (width 0) (type default))
-		(uuid "ceb8e082-c25a-4ece-9e6c-6b9df3954115")
+		(uuid "4e5df941-7d57-4e09-b28b-b446b9e298f1")
 	)
 	(label "B_GND"
 		(at 86.36 124.46 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "607d9af6-5aa4-487a-8090-6bbcb6d6c3b2")
+		(uuid "127b0b2e-4481-4113-9e15-e8c521d9d23b")
 	)
 	(wire
 		(pts (xy 78.74 114.3) (xy 76.2 114.3))
 		(stroke (width 0) (type default))
-		(uuid "0231da5f-3f29-48a0-95f8-54d70c946825")
+		(uuid "bc81acb1-2b09-4637-a41e-0e4a52e8f3e7")
 	)
 	(label "B_DIN"
 		(at 76.2 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6c7eb211-4035-441e-9495-68e4b865329e")
+		(uuid "35d051a0-0ea7-4232-8650-30b9675ab5d6")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -4629,8 +4629,8 @@
 			(at 86.36 139.7 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "1edf013e-4cb8-4369-99c0-af3504d6b8b3"))
-		(pin "2" (uuid "7d3da3bd-43c4-4014-ab4b-51b554a7a65f"))
+		(pin "1" (uuid "b63ea2d9-c985-4520-a40e-a04898bc4a08"))
+		(pin "2" (uuid "727ef9ff-92c9-422b-922f-832abcca3614"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4642,24 +4642,24 @@
 	(wire
 		(pts (xy 86.36 137.16) (xy 86.36 134.62))
 		(stroke (width 0) (type default))
-		(uuid "0c5659b7-ef83-4b8d-92c3-fa32f3321a11")
+		(uuid "ecdbcb90-e482-4053-9bf8-051ea239fe33")
 	)
 	(label "B_5V"
 		(at 86.36 134.62 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "c26cddfb-cd05-49ee-8cd8-280efafd034e")
+		(uuid "7763065c-6b3b-4cc1-a8e3-6ab116d99c3f")
 	)
 	(wire
 		(pts (xy 86.36 142.24) (xy 86.36 144.78))
 		(stroke (width 0) (type default))
-		(uuid "d534250e-aefc-46a5-a56c-ead878ac5240")
+		(uuid "d0ddf578-36e1-4bd3-bb8d-301326d2e846")
 	)
 	(label "B_GND"
 		(at 86.36 144.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "70278140-daed-403f-a8b3-1f3ea8eadc91")
+		(uuid "c451e732-764b-4bc7-9171-109f25b70f2d")
 	)
 	(symbol
 		(lib_id "LED:WS2812B")
@@ -4702,10 +4702,10 @@
 			(at 137.16 114.3 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "33832a41-cec8-4c8e-b81c-3471dcea417a"))
-		(pin "2" (uuid "dec3948d-fa40-4891-b27c-390c46d84919"))
-		(pin "3" (uuid "ed4ccd7b-195f-4a33-90c5-65cc8b5233d0"))
-		(pin "4" (uuid "ab99a69f-6e20-4074-a33d-13b36d04767b"))
+		(pin "1" (uuid "7b44c662-5bdd-4742-8ad7-eb37bf160829"))
+		(pin "2" (uuid "063828a7-5908-4d3b-9579-c4c062929997"))
+		(pin "3" (uuid "2452e896-6bf0-401d-bb2c-b23ca571f38d"))
+		(pin "4" (uuid "b40b2404-1423-4eee-9e7f-15fab740255a"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4717,46 +4717,46 @@
 	(wire
 		(pts (xy 137.16 106.68) (xy 137.16 104.14))
 		(stroke (width 0) (type default))
-		(uuid "96fbd150-ef23-471b-bf4b-0681b925c3ef")
+		(uuid "f0d043bf-7011-4494-a08e-78e6a5600196")
 	)
 	(label "B_5V"
 		(at 137.16 104.14 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "7e5b37e8-b8b5-414e-a165-6f2131012218")
+		(uuid "9dc33560-dc9b-40fd-99aa-d92ccfbd06d2")
 	)
 	(wire
 		(pts (xy 144.78 114.3) (xy 147.32 114.3))
 		(stroke (width 0) (type default))
-		(uuid "8ff78ade-728f-4657-a6b6-1773899caac2")
+		(uuid "bedb151f-b134-4f62-bae9-126d848bcb12")
 	)
 	(label "B_D2"
 		(at 147.32 114.3 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d6102331-f1a4-43dc-a3ed-074ee1ed0435")
+		(uuid "b57485b8-14be-45f0-a98e-6490f17bf972")
 	)
 	(wire
 		(pts (xy 137.16 121.92) (xy 137.16 124.46))
 		(stroke (width 0) (type default))
-		(uuid "bdc100bb-ec8e-4411-b29e-01a60610d622")
+		(uuid "1d288210-5527-4d0b-b0f3-8dc8970a716e")
 	)
 	(label "B_GND"
 		(at 137.16 124.46 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8eaf3a42-77f5-411a-b0f8-17bf32d631fc")
+		(uuid "ec838545-aced-4839-85fb-83294e144068")
 	)
 	(wire
 		(pts (xy 129.54 114.3) (xy 127 114.3))
 		(stroke (width 0) (type default))
-		(uuid "640295f9-1197-406e-8aed-87c264c62fe2")
+		(uuid "73204ed3-2348-4c5b-a19d-bc28562f1c39")
 	)
 	(label "B_D1"
 		(at 127 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "86d6a573-11c8-41d1-a772-1b038e97d45e")
+		(uuid "0b6354fa-e10a-42ec-94d8-b744ba545d9d")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -4799,8 +4799,8 @@
 			(at 137.16 139.7 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "cbb026f1-1595-4751-89fb-f4bf9fd57668"))
-		(pin "2" (uuid "0ac23e0c-0350-4be6-835a-de17f5caa501"))
+		(pin "1" (uuid "49b512e9-0aaa-4f2b-a1db-b0938583273a"))
+		(pin "2" (uuid "16848635-6d17-464a-a5b9-614e1b0b633e"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4812,24 +4812,24 @@
 	(wire
 		(pts (xy 137.16 137.16) (xy 137.16 134.62))
 		(stroke (width 0) (type default))
-		(uuid "df440bb1-2e1f-421e-8ca7-e4126010fdce")
+		(uuid "dec60065-3e51-48b5-9ea6-a492aa40c77e")
 	)
 	(label "B_5V"
 		(at 137.16 134.62 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4c87daff-f863-4bd9-843a-9eada1d73c3e")
+		(uuid "56816448-e9bb-4fa0-b55d-80dad0c7b564")
 	)
 	(wire
 		(pts (xy 137.16 142.24) (xy 137.16 144.78))
 		(stroke (width 0) (type default))
-		(uuid "12d28916-4a46-4774-bfa0-4fe027594907")
+		(uuid "e6972086-62e8-4a5b-8fc4-78cbed6f8836")
 	)
 	(label "B_GND"
 		(at 137.16 144.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d56d598a-54c9-4ac4-8860-0150602571a8")
+		(uuid "da9be8a8-c8ed-48cf-8d35-15dccd5f41ae")
 	)
 	(symbol
 		(lib_id "LED:WS2812B")
@@ -4872,10 +4872,10 @@
 			(at 187.96 114.3 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "ad3d9af2-f0ba-4f98-81c0-1217bc1f3dbc"))
-		(pin "2" (uuid "15e01204-891f-4725-a1e8-d6d38eb54f29"))
-		(pin "3" (uuid "e3f8f772-6411-490a-a3e0-e63026807600"))
-		(pin "4" (uuid "0ebc1566-dfaa-4b8f-a7d4-f3908b773c57"))
+		(pin "1" (uuid "f7b5a4c5-e9af-4a7e-b22e-c00a58ae0b15"))
+		(pin "2" (uuid "9517bb99-da72-415f-90a4-fa40a04b6171"))
+		(pin "3" (uuid "02ee87bd-9cad-465b-bd1d-657af99cea04"))
+		(pin "4" (uuid "3d95b0b5-d9e9-4c12-b0e7-13413c2c45cd"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4887,46 +4887,46 @@
 	(wire
 		(pts (xy 187.96 106.68) (xy 187.96 104.14))
 		(stroke (width 0) (type default))
-		(uuid "2eb357cf-c6c6-442e-8397-a0476ba86fc4")
+		(uuid "58e4c85f-5c93-424c-aae9-4c6df91dbe21")
 	)
 	(label "B_5V"
 		(at 187.96 104.14 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "90de1e44-1a5a-4b5e-b1c9-96ea903f618d")
+		(uuid "00f30474-2ff4-41eb-b387-fb2ff2557421")
 	)
 	(wire
 		(pts (xy 195.58 114.3) (xy 198.12 114.3))
 		(stroke (width 0) (type default))
-		(uuid "929caae7-20e6-4c43-bd6b-f727ae6e2442")
+		(uuid "b20dce53-663e-4699-be4f-c47271f1f3b5")
 	)
 	(label "B_D3"
 		(at 198.12 114.3 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2416f789-29c1-4fd3-bd19-d28d7dbe7bdb")
+		(uuid "2a1acc4a-c8b0-4327-b477-7755a411d817")
 	)
 	(wire
 		(pts (xy 187.96 121.92) (xy 187.96 124.46))
 		(stroke (width 0) (type default))
-		(uuid "c2f2a419-3552-449b-939b-84ccfd1fb778")
+		(uuid "85db9a79-3590-4197-b5d3-b339d19d8bee")
 	)
 	(label "B_GND"
 		(at 187.96 124.46 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6e155a1f-b62c-4bd2-8293-1485cafc0c90")
+		(uuid "bf071fc5-2cd7-4c89-be2b-83d0d381b449")
 	)
 	(wire
 		(pts (xy 180.34 114.3) (xy 177.8 114.3))
 		(stroke (width 0) (type default))
-		(uuid "d323d314-487a-452f-8823-1479190d5a2c")
+		(uuid "f5846573-a62a-4d02-847d-9bebb34f9693")
 	)
 	(label "B_D2"
 		(at 177.8 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6d1d343f-d842-4408-9c84-7cf69e45928e")
+		(uuid "7223cb93-d4ef-4ba8-ad7b-5e84120a0c61")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -4969,8 +4969,8 @@
 			(at 187.96 139.7 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "47cd1d59-6275-4cdd-a076-668f1e007804"))
-		(pin "2" (uuid "4535a44e-9eee-4679-ac0b-241e660c89a9"))
+		(pin "1" (uuid "af75dc71-f4f6-46e4-bf16-6141a4f21d08"))
+		(pin "2" (uuid "18711c93-aba8-444f-8b08-824e11e1b6b8"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -4982,24 +4982,24 @@
 	(wire
 		(pts (xy 187.96 137.16) (xy 187.96 134.62))
 		(stroke (width 0) (type default))
-		(uuid "216cb9f2-972c-4472-9f80-58793c9c1d7f")
+		(uuid "3cf067b5-5ddd-4d7d-b6df-97c9d3b6d9cc")
 	)
 	(label "B_5V"
 		(at 187.96 134.62 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "56c34fad-8efd-431d-b301-aee316a1113d")
+		(uuid "c925d003-136f-4bba-bb61-ea1766e72c46")
 	)
 	(wire
 		(pts (xy 187.96 142.24) (xy 187.96 144.78))
 		(stroke (width 0) (type default))
-		(uuid "7c0aeab8-05ca-4840-b631-9695c9fbeb0f")
+		(uuid "45f03eed-3d2e-475c-afe0-0dbbb2826f3a")
 	)
 	(label "B_GND"
 		(at 187.96 144.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b2dd0fe7-5aec-4a97-b362-d0869ccac825")
+		(uuid "64e1c956-fd7c-4d66-8b28-2abe6d5a1abc")
 	)
 	(symbol
 		(lib_id "LED:WS2812B")
@@ -5042,10 +5042,10 @@
 			(at 238.76 114.3 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "0b59a954-03a3-474d-bd2c-7525473e70f3"))
-		(pin "2" (uuid "8bb25bae-53a1-4c4a-b1c1-5832a590c8cd"))
-		(pin "3" (uuid "ac68b936-ac1b-4488-af3c-61eea9572b0b"))
-		(pin "4" (uuid "a46d0c7c-a455-4b84-823e-3f39dbf9f21a"))
+		(pin "1" (uuid "17d731dd-c9ab-4971-b83f-309c444262f7"))
+		(pin "2" (uuid "dd5f16d0-5512-471a-8fe8-62dd8ca7eb47"))
+		(pin "3" (uuid "fc462ab6-07f0-42a7-ae9e-6e8f3fe921cc"))
+		(pin "4" (uuid "b8a6a73c-a507-4d39-a095-8392d0085251"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5057,46 +5057,46 @@
 	(wire
 		(pts (xy 238.76 106.68) (xy 238.76 104.14))
 		(stroke (width 0) (type default))
-		(uuid "16d568e0-132f-4212-8cbf-f83b7c4650fb")
+		(uuid "ba920982-5776-46c1-aa59-e5041ad678a4")
 	)
 	(label "B_5V"
 		(at 238.76 104.14 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "297a1537-dd4f-4603-abbf-009bdc1a534c")
+		(uuid "76e0f191-4a9b-48b1-94a3-8dfa2cd41e2b")
 	)
 	(wire
 		(pts (xy 246.38 114.3) (xy 248.92 114.3))
 		(stroke (width 0) (type default))
-		(uuid "60f58920-09e0-4101-9f57-30416f491373")
+		(uuid "659a4546-118f-4cb6-8b64-0a9e82e6728c")
 	)
 	(label "B_D4"
 		(at 248.92 114.3 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "77707779-d750-4440-9cfd-b579ec4622a7")
+		(uuid "1d065a3c-375b-4566-bb85-caad2cb43925")
 	)
 	(wire
 		(pts (xy 238.76 121.92) (xy 238.76 124.46))
 		(stroke (width 0) (type default))
-		(uuid "772777f0-e42c-4893-a00d-6c744d99eb29")
+		(uuid "f733a027-4cb2-43cc-a6e0-a4a2afb30473")
 	)
 	(label "B_GND"
 		(at 238.76 124.46 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "0f6bf729-d8e9-4e92-9868-9706288b4438")
+		(uuid "6e528c3b-ea6a-4d27-b5ec-55f4353437e8")
 	)
 	(wire
 		(pts (xy 231.14 114.3) (xy 228.6 114.3))
 		(stroke (width 0) (type default))
-		(uuid "111c9641-e85b-47c3-bd41-aec0d89647c2")
+		(uuid "548857b0-171e-4513-935b-d5f3487ef435")
 	)
 	(label "B_D3"
 		(at 228.6 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fbb3a40c-65ac-452f-85f1-855603465006")
+		(uuid "56c0350c-81f9-47b2-a6c6-7c225a64f2c0")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -5139,8 +5139,8 @@
 			(at 238.76 139.7 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "9a73b3af-bbc6-478f-8b75-4631aaf98831"))
-		(pin "2" (uuid "35f0028c-a382-4c11-98b5-1bf34d109fb0"))
+		(pin "1" (uuid "8f3485b7-2c0f-4c45-92a6-a195700233d0"))
+		(pin "2" (uuid "97edae00-a98e-41f0-87d6-a9941b5a3ff6"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5152,24 +5152,24 @@
 	(wire
 		(pts (xy 238.76 137.16) (xy 238.76 134.62))
 		(stroke (width 0) (type default))
-		(uuid "c1955087-8b28-453c-99e5-c6a737f327e3")
+		(uuid "028f0030-1ca5-408d-b1be-8967df362b43")
 	)
 	(label "B_5V"
 		(at 238.76 134.62 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e383a8c1-723b-4a41-8299-a90b78a954f1")
+		(uuid "fa9eafb0-37d9-4c51-9ce8-1e1cbcaafafa")
 	)
 	(wire
 		(pts (xy 238.76 142.24) (xy 238.76 144.78))
 		(stroke (width 0) (type default))
-		(uuid "3a9160ab-0f5b-440e-bc13-1c8240e83dfe")
+		(uuid "c3814c71-211d-44cd-8830-0876d9ec459e")
 	)
 	(label "B_GND"
 		(at 238.76 144.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "afb4a4e0-b5e9-4417-8703-2e5d5a0b0b7d")
+		(uuid "bdc2a557-7b86-46a7-a964-ba43f3363332")
 	)
 	(symbol
 		(lib_id "LED:WS2812B")
@@ -5212,10 +5212,10 @@
 			(at 289.56 114.3 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "5ec39ea0-2e40-49d2-b103-bfa6b928bff8"))
-		(pin "2" (uuid "f7bc0224-6464-4fe5-be1c-14534363dde7"))
-		(pin "3" (uuid "5737d89c-ec68-42fb-b403-f68b403bf515"))
-		(pin "4" (uuid "4f3d09fe-f649-453e-b09f-e38f49b0fc6c"))
+		(pin "1" (uuid "8485076f-402a-457a-86e9-95c04834e125"))
+		(pin "2" (uuid "00e58ee9-e797-4149-b5f9-2b167d65bdfe"))
+		(pin "3" (uuid "4ddd1bfb-9aa0-4daa-b1ff-dc9ef96cc628"))
+		(pin "4" (uuid "129b7d56-bfe3-41db-8f43-d96bed195c4a"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5227,46 +5227,46 @@
 	(wire
 		(pts (xy 289.56 106.68) (xy 289.56 104.14))
 		(stroke (width 0) (type default))
-		(uuid "03318963-2316-424c-9ab5-4009fa7b61cd")
+		(uuid "f11048da-5e8a-45cc-a722-405fce2156cc")
 	)
 	(label "B_5V"
 		(at 289.56 104.14 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ff9137a4-a0f3-47be-9727-49320c792037")
+		(uuid "0b786cf9-ef6e-4f58-a6b6-208d00cf7fd1")
 	)
 	(wire
 		(pts (xy 297.18 114.3) (xy 299.72 114.3))
 		(stroke (width 0) (type default))
-		(uuid "dc0da4ae-0f8c-4333-82b9-46c71d2aa167")
+		(uuid "35734bcc-0ddf-4ec7-91cb-24e15bd36e99")
 	)
 	(label "B_DOUT"
 		(at 299.72 114.3 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "720cf403-593d-4593-abb2-547ce841b991")
+		(uuid "ecdfe205-b701-4881-be16-d4acffe6c041")
 	)
 	(wire
 		(pts (xy 289.56 121.92) (xy 289.56 124.46))
 		(stroke (width 0) (type default))
-		(uuid "d8d3822b-ebcf-4f86-b308-c2a61f97edb1")
+		(uuid "49280dec-bdd6-4c2a-8b51-278904120289")
 	)
 	(label "B_GND"
 		(at 289.56 124.46 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "c991a30b-a43b-4c24-ab78-6aedb644f8c7")
+		(uuid "21f3409c-083a-44b4-80a7-a2d3c6dd694f")
 	)
 	(wire
 		(pts (xy 281.94 114.3) (xy 279.4 114.3))
 		(stroke (width 0) (type default))
-		(uuid "c81d0d86-ada7-4a03-999e-dfea632dadbc")
+		(uuid "7242490e-40f5-4c91-afbf-19e28c481323")
 	)
 	(label "B_D4"
 		(at 279.4 114.3 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "9a88549b-1f4b-47a2-9af1-411bf58b0cf7")
+		(uuid "eae0fd8d-272e-4d0e-8a0a-236c85150c0f")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -5309,8 +5309,8 @@
 			(at 289.56 139.7 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "d3e9afa5-401f-48cf-9b80-6933eab56ca4"))
-		(pin "2" (uuid "a1111ed0-1a5b-4f23-9419-54cea5fdccfb"))
+		(pin "1" (uuid "55b372fb-df19-4a4b-9994-a6a55faa785a"))
+		(pin "2" (uuid "e0a0f184-2802-4d66-9141-c6f1a522d048"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5322,24 +5322,24 @@
 	(wire
 		(pts (xy 289.56 137.16) (xy 289.56 134.62))
 		(stroke (width 0) (type default))
-		(uuid "a505e8ee-b5ce-43d0-a0dd-5f5e59a3eb84")
+		(uuid "53b9d46b-2243-484d-a5bb-858f7d326a98")
 	)
 	(label "B_5V"
 		(at 289.56 134.62 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "93cbf329-ac1f-4e3c-9f82-819d6540c23a")
+		(uuid "e031a292-1a6c-40c4-9981-17cdaef0d9b8")
 	)
 	(wire
 		(pts (xy 289.56 142.24) (xy 289.56 144.78))
 		(stroke (width 0) (type default))
-		(uuid "bd5e1ea9-4342-43e2-b502-213c2cc646a4")
+		(uuid "11bd35c2-6a69-498f-8b1c-9cef713b7730")
 	)
 	(label "B_GND"
 		(at 289.56 144.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4a23d400-f41d-4ffc-9f24-2620ca4f40a4")
+		(uuid "38a8e2f9-6ebd-453e-9b3b-765ae0695f75")
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -5382,8 +5382,8 @@
 			(at 66.04 139.7 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "0399cb7b-c534-44b7-bd75-bcc59f1507b2"))
-		(pin "2" (uuid "bff7b949-3023-4226-a828-a0c026edd556"))
+		(pin "1" (uuid "ea958b52-9e35-4068-aaf2-758fe05b082b"))
+		(pin "2" (uuid "c4b74def-29c9-4ea8-a221-f6f5002e4344"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5395,24 +5395,24 @@
 	(wire
 		(pts (xy 66.04 137.16) (xy 66.04 134.62))
 		(stroke (width 0) (type default))
-		(uuid "4d62a691-e455-4328-a6b6-095ab6b58d56")
+		(uuid "bd4fc061-795c-4954-be81-12ab325d0609")
 	)
 	(label "B_5V"
 		(at 66.04 134.62 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "117a28ec-f905-4e24-b38f-27546d28b0d1")
+		(uuid "eba76112-1cdc-4346-88fe-30dcdbd7ef82")
 	)
 	(wire
 		(pts (xy 66.04 142.24) (xy 66.04 144.78))
 		(stroke (width 0) (type default))
-		(uuid "391a85c4-5b0c-4a5b-9159-841945318c93")
+		(uuid "af21359c-aa0e-4b51-a2b1-b1bcc29ab8d8")
 	)
 	(label "B_GND"
 		(at 66.04 144.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b895e828-6cd3-4823-9b01-1fee3071572c")
+		(uuid "5bf3e03a-5c70-414b-890e-0923f96701a9")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -5443,7 +5443,7 @@
 			(at 45.72 147.32 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "31e63e1f-447d-43fb-9b54-972e017c867c"))
+		(pin "1" (uuid "8fbec3cb-d538-4933-b79a-b8b904d6b245"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5456,7 +5456,7 @@
 		(at 45.72 147.32 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6bb95bf1-3474-44cd-a842-f9e3096d7fdd")
+		(uuid "685965f8-7e23-423e-a935-511cd3f699da")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -5487,7 +5487,7 @@
 			(at 58.42 147.32 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "48322709-47c7-4244-b882-a24ee449c011"))
+		(pin "1" (uuid "4e17167c-d1b5-4690-94ff-1a99f7478761"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5500,18 +5500,18 @@
 		(at 58.42 147.32 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "0b0f775a-f6c2-4d7c-9927-bf28d20d20b8")
+		(uuid "04f43520-b6f3-4c93-8ae3-7809a01b6631")
 	)
 	(rectangle (start 20.32 187.96) (end 147.32 251.46)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "98280e2d-d137-4ad6-86af-3e65d4ceb648")
+		(uuid "0b8847f2-6eb8-4c33-b6c3-3389ef955fa6")
 	)
 	(text "Taster T1 (Teilplatine 15,3 × 17,3 mm)"
 		(exclude_from_sim no)
 		(at 21.59 191.77 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "c2db5aaa-4ed0-47ee-b1cc-e5ec2cb9dae1")
+		(uuid "12f1ec8a-36aa-44dc-984b-871c6eaad17c")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x02_MountingPin")
@@ -5554,9 +5554,9 @@
 			(at 30.48 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "05d0ea5f-6dd6-4ec8-8460-3656917d9e1f"))
-		(pin "2" (uuid "7a31a565-293e-4990-93f2-95888155a740"))
-		(pin "MP" (uuid "993807e4-47f0-4412-8849-53bfc5aa1437"))
+		(pin "1" (uuid "7e9a5000-da30-48b3-a091-e9ca6edb1b8c"))
+		(pin "2" (uuid "ad4838d1-7688-41ae-bc27-d137f856ffae"))
+		(pin "MP" (uuid "2f897d23-cc47-4f30-a4bf-701296615181"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5568,41 +5568,41 @@
 	(wire
 		(pts (xy 25.4 208.28) (xy 22.86 208.28))
 		(stroke (width 0) (type default))
-		(uuid "0765ea2d-fc73-4063-bee8-0714b898ab12")
+		(uuid "f241328f-22f3-447b-adc6-ff4bd93c9c98")
 	)
 	(label "T1_SW"
 		(at 22.86 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fc5da9da-3b99-485a-a11d-09ea4df2f002")
+		(uuid "4d1dde9f-97ce-42f6-ab6d-e85ffe0a2603")
 	)
 	(wire
 		(pts (xy 25.4 210.82) (xy 22.86 210.82))
 		(stroke (width 0) (type default))
-		(uuid "083d30b6-f667-4223-b34e-9d005085e037")
+		(uuid "c0c64622-38a1-4c7c-8a57-ff06100ca946")
 	)
 	(label "T1_GND"
 		(at 22.86 210.82 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a74b3cb4-8a2f-4de2-9b0a-490085a3a15e")
+		(uuid "75efdf93-f003-4d88-94a7-a3440322d9a0")
 	)
 	(wire
 		(pts (xy 30.48 215.9) (xy 30.48 218.44))
 		(stroke (width 0) (type default))
-		(uuid "cf92b27d-c5ff-4c6f-8c07-e6f3c8c5aa71")
+		(uuid "5628996f-3450-45d9-ab4b-547468cc30f2")
 	)
 	(label "T1_GND"
 		(at 30.48 218.44 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "bcf33daa-6ef7-4193-afdb-0b95c14feae5")
+		(uuid "2b6e1d85-a511-494e-afbf-81e426dea1c6")
 	)
 	(text "Anschluss"
 		(exclude_from_sim no)
 		(at 27.94 200.66 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "697137bd-dc5c-4715-91ff-447a8e5fb5a5")
+		(uuid "02064316-7054-4fb5-9dab-e82d4ce0345c")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -5645,8 +5645,8 @@
 			(at 50.8 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "139b1465-e917-4224-86db-a13bd857f0fd"))
-		(pin "2" (uuid "d1b238c0-bbb2-4991-8de4-aa5bbb7a3bd2"))
+		(pin "1" (uuid "b8d07991-3c7b-4741-a9f8-1bba5f95ca6f"))
+		(pin "2" (uuid "e0d499f1-3fa9-4249-8ea4-bcf6dff48c30"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5658,24 +5658,24 @@
 	(wire
 		(pts (xy 45.72 208.28) (xy 43.18 208.28))
 		(stroke (width 0) (type default))
-		(uuid "0c773faa-b4be-4e7d-8c1e-fc7f57b49414")
+		(uuid "c4c45dab-1865-491f-9461-4343ff8013e4")
 	)
 	(label "T1_SW"
 		(at 43.18 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "df71f017-57f3-411e-825e-d22a38c674dc")
+		(uuid "7c6f65ac-e124-48ea-b041-c963f97b603a")
 	)
 	(wire
 		(pts (xy 45.72 210.82) (xy 43.18 210.82))
 		(stroke (width 0) (type default))
-		(uuid "92734699-2409-4f04-b1b5-06f157f4341e")
+		(uuid "3573d914-2e0e-4c88-880c-4549dc255fe6")
 	)
 	(label "T1_GND"
 		(at 43.18 210.82 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6b89a30d-3a31-4e55-98ac-9a420c63b059")
+		(uuid "49d46270-864a-4610-b422-d6675c6ba4a4")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -5718,8 +5718,8 @@
 			(at 101.6 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "0dda8cef-1b7b-4646-89c0-03227024b8d3"))
-		(pin "2" (uuid "56e9f38b-8d81-48ad-912a-e6fd51f75825"))
+		(pin "1" (uuid "e883ff71-e23e-4c02-90ca-5b7bf3739657"))
+		(pin "2" (uuid "43ee2964-4a25-4969-bac4-81d19690ec16"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5731,24 +5731,24 @@
 	(wire
 		(pts (xy 96.52 208.28) (xy 93.98 208.28))
 		(stroke (width 0) (type default))
-		(uuid "377612ac-9688-41cc-8583-d98205aaa498")
+		(uuid "7f92f45a-03d5-4a72-9fb1-059ae3a80532")
 	)
 	(label "T1_SW"
 		(at 93.98 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ec14883e-5c26-405a-ba3a-9d91b38e25a5")
+		(uuid "3df13e56-a8e3-4747-bf0b-0f35707c12cb")
 	)
 	(wire
 		(pts (xy 106.68 208.28) (xy 109.22 208.28))
 		(stroke (width 0) (type default))
-		(uuid "d6c7d096-9eee-484a-828f-e201ce883509")
+		(uuid "d88747b6-bb32-4b9c-8e53-a057e2086ba0")
 	)
 	(label "T1_GND"
 		(at 109.22 208.28 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "23ff5322-07ff-4339-bfc0-180d895ecf21")
+		(uuid "f0431de8-42f0-4030-b6c2-9615bf7407b6")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -5779,7 +5779,7 @@
 			(at 93.98 238.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "4828ae8d-1c04-43ca-be8e-eff29ddfc3ae"))
+		(pin "1" (uuid "47502811-9692-4337-8e1e-cb2ad473e32e"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5792,7 +5792,7 @@
 		(at 93.98 238.76 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6f44574d-76a9-40e6-8189-60d83e3993a3")
+		(uuid "45fa558c-f6ba-4edd-8db5-39574b16b996")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -5823,7 +5823,7 @@
 			(at 109.22 238.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "7d7aba9d-7f1c-4523-8ecc-b7bcf11430ff"))
+		(pin "1" (uuid "a5227586-8c0a-47ba-8e22-537350eac69b"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5836,18 +5836,18 @@
 		(at 109.22 238.76 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "594cd1ff-ab5a-4753-8ed3-5b1dc62c241f")
+		(uuid "5b77e09c-ec12-4f72-9cde-103e2e5c507c")
 	)
 	(rectangle (start 152.4 187.96) (end 279.4 251.46)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "3420e1f6-d4f4-489e-8322-4011af3d7b9d")
+		(uuid "cf098122-1446-4cea-9a2b-4e587209e081")
 	)
 	(text "Taster T2 (Teilplatine 15,3 × 17,3 mm)"
 		(exclude_from_sim no)
 		(at 153.67 191.77 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "ccbe8f8b-0537-41fb-844c-7c7512de0373")
+		(uuid "c8f46ca7-8193-4c0e-abee-ac595db7a909")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x02_MountingPin")
@@ -5890,9 +5890,9 @@
 			(at 162.56 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "6a1efe70-142d-4b67-8709-9415a8352c54"))
-		(pin "2" (uuid "3d2c4a48-9cc4-4be0-9def-228b509d6dcc"))
-		(pin "MP" (uuid "820a81e2-a23e-4739-81b9-1545a1432724"))
+		(pin "1" (uuid "1d543c8d-51da-449b-8816-a1eadf9e0798"))
+		(pin "2" (uuid "1cb62e0f-5f25-4a1e-9e9b-692ae2c5baa7"))
+		(pin "MP" (uuid "a5f57774-c38c-4004-baf3-82084103ca1b"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5904,41 +5904,41 @@
 	(wire
 		(pts (xy 157.48 208.28) (xy 154.94 208.28))
 		(stroke (width 0) (type default))
-		(uuid "4dcadd8e-1234-4f42-9070-699601a499cf")
+		(uuid "995e20fd-2ac2-470c-956f-bfa35bfbbd55")
 	)
 	(label "T2_SW"
 		(at 154.94 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5db978c6-5794-4449-97a8-4a81f78ae6b2")
+		(uuid "6e53de12-7b31-47a5-8792-4e48296d1653")
 	)
 	(wire
 		(pts (xy 157.48 210.82) (xy 154.94 210.82))
 		(stroke (width 0) (type default))
-		(uuid "ab900df2-ba90-4dfb-8c87-edaadf8b654d")
+		(uuid "7c4a7bfc-a93d-4283-8ab1-51bdbe6fdf03")
 	)
 	(label "T2_GND"
 		(at 154.94 210.82 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7bd50989-b0e9-4c22-afbf-54ac10f8d7e1")
+		(uuid "722894e6-5b6e-49bd-aaee-4bcee46bb225")
 	)
 	(wire
 		(pts (xy 162.56 215.9) (xy 162.56 218.44))
 		(stroke (width 0) (type default))
-		(uuid "7ea3f04e-9c11-426d-9040-e68a530cea35")
+		(uuid "0dae2f88-168c-4dbf-af40-a0f0571947f6")
 	)
 	(label "T2_GND"
 		(at 162.56 218.44 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "430e5de2-5d0c-4b56-8be4-f9a3cb81be3f")
+		(uuid "31185868-00f6-4fb1-aa0e-945e70cb4ff0")
 	)
 	(text "Anschluss"
 		(exclude_from_sim no)
 		(at 160.02 200.66 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "06132c17-baa9-440f-9242-2c05a9c0e747")
+		(uuid "cebf8e05-1547-48c0-bfad-67aff8555c1c")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -5981,8 +5981,8 @@
 			(at 182.88 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "5fdc4cae-1e92-4b75-9951-7c16aca4163e"))
-		(pin "2" (uuid "6d62a742-fc2f-4f03-ace0-d3b2a556a27a"))
+		(pin "1" (uuid "7c2e614a-5cef-484c-ac8e-7e98d6a5b7fe"))
+		(pin "2" (uuid "735d2b4d-7214-4dac-b3e0-75c6bc7a6b0a"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -5994,24 +5994,24 @@
 	(wire
 		(pts (xy 177.8 208.28) (xy 175.26 208.28))
 		(stroke (width 0) (type default))
-		(uuid "c1fccd36-2809-4f11-a4c9-5f76f1632d55")
+		(uuid "cbffdd3e-425b-48bb-bb2f-9855c5ee358f")
 	)
 	(label "T2_SW"
 		(at 175.26 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "19261043-f622-467f-b0c3-849adc3da5d2")
+		(uuid "71728885-ed6f-4240-bb46-7e9230dd6514")
 	)
 	(wire
 		(pts (xy 177.8 210.82) (xy 175.26 210.82))
 		(stroke (width 0) (type default))
-		(uuid "4c9c9ad4-c1f9-4807-8f2a-6d7d61c3c818")
+		(uuid "efc4f3f7-bbef-4638-bebc-b9fc86f6594c")
 	)
 	(label "T2_GND"
 		(at 175.26 210.82 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "9e83aec4-3dab-40af-bdab-0fb77f435fd9")
+		(uuid "ee1332fb-848f-483e-b6aa-5c425de6345f")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -6054,8 +6054,8 @@
 			(at 233.68 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "23a29693-95a5-4f9c-9036-cd60d9df3852"))
-		(pin "2" (uuid "536586b5-ea17-481c-9720-2172e89b6207"))
+		(pin "1" (uuid "f3c5e049-bd70-4f93-a628-0458ca62006e"))
+		(pin "2" (uuid "c01a21e4-405b-4e54-a8a1-52e35aa5104e"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6067,24 +6067,24 @@
 	(wire
 		(pts (xy 228.6 208.28) (xy 226.06 208.28))
 		(stroke (width 0) (type default))
-		(uuid "9df52b52-68eb-4b6a-a98f-c2be5119f3a1")
+		(uuid "fa35b21d-52e4-4e44-864a-061b90976279")
 	)
 	(label "T2_SW"
 		(at 226.06 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "592af3bb-62ae-4134-91d6-789b11c8ea40")
+		(uuid "6b0e43fd-c219-462f-9d79-713d8adb9597")
 	)
 	(wire
 		(pts (xy 238.76 208.28) (xy 241.3 208.28))
 		(stroke (width 0) (type default))
-		(uuid "b2f03181-0c06-49d1-bdd6-f7d8b64907d8")
+		(uuid "196a2a3f-6632-4cda-b932-36a3c4e854de")
 	)
 	(label "T2_GND"
 		(at 241.3 208.28 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a72aab0c-9d8a-4b3e-8824-9d9a2e73bb89")
+		(uuid "996e21c2-02b6-4feb-b2c8-0fe4d7d78211")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -6115,7 +6115,7 @@
 			(at 226.06 238.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "cd0bfdcc-9540-4806-a033-8058c7702a85"))
+		(pin "1" (uuid "14a44fe2-8c4c-4580-925b-0129ee623a77"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6128,7 +6128,7 @@
 		(at 226.06 238.76 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2f23b388-600f-4f19-b0f1-18ac60ea64f1")
+		(uuid "92778cb6-56a2-4101-8cfd-69222d78a851")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -6159,7 +6159,7 @@
 			(at 241.3 238.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "868f41c0-4d5f-43d9-965e-f0a96c9a7fb1"))
+		(pin "1" (uuid "74473c3d-8e65-497b-8de3-a6dfe5c707e7"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6172,18 +6172,18 @@
 		(at 241.3 238.76 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4fae6b0f-ae51-4da6-ba7b-bd8da937149d")
+		(uuid "da81f84a-f1f6-4392-8177-446fe6f8c798")
 	)
 	(rectangle (start 284.48 187.96) (end 411.48 251.46)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "090fda98-c03e-40b6-90cb-3f8c73100510")
+		(uuid "06cd87b1-5eb5-49d6-8593-b9a192a47d7e")
 	)
 	(text "Taster T3 (Teilplatine 15,3 × 17,3 mm)"
 		(exclude_from_sim no)
 		(at 285.75 191.77 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "9d9a205d-1bbc-4e6e-82af-64d893ca9d7d")
+		(uuid "eba79d99-1885-4bfa-a715-8e756dbf3ced")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x02_MountingPin")
@@ -6226,9 +6226,9 @@
 			(at 294.64 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "85a009c7-8b9a-4b2f-aae3-657be87e2fa4"))
-		(pin "2" (uuid "25aac497-e025-442f-a20d-2c85c5cb5f91"))
-		(pin "MP" (uuid "8f3b924d-7518-4a9e-b1e5-b79b54537283"))
+		(pin "1" (uuid "b99edf54-4e40-4ae2-a04c-654329304457"))
+		(pin "2" (uuid "384b4f64-f84c-4ee2-acc6-2a6f45a73972"))
+		(pin "MP" (uuid "df7d0759-a67f-472b-9149-0d4d5f6e5b3a"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6240,41 +6240,41 @@
 	(wire
 		(pts (xy 289.56 208.28) (xy 287.02 208.28))
 		(stroke (width 0) (type default))
-		(uuid "829a666d-b0c9-444d-b469-7e5a660fe599")
+		(uuid "862e490f-9aeb-464a-9a23-b93320cd294c")
 	)
 	(label "T3_SW"
 		(at 287.02 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7452fc7a-0816-4c6e-8f04-87beb30fd783")
+		(uuid "e571b0a5-a1b4-4f59-84f4-5a07faca992c")
 	)
 	(wire
 		(pts (xy 289.56 210.82) (xy 287.02 210.82))
 		(stroke (width 0) (type default))
-		(uuid "36089ed9-b2f5-4f86-b0bf-bb309f7a5e52")
+		(uuid "d074c653-7b55-4009-b575-7acafd282c41")
 	)
 	(label "T3_GND"
 		(at 287.02 210.82 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fdb88470-ca2c-4586-bc99-8fa80bfa8691")
+		(uuid "41a0e74b-4f40-4381-80fa-f2ae7ee0dd43")
 	)
 	(wire
 		(pts (xy 294.64 215.9) (xy 294.64 218.44))
 		(stroke (width 0) (type default))
-		(uuid "9cd78d07-b934-4b22-8bd0-42e021439809")
+		(uuid "856c6b83-d571-4f08-9730-62d4ddd95458")
 	)
 	(label "T3_GND"
 		(at 294.64 218.44 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "56aa7b30-bd19-4efa-ac89-2956867eff61")
+		(uuid "c3545d50-f9f5-4681-b81d-5772c16ce144")
 	)
 	(text "Anschluss"
 		(exclude_from_sim no)
 		(at 292.1 200.66 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "91b2e36f-97db-4851-84b9-106b37b8d876")
+		(uuid "aaf6b503-327b-44d3-8af0-d9964f888a61")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -6317,8 +6317,8 @@
 			(at 314.96 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "97f46b86-d6dc-474a-9975-87bcea2861fe"))
-		(pin "2" (uuid "8d864dce-9762-476c-bc82-8356fbd848b6"))
+		(pin "1" (uuid "8db2d736-57e7-477e-8215-6129f74d3d97"))
+		(pin "2" (uuid "21ff9198-9454-44e8-96d9-43f0a17f04aa"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6330,24 +6330,24 @@
 	(wire
 		(pts (xy 309.88 208.28) (xy 307.34 208.28))
 		(stroke (width 0) (type default))
-		(uuid "db6103b3-90b9-4fc1-a176-3e2b44e95069")
+		(uuid "4354baae-c86a-4372-83ee-0657c38fee3a")
 	)
 	(label "T3_SW"
 		(at 307.34 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "44fc1450-5126-4e11-9bc4-12105f1b9778")
+		(uuid "c129fe3b-fad5-4998-98f8-770d2548d031")
 	)
 	(wire
 		(pts (xy 309.88 210.82) (xy 307.34 210.82))
 		(stroke (width 0) (type default))
-		(uuid "cfba5dfd-b673-4c00-9e3a-ffc279c7bed4")
+		(uuid "49fa33a4-d461-4aff-bac3-22323344afd6")
 	)
 	(label "T3_GND"
 		(at 307.34 210.82 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "0075c8fd-34b8-4423-a862-d70343fe13d3")
+		(uuid "7f6df9a4-955b-4661-9a5b-a836a3ea8e52")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -6390,8 +6390,8 @@
 			(at 365.76 208.28 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "a4ab0275-9bf0-44f7-af37-e10f357324dd"))
-		(pin "2" (uuid "36be5bdf-e2dc-4c21-8141-1d93055458fb"))
+		(pin "1" (uuid "50d230df-0f25-49be-b1c1-e14944c4c214"))
+		(pin "2" (uuid "d506cbd6-0e39-43c5-ae63-da485bd1fb63"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6403,24 +6403,24 @@
 	(wire
 		(pts (xy 360.68 208.28) (xy 358.14 208.28))
 		(stroke (width 0) (type default))
-		(uuid "fdc7183c-3a12-499b-82da-cd1aa22599af")
+		(uuid "142d210a-8c0e-452b-9f80-342979717c92")
 	)
 	(label "T3_SW"
 		(at 358.14 208.28 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6b576ef1-9f84-42a6-bb29-709486257f18")
+		(uuid "9f0794c7-5018-4111-884e-ffcbfb015520")
 	)
 	(wire
 		(pts (xy 370.84 208.28) (xy 373.38 208.28))
 		(stroke (width 0) (type default))
-		(uuid "c4deeca3-e689-42e1-934a-378c1d72ba43")
+		(uuid "f4eaa686-79ce-4126-a9b5-b5c204035261")
 	)
 	(label "T3_GND"
 		(at 373.38 208.28 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "0cdfee67-9681-40cc-b9ad-3f2f104d21d2")
+		(uuid "ed856b21-941d-4cc9-bccc-c88437b3f1d4")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -6451,7 +6451,7 @@
 			(at 358.14 238.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "a2d6c64a-c9ec-42d1-b654-5699bdb53338"))
+		(pin "1" (uuid "f43c7497-5c90-4841-8697-08e2664871d4"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6464,7 +6464,7 @@
 		(at 358.14 238.76 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ee7a216b-6d39-41b2-a983-3027cd4ad736")
+		(uuid "a51faca5-c1c5-4317-98f3-e2d4f56227ae")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -6495,7 +6495,7 @@
 			(at 373.38 238.76 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "af9da31b-8d9b-4b29-bc23-58e4af01da8d"))
+		(pin "1" (uuid "a7a36a4d-0ade-4a59-bedc-28737b3dcdc9"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6508,18 +6508,18 @@
 		(at 373.38 238.76 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9929dc08-cfff-4741-b745-b066db91cd1a")
+		(uuid "7a23fc78-3dea-4cee-8c75-060906a6416f")
 	)
 	(rectangle (start 20.32 251.46) (end 147.32 314.96)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "c0b8918c-3975-4169-9002-bcadcc9915e2")
+		(uuid "98f500f1-4dd1-4475-aefa-bde7cc272920")
 	)
 	(text "Taster T4 (Teilplatine 15,3 × 17,3 mm)"
 		(exclude_from_sim no)
 		(at 21.59 255.27 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "0efad190-8e36-45f9-8c0e-6641bf16b339")
+		(uuid "67106609-6b6e-40f1-8f17-064176b04c31")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x02_MountingPin")
@@ -6562,9 +6562,9 @@
 			(at 30.48 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "23156b22-cec9-4898-a7a0-dfb8d4207c58"))
-		(pin "2" (uuid "e1b052d6-546f-475a-8a45-355d9f7d09fa"))
-		(pin "MP" (uuid "d92284d1-3ced-431b-a428-58d5a985e4b8"))
+		(pin "1" (uuid "23447ed4-0da7-4c99-8da2-7c90f2f73013"))
+		(pin "2" (uuid "f57533fb-0b5e-4eed-aad4-5047d03585a5"))
+		(pin "MP" (uuid "cb11af18-a955-40d2-87e0-2db086c548ea"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6576,41 +6576,41 @@
 	(wire
 		(pts (xy 25.4 271.78) (xy 22.86 271.78))
 		(stroke (width 0) (type default))
-		(uuid "d5faffa9-6840-4bd1-8adc-01f639bf1118")
+		(uuid "01305d0b-8089-4966-9ccc-8ada273913e0")
 	)
 	(label "T4_SW"
 		(at 22.86 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8d17f7ca-ea27-4032-acff-a8f4b6b5f183")
+		(uuid "e56109c1-13d3-431c-8f44-d848ea9aa04e")
 	)
 	(wire
 		(pts (xy 25.4 274.32) (xy 22.86 274.32))
 		(stroke (width 0) (type default))
-		(uuid "1925d725-786c-4803-a53f-7b6c9b4ffeba")
+		(uuid "545940ae-425c-443e-bbc8-85c8bd8cd2cf")
 	)
 	(label "T4_GND"
 		(at 22.86 274.32 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "06e13fb1-e9d6-40d0-9c2c-d9930f7fa3ef")
+		(uuid "c6b3c51d-a6ba-4751-88b7-3e54a4b421f2")
 	)
 	(wire
 		(pts (xy 30.48 279.4) (xy 30.48 281.94))
 		(stroke (width 0) (type default))
-		(uuid "90239470-cf6f-4cd2-a920-82ee5d40a478")
+		(uuid "531a50ab-4175-470c-8ab0-264923d22446")
 	)
 	(label "T4_GND"
 		(at 30.48 281.94 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "87e776d8-07a0-414c-ae22-5746b22d4ba5")
+		(uuid "2451cc40-343e-430c-946c-e181c968f507")
 	)
 	(text "Anschluss"
 		(exclude_from_sim no)
 		(at 27.94 264.16 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "e14738df-4166-4173-bd83-40ad9f6bd54a")
+		(uuid "9f903b69-55ce-440e-ac13-75e80dd549ed")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -6653,8 +6653,8 @@
 			(at 50.8 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "1918aca0-c1a7-4c54-b4d7-aaeb0d26fd1e"))
-		(pin "2" (uuid "c7b8b574-b9e0-4550-93e5-93f2c0b1022e"))
+		(pin "1" (uuid "8470769e-a3b8-4a36-b316-12609e035c1b"))
+		(pin "2" (uuid "472ecbbc-ca74-44a5-a789-1cddffbe83d7"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6666,24 +6666,24 @@
 	(wire
 		(pts (xy 45.72 271.78) (xy 43.18 271.78))
 		(stroke (width 0) (type default))
-		(uuid "6c3b6db2-bb2b-43ec-a0c2-6acc11bb4706")
+		(uuid "5100ecfd-87cd-4550-9a7d-6bff6f3f2833")
 	)
 	(label "T4_SW"
 		(at 43.18 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "3e38b841-dabd-416e-ad8d-9af74265c0b2")
+		(uuid "5fd6afe3-3ad6-478a-a50b-b7f528656582")
 	)
 	(wire
 		(pts (xy 45.72 274.32) (xy 43.18 274.32))
 		(stroke (width 0) (type default))
-		(uuid "8d0f384c-1385-4b73-9fd7-b832fbb44f0f")
+		(uuid "cebf1ba0-db65-4c36-9de8-579cddb9d0e5")
 	)
 	(label "T4_GND"
 		(at 43.18 274.32 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "09acd1dd-be35-4cb7-b73b-507fd74415d8")
+		(uuid "b243257e-6273-4f4e-84c9-1016178afc5e")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -6726,8 +6726,8 @@
 			(at 101.6 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "a8f7aff9-915d-4556-9f3c-27aa521d54c5"))
-		(pin "2" (uuid "5224f841-430e-4745-8c2d-a0bb32b63c95"))
+		(pin "1" (uuid "5dd1180c-544c-4aa2-9782-338d3a87f2ed"))
+		(pin "2" (uuid "aa9ff15a-d993-4722-b6d3-924d676a9ea2"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6739,24 +6739,24 @@
 	(wire
 		(pts (xy 96.52 271.78) (xy 93.98 271.78))
 		(stroke (width 0) (type default))
-		(uuid "503b3bde-1490-4f38-ba27-457e660124bc")
+		(uuid "df9a3bef-b5a7-419b-8456-4ba654a199e5")
 	)
 	(label "T4_SW"
 		(at 93.98 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a6d658a0-761c-4a44-af6d-c2174f8541f0")
+		(uuid "6ff4a264-a0c6-460e-8a0b-542c0e277de1")
 	)
 	(wire
 		(pts (xy 106.68 271.78) (xy 109.22 271.78))
 		(stroke (width 0) (type default))
-		(uuid "649298d7-0bc4-463f-ae23-98d64f26ce1b")
+		(uuid "856f309f-86ae-4c92-a29d-e42b6ba40fd2")
 	)
 	(label "T4_GND"
 		(at 109.22 271.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a80d893a-c817-4c66-b762-d0cf133af1ee")
+		(uuid "7825c6e1-42cf-4194-a635-84f3dd77a432")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -6787,7 +6787,7 @@
 			(at 93.98 302.26 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "24435c90-4ba0-4fe0-8d80-f71a6fa9b928"))
+		(pin "1" (uuid "32fe4d8a-551e-4030-9462-b1703357f502"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6800,7 +6800,7 @@
 		(at 93.98 302.26 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "28039a87-1487-4fe2-b456-adb60e8a5181")
+		(uuid "ecda0f38-9afa-4e5c-baef-3d2219381437")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -6831,7 +6831,7 @@
 			(at 109.22 302.26 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "eb072ba0-400b-4d7f-9e3e-81724b466a8f"))
+		(pin "1" (uuid "186b06f1-3af0-4ff8-bdcc-6c2f4c18c37f"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6844,18 +6844,18 @@
 		(at 109.22 302.26 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2053d9b0-d5da-41e8-ad0e-3b334ff2bd24")
+		(uuid "0b984d48-8c1a-45eb-8ece-2480acb30243")
 	)
 	(rectangle (start 152.4 251.46) (end 279.4 314.96)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "ba021f8c-f521-4d0d-9d47-f2a0c6efa7f0")
+		(uuid "9fa95473-a5f3-437e-85d4-af3819b8793b")
 	)
 	(text "Taster T5 (Doppeltaster-Platine T5/T6, 15,3 × 32,5 mm)"
 		(exclude_from_sim no)
 		(at 153.67 255.27 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "0d78abe8-55c9-447c-b50b-ae9ae1b49e8e")
+		(uuid "937cfa42-a26c-4376-9f28-c1e944ab3694")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x02_MountingPin")
@@ -6898,9 +6898,9 @@
 			(at 162.56 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "076a0d0e-9089-4b49-a9f2-cd5d9fb05dbb"))
-		(pin "2" (uuid "9a7df052-5d64-4fe7-9dfa-8896449e9c7a"))
-		(pin "MP" (uuid "61b0cac6-809b-4738-a17b-4ba073d012cd"))
+		(pin "1" (uuid "90b2c2b5-bed7-4bb7-a36a-7474967ae66b"))
+		(pin "2" (uuid "65938b53-d77a-4aa1-b8c9-f0a42cac681d"))
+		(pin "MP" (uuid "e7eb5993-a554-447c-8e82-cbc38b870913"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -6912,41 +6912,41 @@
 	(wire
 		(pts (xy 157.48 271.78) (xy 154.94 271.78))
 		(stroke (width 0) (type default))
-		(uuid "db5cb1f7-418f-46eb-b28f-e817b5dbcc6f")
+		(uuid "81b8644b-6759-4ee3-ba63-a6961ea87364")
 	)
 	(label "T5_SW"
 		(at 154.94 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f108842c-bae3-49c8-9b37-278f00947cc1")
+		(uuid "5107ebae-ddc3-4af3-adf1-f458e16172cc")
 	)
 	(wire
 		(pts (xy 157.48 274.32) (xy 154.94 274.32))
 		(stroke (width 0) (type default))
-		(uuid "a1a05235-65db-4ac3-9a51-75986b9d7631")
+		(uuid "959c085f-1907-4808-8134-a3c7dc63e6e3")
 	)
 	(label "T5_GND"
 		(at 154.94 274.32 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b689eb5b-676a-4771-9703-aa948ea228cc")
+		(uuid "3b9f0c52-1248-4453-ab27-676456f1ed6e")
 	)
 	(wire
 		(pts (xy 162.56 279.4) (xy 162.56 281.94))
 		(stroke (width 0) (type default))
-		(uuid "ebb87c49-9938-4025-bb7d-bf6c3b0e21c3")
+		(uuid "7e6984f5-149e-446d-8767-f439b1e201bd")
 	)
 	(label "T5_GND"
 		(at 162.56 281.94 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "14686639-c201-45f7-ac42-c070f32ba5a2")
+		(uuid "97507193-ff44-4f32-8246-81137d7d4c00")
 	)
 	(text "Anschluss"
 		(exclude_from_sim no)
 		(at 160.02 264.16 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "9b279eb3-fdd3-481c-a425-d7d998629308")
+		(uuid "d8188460-b0a7-4205-b48e-1d5f5b786ad8")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -6989,8 +6989,8 @@
 			(at 182.88 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "e8143d5f-488b-4275-a8b1-ba8952b1db74"))
-		(pin "2" (uuid "50f965c9-bcab-4df5-bc05-82adf199f077"))
+		(pin "1" (uuid "55098200-ae07-4aeb-9b69-9c79059b3b47"))
+		(pin "2" (uuid "e32c0087-951c-45cf-89a8-1c79bd55f73d"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7002,24 +7002,24 @@
 	(wire
 		(pts (xy 177.8 271.78) (xy 175.26 271.78))
 		(stroke (width 0) (type default))
-		(uuid "f155925b-b51f-4ef9-96ed-f7661899b968")
+		(uuid "eb5c527c-eec2-494f-b2c7-d4dd889152fc")
 	)
 	(label "T5_SW"
 		(at 175.26 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "46a85316-a884-4e42-8d09-74a0170a0477")
+		(uuid "000a69bd-2859-4aed-ba72-b80794c0775c")
 	)
 	(wire
 		(pts (xy 177.8 274.32) (xy 175.26 274.32))
 		(stroke (width 0) (type default))
-		(uuid "02048a60-0348-4428-aab9-80821b96cc6c")
+		(uuid "53ceb3c3-64ea-4c73-9fce-12ff591fc603")
 	)
 	(label "T5_GND"
 		(at 175.26 274.32 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "1d7415d5-59af-4581-93c1-85c4de71aa40")
+		(uuid "e07d3635-a801-4e56-8a93-857b8820c67d")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -7062,8 +7062,8 @@
 			(at 233.68 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "27412502-2e5a-4632-bf2e-3711e486c6e8"))
-		(pin "2" (uuid "0bf5af9e-fa10-4cba-8aeb-6155c05cf98f"))
+		(pin "1" (uuid "a579a9a3-c0d7-4b47-83a7-4b1bbdb01aa2"))
+		(pin "2" (uuid "81601796-f309-4f97-b1e4-59227c17bad8"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7075,24 +7075,24 @@
 	(wire
 		(pts (xy 228.6 271.78) (xy 226.06 271.78))
 		(stroke (width 0) (type default))
-		(uuid "a2ab8160-d666-4b15-9fe8-d9143bc46030")
+		(uuid "ab51cd79-5937-4b70-be82-9a4331c71653")
 	)
 	(label "T5_SW"
 		(at 226.06 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8da907e1-2544-4640-81e7-f6106d868cd2")
+		(uuid "69be0a00-b6ad-420e-b25e-1f04ca9b165b")
 	)
 	(wire
 		(pts (xy 238.76 271.78) (xy 241.3 271.78))
 		(stroke (width 0) (type default))
-		(uuid "87546544-1885-45fd-b438-b4f0547b9dad")
+		(uuid "990075a2-728f-4457-9b3f-d44e6d56bd4c")
 	)
 	(label "T5_GND"
 		(at 241.3 271.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "43d68be9-8918-457f-ab76-52c7667756b7")
+		(uuid "ed52b221-3913-40be-8e9c-f99692f6c074")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -7123,7 +7123,7 @@
 			(at 226.06 302.26 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "f9b569bc-141b-47cd-95b1-899944818f69"))
+		(pin "1" (uuid "dd02853b-7b1d-4dd8-8e15-bea110bae165"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7136,7 +7136,7 @@
 		(at 226.06 302.26 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "91fdbd5f-6f25-4235-bdca-332ddef0b46d")
+		(uuid "14d696e3-cc31-44ae-b6ee-eda25055d921")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -7167,7 +7167,7 @@
 			(at 241.3 302.26 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "f3b9cca5-41c2-46fc-8a7a-8c03a963db4f"))
+		(pin "1" (uuid "6b99ea75-49b7-49fc-bdce-a8a19989b10b"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7180,18 +7180,18 @@
 		(at 241.3 302.26 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "feaf6a38-8fee-4f80-88d6-f1fbc6b20a7a")
+		(uuid "fb46d336-065b-4c82-bf29-c8ed9d278a1b")
 	)
 	(rectangle (start 284.48 251.46) (end 411.48 314.96)
 		(stroke (width 0.1524) (type dash) (color 120 120 120 1))
 		(fill (type none))
-		(uuid "a58cd6a8-72e0-4e0e-9268-ccf3e81576c0")
+		(uuid "e4650c35-d9e3-4239-9034-1e1a2ff30d32")
 	)
 	(text "Taster T6 (Doppeltaster-Platine T5/T6, 15,3 × 32,5 mm)"
 		(exclude_from_sim no)
 		(at 285.75 255.27 0)
 		(effects (font (size 1.8 1.8) (bold yes)) (justify left bottom))
-		(uuid "55b23f53-c9e5-4a4a-9a0a-e3720d198af3")
+		(uuid "8652b090-2efe-492f-9ae8-dba5121b4ece")
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x02_MountingPin")
@@ -7234,9 +7234,9 @@
 			(at 294.64 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "0d4b33e6-a568-4254-a514-46113fa9cab8"))
-		(pin "2" (uuid "1f0fc5d4-06b8-4854-b5ef-9f4815b238c0"))
-		(pin "MP" (uuid "4b52903d-ce4d-4f6a-9644-233b0988e0e7"))
+		(pin "1" (uuid "fa20f4ed-648b-47d9-9184-4903092adb7a"))
+		(pin "2" (uuid "818daa4d-2c51-4498-af63-3acf82b1869c"))
+		(pin "MP" (uuid "3a5f325c-a168-453e-88ca-a10fa2fda1fd"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7248,41 +7248,41 @@
 	(wire
 		(pts (xy 289.56 271.78) (xy 287.02 271.78))
 		(stroke (width 0) (type default))
-		(uuid "27138fbd-c70a-4c8e-8bc3-0a959f66f629")
+		(uuid "f85500a7-ffac-40d4-bcb2-379763f8b779")
 	)
 	(label "T6_SW"
 		(at 287.02 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6c67f7a2-5408-4efe-85dc-b10d821bd179")
+		(uuid "25348200-9604-4754-ab04-f79ff9751c19")
 	)
 	(wire
 		(pts (xy 289.56 274.32) (xy 287.02 274.32))
 		(stroke (width 0) (type default))
-		(uuid "998e2746-bda2-4e19-ac5b-36f845498f87")
+		(uuid "f32ceb9d-0685-4dc9-8322-135b5b4db551")
 	)
 	(label "T6_GND"
 		(at 287.02 274.32 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "4a4bf863-d83a-4a52-ad61-493889c5749c")
+		(uuid "f77d19dc-5804-4584-8a39-779b64af7018")
 	)
 	(wire
 		(pts (xy 294.64 279.4) (xy 294.64 281.94))
 		(stroke (width 0) (type default))
-		(uuid "9bea0d1d-3e0f-48ff-94d2-99ee423b71d7")
+		(uuid "1f0a0d7e-293f-465d-a938-9d05dc8c30fa")
 	)
 	(label "T6_GND"
 		(at 294.64 281.94 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "93c82328-1797-4d81-9ae8-5166790cf3ab")
+		(uuid "0bea5f75-414d-4e68-91b1-eddfdb2c9d52")
 	)
 	(text "Anschluss"
 		(exclude_from_sim no)
 		(at 292.1 264.16 0)
 		(effects (font (size 1.5 1.5) (bold yes)) (justify left bottom))
-		(uuid "3e5595e7-8d91-4415-91e5-0d4f8500b030")
+		(uuid "2530422a-bdcd-41d7-bc0c-05d5e73ddfd2")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
@@ -7325,8 +7325,8 @@
 			(at 314.96 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "32c66dfb-a20f-4b87-b1e7-3afd35a3c997"))
-		(pin "2" (uuid "a36781f4-68ec-4763-9280-f0e5ef5879bf"))
+		(pin "1" (uuid "7f136fc1-3795-4130-8cad-4ba64e0ad036"))
+		(pin "2" (uuid "31f2a71d-cbee-449d-be45-dbb69205eb0c"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7338,24 +7338,24 @@
 	(wire
 		(pts (xy 309.88 271.78) (xy 307.34 271.78))
 		(stroke (width 0) (type default))
-		(uuid "51800578-9197-41cb-a9ba-68e702024189")
+		(uuid "7d62f469-2077-4e1f-a835-489009dfd929")
 	)
 	(label "T6_SW"
 		(at 307.34 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c3a1653f-6b86-47bd-8a64-a04a02f322a5")
+		(uuid "2f3b091f-01f9-461f-9033-2bdc87c31efa")
 	)
 	(wire
 		(pts (xy 309.88 274.32) (xy 307.34 274.32))
 		(stroke (width 0) (type default))
-		(uuid "828631a7-3d53-4c7f-adf4-97380a6a1012")
+		(uuid "f0af43d3-b517-4f94-8cff-be3b2b2a58d7")
 	)
 	(label "T6_GND"
 		(at 307.34 274.32 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ec24795c-a0cc-4175-ae4c-196dcfc67293")
+		(uuid "e9283149-8df9-4ea3-aa79-dc2a9e304a6e")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -7398,8 +7398,8 @@
 			(at 365.76 271.78 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "11a2527f-8203-41c3-90eb-2dc02221f995"))
-		(pin "2" (uuid "88b2be72-e118-4ebf-92f6-3f49eb943de9"))
+		(pin "1" (uuid "35a06a62-9b61-4b1c-9d85-776d1370509b"))
+		(pin "2" (uuid "642ca9bb-a6ea-40a6-a486-35b168f75387"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7411,24 +7411,24 @@
 	(wire
 		(pts (xy 360.68 271.78) (xy 358.14 271.78))
 		(stroke (width 0) (type default))
-		(uuid "e0eb98a4-33c1-42a2-bb70-f9bd372c36c6")
+		(uuid "4f05929c-d89a-4c19-8b9b-225efb6714c2")
 	)
 	(label "T6_SW"
 		(at 358.14 271.78 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "bc52836b-56a4-443e-9535-3b8683c175e7")
+		(uuid "8144e6fd-b15a-4612-aa65-4d44e3035200")
 	)
 	(wire
 		(pts (xy 370.84 271.78) (xy 373.38 271.78))
 		(stroke (width 0) (type default))
-		(uuid "8c8ac306-2b44-42cb-9470-bf0a319394a0")
+		(uuid "eb5865db-3d3f-4fc0-b83f-02f63d0863f9")
 	)
 	(label "T6_GND"
 		(at 373.38 271.78 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a0b381db-97a1-47e2-87d2-f895c60a5308")
+		(uuid "34ecbacb-a72d-4d28-8ffb-081ca34d71a1")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -7459,7 +7459,7 @@
 			(at 358.14 302.26 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "ae0321fb-29e7-4882-9623-1860a0c6acaa"))
+		(pin "1" (uuid "fc5a4368-648f-41ea-84ba-1484af21930f"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7472,7 +7472,7 @@
 		(at 358.14 302.26 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "fda51d29-58cf-4f23-84d9-7f00260799d9")
+		(uuid "b5b6bbfb-e2b2-4b53-907a-b8edd6c2884f")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -7503,7 +7503,7 @@
 			(at 373.38 302.26 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(pin "1" (uuid "2312501c-fa37-44c0-a810-9c49181852f8"))
+		(pin "1" (uuid "89fec573-139f-4211-928c-63523ddb69b2"))
 		(instances
 			(project "Abbrech_V2"
 				(path "/24465f33-a9cf-406c-8851-1b58db6a4eb7"
@@ -7516,7 +7516,7 @@
 		(at 373.38 302.26 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "47bbe68c-a691-4eef-8673-13116eb644ce")
+		(uuid "e737dcad-e73a-4bad-af79-4bc92b09d5a7")
 	)
 	(symbol
 		(lib_id "Mechanical:Fiducial")
@@ -7633,13 +7633,13 @@
 		(exclude_from_sim no)
 		(at 25.4 337.82 0)
 		(effects (font (size 1.5 1.5)) (justify left bottom))
-		(uuid "bde5efa8-bfb7-4612-8080-9c07bcd64d0d")
+		(uuid "b9fec278-8588-48fe-abf9-8c269ef91518")
 	)
 	(text "Mechanik: Halbbohrungen Ø 3,0 mm an allen Enden, Fräsnuten, Mouse Bites und Rand liegen nur im Layout."
 		(exclude_from_sim no)
 		(at 25.4 355.6 0)
 		(effects (font (size 1.5 1.5)) (justify left bottom))
-		(uuid "a9a211cc-6ffe-4ab2-a4ce-ac7598341fab")
+		(uuid "930ce897-93e6-4314-a254-f7f15e596559")
 	)
 
 	(sheet_instances

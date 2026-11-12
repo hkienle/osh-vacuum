@@ -10,7 +10,7 @@ Taster sind nicht untereinander verdrahtet: jede/jeder hat eigene Netze, auch di
 | 2 | Einzeltaster T1 (17,3 mm) · Doppeltaster T5/T6 (32,5 mm, zwei Stecker) |
 | 3 | Einzeltaster T2 · T3 · T4 |
 
-Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, Stege 3 mm mit Mouse Bites.
+Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, Stege 5 mm mit Mouse Bites.
 
 ## Entscheidungen (Thomas)
 - 2026-11-10: Breite 15,3 mm wie V1; Taster mit Bohrung an einem Ende und Halbbohrung am anderen; Taster TS-1187A-C-A-B
@@ -28,6 +28,8 @@ Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, St
   ausgerichtet. (Kurz danach geändert: alle Stecker der Unterseite DNP, auch die THT-PH, siehe unten.)
 - 2026-11-12 (später): Doppeltaster-Platine 32,5 mm statt 36,67 mm lang, an beiden Enden je 2,08 mm kürzer; Taster,
   Stecker, Leiterbahnen und Stege bleiben exakt an ihrem Platz.
+- 2026-11-12 (später): Stege 5 mm statt 3 mm breit (JLC verlangt mind. 5 mm), je Seite 6 statt 4 Mouse-Bite-Bohrungen;
+  Lage der Stege unverändert.
 - 2026-11-12: Doppeltaster näher zusammen: Tastermitten 15,00 mm (vorher 19,33 mm); Stege an der Steckerseite und
   Siebdruck unten (Figma, Beschriftung der Doppeltaster mitgerückt) angepasst.
 - 2026-11-11 (Umbau Rev B): alle Ecken so groß wie sinnvoll gerundet; Platinen mit Mouse Bites verbinden (V1 brach viel zu
@@ -57,7 +59,7 @@ Ringsum 5 mm Rand mit drei Passermarken, zwischen den Platinen 2 mm Fräsnut, St
   5050: VDD/DO oben, GND/DI unten, Daten mit 45° durch die Lücken, 100 nF senkrecht in der Lücke auf der Eingangsseite
   jeder LED. 2020: 100 nF längs über der LED, Pad 1 genau über dem VDD-Pad. 10 µF senkrecht zwischen THT-Stecker (Ausgang)
   und der ersten LED, Pad 1 auf der Schiene (Thomas 2026-11-11: weg vom Rand, kompakter).
-- **Nutzen**: Fräsnut 2 mm, Stege 3 mm (Footprint `Abbrech_V2:MouseBites_Steg3mm_Nut2mm`: je Seite 4 NPTH Ø 0,5 mm im
+- **Nutzen**: Fräsnut 2 mm, Stege 5 mm (Footprint `Abbrech_V2:MouseBites_Steg5mm_Nut2mm`: je Seite 6 NPTH Ø 0,5 mm im
   Raster 0,8 mm, Mitte 0,25 mm in der Platine, so bricht der Steg an der Platinenkante). Stege nur an den Längskanten (die
   Stirnseiten haben Halbbohrungen). LED-Streifen: drei Stege je Längskante zwischen den Stecköffnungen. Taster: je Kante
   ein Steg mittig unter dem Taster (Doppeltaster zwei); an der Steckerseite sitzt er mittig vor dem Stecker zwischen den
