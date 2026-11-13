@@ -50,3 +50,9 @@ Upload `Production/OSH_Vacuum_V2_gerber.zip`, then BOM and CPL for assembly.
 - In the placement preview, check the orientation of all diodes, ICs and connectors before confirming.
 
 The bottom silkscreen carries `COMMIT xxxxxxx`, see [Hardware V2](../README.md#commit-marking).
+
+## Known issues
+
+- **Boards marked `COMMIT 04D906B`:** on the bottom silkscreen, `+` and `−` are swapped at both XT60 connectors
+  (BATTERY IN and MAIN (15A)). The upper pin (square pad) is **GND**, the lower pin is **+**. Only the print is wrong;
+  copper and connectors are correct. Fixed in `31ACDF0`.

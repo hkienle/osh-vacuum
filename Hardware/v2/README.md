@@ -19,5 +19,7 @@ Both boards carry `COMMIT xxxxxxx` in the silkscreen: the short hash of the comm
 board files the Gerbers were made from. To see the exact design of a board in your hand, open
 `https://github.com/hkienle/osh-vacuum/tree/<hash>` or run `git checkout <hash>`.
 
-The first batch carries `COMMIT 04D906B`. At that commit the projects were still in `Hardware/v2/OSH_Vacuum_V2/`
-(Main PCB) and `Hardware/v2/Abbrech_V2/` (HMI PCB); the files themselves are unchanged.
+The first batch was ordered with `COMMIT 04D906B`. At that commit the projects were still in
+`Hardware/v2/OSH_Vacuum_V2/` (Main PCB) and `Hardware/v2/Abbrech_V2/` (HMI PCB). On Main PCBs marked `04D906B` the
+bottom silkscreen has `+` and `−` swapped at both XT60 connectors (see [known issues](Main%20PCB/README.md#known-issues));
+the current Main PCB Gerbers (`31ACDF0`) have this fixed. The HMI PCB is unchanged since `04D906B`.
