@@ -17,8 +17,8 @@ Everything you need to configure, build, and flash the firmware. For an overview
 `settings_config.h` holds your WiFi credentials, device hostname, and OTA password. It is gitignored and must be created locally from the example:
 
 ```bash
-cp Firmware/src/settings/settings_config.example.h \
-   Firmware/src/settings/settings_config.h
+cp Firmware/v1/src/settings/settings_config.example.h \
+   Firmware/v1/src/settings/settings_config.h
 ```
 
 Open `settings_config.h` and set your values:
@@ -61,9 +61,9 @@ The USB environment (`esp32-s3`) needs no changes.
 The web interface is a React + TypeScript app. Build it once before the first flash, and again whenever you change the UI.
 
 ```bash
-cd Firmware/ui
+cd Firmware/v1/ui
 npm install           # first time only
-npm run build:esp32   # outputs to Firmware/data/
+npm run build:esp32   # outputs to Firmware/v1/data/
 ```
 
 For local UI development with hot-reload (connects to a live device):
@@ -76,7 +76,7 @@ npm run dev           # typically http://localhost:5173
 
 ## Step 4 — First-time flash via USB
 
-Connect the board via USB-C, then from the `Firmware/` directory:
+Connect the board via USB-C, then from the `Firmware/v1/` directory:
 
 ```bash
 # 1. Upload the firmware binary
@@ -204,7 +204,7 @@ All values can be changed via the on-device settings menu (pages 5–12) and per
 **Web UI not loading**
 - Check that the filesystem was uploaded: `pio run -e esp32-s3 -t uploadfs`.
 - Check serial output for LittleFS mount errors at boot.
-- Ensure `Firmware/data/` has the built assets (`npm run build:esp32`).
+- Ensure `Firmware/v1/data/` has the built assets (`npm run build:esp32`).
 
 **Display not initialising**
 - Serial prefixes: `OLED:` (0.91"), `1.5OLED:` (1.5"). Look for I2C ACK errors.

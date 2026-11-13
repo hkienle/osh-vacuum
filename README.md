@@ -14,24 +14,23 @@ The system is designed to control high RPM impellers for vacuum machines, featur
 
 ```
 osh-vacuum/
-├── Hardware/              # PCB designs and hardware documentation
-│   ├── v1/                   # Benchtop prototype board design (V1)
-│   │   ├── README.md         # Hardware documentation and BOM
-│   │   └── Production/       # Manufacturing files
-│   └── v2/                   # V2 main board and breakaway boards (KiCad 10)
-│       ├── OSH_Vacuum_V2/    # Main board
-│       ├── Abbrech_V2/       # Breakaway LED strips and buttons
-│       └── Fertigung/        # JLCPCB manufacturing files (Gerber, BOM, CPL)
-├── Firmware/              # ESP32-S3 firmware and web interface
-│   ├── README.md          # Firmware documentation, pin assignments, build instructions
-│   ├── src/               # Firmware source code
-│   └── ui/                # React-based web interface
-└── README.md              # This file
+├── Hardware/                  # PCB designs and hardware documentation
+│   ├── v1/                    # Benchtop prototype board (V1)
+│   │   ├── README.md          # Hardware documentation and BOM
+│   │   └── Production/        # Manufacturing files
+│   └── v2/                    # V2 electronics (KiCad 10)
+│       ├── README.md          # Overview, cabling, commit marking
+│       ├── Main PCB/          # Control board, JLCPCB data in Production/
+│       └── HMI PCB/           # Breakaway LED strips and buttons, JLCPCB data in Production/
+├── Firmware/                  # ESP32-S3 firmware
+│   ├── v1/                    # Firmware for hardware V1 (with React web interface in ui/)
+│   └── v2/                    # Firmware for hardware V2 (not started yet)
+└── README.md                  # This file
 ```
 
 ### Hardware
 
-The hardware design includes:
+**V1 – benchtop prototype**
 - ESP32-S3 microcontroller with WiFi and BLE
 - Motor control with Infineon ProFet for high-side switching
 - 5 RGB LEDs (WS2812B) and 3 customizable buttons
@@ -40,7 +39,13 @@ The hardware design includes:
 - Tachometer input for RPM measurement
 - Break-off sections for flexible form factors
 
-📖 **[Hardware Documentation →](Hardware/v1/README.md)**
+📖 **[Hardware V1 Documentation →](Hardware/v1/README.md)**
+
+**V2 – main board and HMI boards** (first batch ordered November 2026, untested)
+- Main PCB: XT60 battery input with fuse, TVS and current measurement (INA237), ESP32-S3 with USB-C, switched motor output (XT60) for an ESC, brush output, motor signal connector with selectable 3.3 V / 5 V level, 4 × Qwiic, NTC, expansion header
+- HMI PCB: breakaway panel with two WS2812B LED strips and button boards, connected to the main board with JST PH cables
+
+📖 **[Hardware V2 Documentation →](Hardware/v2/README.md)**
 
 ### Firmware
 
@@ -51,19 +56,21 @@ The firmware provides:
 - WebSocket communication for live updates
 - React-based web interface
 
-📖 **[Firmware Documentation →](Firmware/README.md)**
+The firmware in [Firmware/v1](Firmware/v1/README.md) is written for hardware V1. Firmware for V2 will go into `Firmware/v2`.
+
+📖 **[Firmware Documentation →](Firmware/v1/README.md)**
 
 ## Quick Start
 
-1. **Hardware**: Review the [PCB documentation](Hardware/v1/README.md) for board assembly
-2. **Firmware**: Follow the [firmware build and upload instructions](Firmware/README.md)
+1. **Hardware**: Review the PCB documentation for [V1](Hardware/v1/README.md) or [V2](Hardware/v2/README.md)
+2. **Firmware**: Follow the [firmware build and upload instructions](Firmware/v1/Setup.md)
 3. **Frontend**: Build and upload the web interface as described in the firmware README
 
 ## Status
 
-**Current Phase**: Benchtop Prototype
+**Current Phase**: Benchtop Prototype (V1), V2 boards ordered
 
-The current board design is untested and represents the benchtop prototype phase. All designs and firmware are provided as-is for development and testing purposes.
+The V2 boards (main board and HMI boards) are ordered but untested; firmware for V2 has not been started yet. All designs and firmware are provided as-is for development and testing purposes.
 
 ---
 
